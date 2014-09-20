@@ -26,7 +26,7 @@ namespace WindowsFormsApplication2
             InitializeComponent();
 
 #if DEBUG
-            loadFileButton.Text = "Hello";
+            loadFileButton.Text = "Load - Debug";
 #endif
         }
 

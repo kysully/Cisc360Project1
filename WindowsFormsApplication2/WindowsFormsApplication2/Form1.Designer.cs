@@ -37,25 +37,28 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 41);
+            this.label1.Location = new System.Drawing.Point(9, 33);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 17);
+            this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "ACC:";
             // 
             // accLabel
             // 
-            this.accLabel.Location = new System.Drawing.Point(70, 41);
+            this.accLabel.Location = new System.Drawing.Point(52, 33);
+            this.accLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.accLabel.Name = "accLabel";
-            this.accLabel.Size = new System.Drawing.Size(183, 23);
+            this.accLabel.Size = new System.Drawing.Size(137, 19);
             this.accLabel.TabIndex = 1;
             this.accLabel.Text = "value";
             // 
             // loadFileButton
             // 
-            this.loadFileButton.Location = new System.Drawing.Point(349, 13);
+            this.loadFileButton.Location = new System.Drawing.Point(361, 27);
+            this.loadFileButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.loadFileButton.Name = "loadFileButton";
-            this.loadFileButton.Size = new System.Drawing.Size(75, 23);
+            this.loadFileButton.Size = new System.Drawing.Size(56, 19);
             this.loadFileButton.TabIndex = 2;
             this.loadFileButton.Text = "Load File";
             this.loadFileButton.UseVisualStyleBackColor = true;
@@ -63,9 +66,10 @@
             // 
             // nextInstructionButton
             // 
-            this.nextInstructionButton.Location = new System.Drawing.Point(349, 157);
+            this.nextInstructionButton.Location = new System.Drawing.Point(361, 232);
+            this.nextInstructionButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.nextInstructionButton.Name = "nextInstructionButton";
-            this.nextInstructionButton.Size = new System.Drawing.Size(75, 23);
+            this.nextInstructionButton.Size = new System.Drawing.Size(56, 19);
             this.nextInstructionButton.TabIndex = 3;
             this.nextInstructionButton.Text = "Next";
             this.nextInstructionButton.UseVisualStyleBackColor = true;
@@ -73,13 +77,14 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(435, 194);
+            this.ClientSize = new System.Drawing.Size(445, 272);
             this.Controls.Add(this.nextInstructionButton);
             this.Controls.Add(this.loadFileButton);
             this.Controls.Add(this.accLabel);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "Gemini";
             this.ResumeLayout(false);
