@@ -46,6 +46,16 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.loadBinaryButton = new System.Windows.Forms.Button();
+            this.aLabel = new System.Windows.Forms.Label();
+            this.bLabel = new System.Windows.Forms.Label();
+            this.zeroLabel = new System.Windows.Forms.Label();
+            this.oneLabel = new System.Windows.Forms.Label();
+            this.pcLabel = new System.Windows.Forms.Label();
+            this.marLabel = new System.Windows.Forms.Label();
+            this.mdrLabel = new System.Windows.Forms.Label();
+            this.tempLabel = new System.Windows.Forms.Label();
+            this.irLabel = new System.Windows.Forms.Label();
+            this.ccLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,10 +74,10 @@
             // accLabel
             // 
             this.accLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.accLabel.Location = new System.Drawing.Point(135, 30);
+            this.accLabel.Location = new System.Drawing.Point(125, 30);
             this.accLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.accLabel.Name = "accLabel";
-            this.accLabel.Size = new System.Drawing.Size(64, 19);
+            this.accLabel.Size = new System.Drawing.Size(70, 19);
             this.accLabel.TabIndex = 1;
             this.accLabel.Text = "0x0000000";
             this.accLabel.Click += new System.EventHandler(this.accLabel_Click);
@@ -97,6 +107,16 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.panel1.Controls.Add(this.ccLabel);
+            this.panel1.Controls.Add(this.irLabel);
+            this.panel1.Controls.Add(this.tempLabel);
+            this.panel1.Controls.Add(this.mdrLabel);
+            this.panel1.Controls.Add(this.marLabel);
+            this.panel1.Controls.Add(this.pcLabel);
+            this.panel1.Controls.Add(this.oneLabel);
+            this.panel1.Controls.Add(this.zeroLabel);
+            this.panel1.Controls.Add(this.bLabel);
+            this.panel1.Controls.Add(this.aLabel);
             this.panel1.Controls.Add(this.label13);
             this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.label11);
@@ -246,6 +266,107 @@
             this.loadBinaryButton.Text = "Load Binary";
             this.loadBinaryButton.UseVisualStyleBackColor = true;
             // 
+            // aLabel
+            // 
+            this.aLabel.AutoSize = true;
+            this.aLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aLabel.Location = new System.Drawing.Point(125, 49);
+            this.aLabel.Name = "aLabel";
+            this.aLabel.Size = new System.Drawing.Size(70, 16);
+            this.aLabel.TabIndex = 13;
+            this.aLabel.Text = "0x0000000";
+            this.aLabel.Click += new System.EventHandler(this.aLabel_Click);
+            // 
+            // bLabel
+            // 
+            this.bLabel.AutoSize = true;
+            this.bLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bLabel.Location = new System.Drawing.Point(125, 71);
+            this.bLabel.Name = "bLabel";
+            this.bLabel.Size = new System.Drawing.Size(70, 16);
+            this.bLabel.TabIndex = 14;
+            this.bLabel.Text = "0x0000000";
+            // 
+            // zeroLabel
+            // 
+            this.zeroLabel.AutoSize = true;
+            this.zeroLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.zeroLabel.Location = new System.Drawing.Point(125, 93);
+            this.zeroLabel.Name = "zeroLabel";
+            this.zeroLabel.Size = new System.Drawing.Size(70, 16);
+            this.zeroLabel.TabIndex = 15;
+            this.zeroLabel.Text = "0x0000000";
+            // 
+            // oneLabel
+            // 
+            this.oneLabel.AutoSize = true;
+            this.oneLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.oneLabel.Location = new System.Drawing.Point(125, 116);
+            this.oneLabel.Name = "oneLabel";
+            this.oneLabel.Size = new System.Drawing.Size(70, 16);
+            this.oneLabel.TabIndex = 16;
+            this.oneLabel.Text = "0x0000000";
+            // 
+            // pcLabel
+            // 
+            this.pcLabel.AutoSize = true;
+            this.pcLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pcLabel.Location = new System.Drawing.Point(125, 138);
+            this.pcLabel.Name = "pcLabel";
+            this.pcLabel.Size = new System.Drawing.Size(70, 16);
+            this.pcLabel.TabIndex = 17;
+            this.pcLabel.Text = "0x0000000";
+            // 
+            // marLabel
+            // 
+            this.marLabel.AutoSize = true;
+            this.marLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.marLabel.Location = new System.Drawing.Point(125, 162);
+            this.marLabel.Name = "marLabel";
+            this.marLabel.Size = new System.Drawing.Size(70, 16);
+            this.marLabel.TabIndex = 18;
+            this.marLabel.Text = "0x0000000";
+            // 
+            // mdrLabel
+            // 
+            this.mdrLabel.AutoSize = true;
+            this.mdrLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mdrLabel.Location = new System.Drawing.Point(125, 185);
+            this.mdrLabel.Name = "mdrLabel";
+            this.mdrLabel.Size = new System.Drawing.Size(70, 16);
+            this.mdrLabel.TabIndex = 19;
+            this.mdrLabel.Text = "0x0000000";
+            // 
+            // tempLabel
+            // 
+            this.tempLabel.AutoSize = true;
+            this.tempLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tempLabel.Location = new System.Drawing.Point(125, 205);
+            this.tempLabel.Name = "tempLabel";
+            this.tempLabel.Size = new System.Drawing.Size(70, 16);
+            this.tempLabel.TabIndex = 20;
+            this.tempLabel.Text = "0x0000000";
+            // 
+            // irLabel
+            // 
+            this.irLabel.AutoSize = true;
+            this.irLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.irLabel.Location = new System.Drawing.Point(125, 228);
+            this.irLabel.Name = "irLabel";
+            this.irLabel.Size = new System.Drawing.Size(70, 16);
+            this.irLabel.TabIndex = 21;
+            this.irLabel.Text = "0x0000000";
+            // 
+            // ccLabel
+            // 
+            this.ccLabel.AutoSize = true;
+            this.ccLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ccLabel.Location = new System.Drawing.Point(125, 250);
+            this.ccLabel.Name = "ccLabel";
+            this.ccLabel.Size = new System.Drawing.Size(70, 16);
+            this.ccLabel.TabIndex = 22;
+            this.ccLabel.Text = "0x0000000";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,6 +405,16 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button loadBinaryButton;
+        private System.Windows.Forms.Label aLabel;
+        private System.Windows.Forms.Label bLabel;
+        private System.Windows.Forms.Label ccLabel;
+        private System.Windows.Forms.Label irLabel;
+        private System.Windows.Forms.Label tempLabel;
+        private System.Windows.Forms.Label mdrLabel;
+        private System.Windows.Forms.Label marLabel;
+        private System.Windows.Forms.Label pcLabel;
+        private System.Windows.Forms.Label oneLabel;
+        private System.Windows.Forms.Label zeroLabel;
     }
 }
 

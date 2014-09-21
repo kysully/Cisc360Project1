@@ -81,5 +81,10 @@ namespace WindowsFormsApplication2
         {
 
         }
+
+        private void aLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
