@@ -28,7 +28,9 @@ namespace GeminiCore
             labels = new Dictionary<String, int>();
         }
 
-        public void PrintAssemblytoBinary() { }//TODO print assembly to binary
+        public void AssemblytoBinary(List<string> assemblyLines) { }//TODO print assembly to binary
+
+        public void PrintBinarytoFile(string fileName) { }
 
         public void ParseFile()
         {
