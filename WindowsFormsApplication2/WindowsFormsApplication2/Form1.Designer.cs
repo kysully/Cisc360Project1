@@ -45,6 +45,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.loadBinaryButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,12 +74,12 @@
             // 
             // loadFileButton
             // 
-            this.loadFileButton.Location = new System.Drawing.Point(334, 27);
+            this.loadFileButton.Location = new System.Drawing.Point(334, 23);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadFileButton.Name = "loadFileButton";
-            this.loadFileButton.Size = new System.Drawing.Size(83, 19);
+            this.loadFileButton.Size = new System.Drawing.Size(100, 23);
             this.loadFileButton.TabIndex = 2;
-            this.loadFileButton.Text = "Load File";
+            this.loadFileButton.Text = "Load Assembly";
             this.loadFileButton.UseVisualStyleBackColor = true;
             this.loadFileButton.Click += new System.EventHandler(this.loadFileButton_Click);
             // 
@@ -236,11 +237,21 @@
             this.label13.TabIndex = 12;
             this.label13.Text = "Value";
             // 
+            // loadBinaryButton
+            // 
+            this.loadBinaryButton.Location = new System.Drawing.Point(234, 23);
+            this.loadBinaryButton.Name = "loadBinaryButton";
+            this.loadBinaryButton.Size = new System.Drawing.Size(99, 23);
+            this.loadBinaryButton.TabIndex = 5;
+            this.loadBinaryButton.Text = "Load Binary";
+            this.loadBinaryButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(445, 309);
+            this.Controls.Add(this.loadBinaryButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.nextInstructionButton);
             this.Controls.Add(this.loadFileButton);
@@ -272,6 +283,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button loadBinaryButton;
     }
 }
 
