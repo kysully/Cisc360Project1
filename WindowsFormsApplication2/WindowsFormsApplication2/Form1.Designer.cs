@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.accLabel = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
@@ -376,9 +377,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.nextInstructionButton);
             this.Controls.Add(this.loadFileButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "Gemini";
+            this.Text = "Gemini Simulator ";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
