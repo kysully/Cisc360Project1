@@ -57,6 +57,8 @@
             this.tempLabel = new System.Windows.Forms.Label();
             this.irLabel = new System.Windows.Forms.Label();
             this.ccLabel = new System.Windows.Forms.Label();
+            this.titleLabel = new System.Windows.Forms.Label();
+            this.runAllButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,7 +87,7 @@
             // 
             // loadFileButton
             // 
-            this.loadFileButton.Location = new System.Drawing.Point(334, 23);
+            this.loadFileButton.Location = new System.Drawing.Point(334, 36);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(100, 23);
@@ -96,10 +98,10 @@
             // 
             // nextInstructionButton
             // 
-            this.nextInstructionButton.Location = new System.Drawing.Point(334, 232);
+            this.nextInstructionButton.Location = new System.Drawing.Point(234, 287);
             this.nextInstructionButton.Margin = new System.Windows.Forms.Padding(2);
             this.nextInstructionButton.Name = "nextInstructionButton";
-            this.nextInstructionButton.Size = new System.Drawing.Size(83, 19);
+            this.nextInstructionButton.Size = new System.Drawing.Size(100, 19);
             this.nextInstructionButton.TabIndex = 3;
             this.nextInstructionButton.Text = "Next";
             this.nextInstructionButton.UseVisualStyleBackColor = true;
@@ -132,7 +134,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.accLabel);
-            this.panel1.Location = new System.Drawing.Point(14, 27);
+            this.panel1.Location = new System.Drawing.Point(14, 36);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(214, 270);
             this.panel1.TabIndex = 4;
@@ -260,7 +262,7 @@
             // 
             // loadBinaryButton
             // 
-            this.loadBinaryButton.Location = new System.Drawing.Point(234, 23);
+            this.loadBinaryButton.Location = new System.Drawing.Point(234, 36);
             this.loadBinaryButton.Name = "loadBinaryButton";
             this.loadBinaryButton.Size = new System.Drawing.Size(99, 23);
             this.loadBinaryButton.TabIndex = 5;
@@ -368,11 +370,32 @@
             this.ccLabel.TabIndex = 22;
             this.ccLabel.Text = "0x0000000";
             // 
+            // titleLabel
+            // 
+            this.titleLabel.AutoSize = true;
+            this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLabel.Location = new System.Drawing.Point(138, 9);
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(159, 24);
+            this.titleLabel.TabIndex = 6;
+            this.titleLabel.Text = "Title Place Holder";
+            // 
+            // runAllButton
+            // 
+            this.runAllButton.Location = new System.Drawing.Point(334, 285);
+            this.runAllButton.Name = "runAllButton";
+            this.runAllButton.Size = new System.Drawing.Size(99, 23);
+            this.runAllButton.TabIndex = 7;
+            this.runAllButton.Text = "Run All ";
+            this.runAllButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(445, 309);
+            this.ClientSize = new System.Drawing.Size(445, 325);
+            this.Controls.Add(this.runAllButton);
+            this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.loadBinaryButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.nextInstructionButton);
@@ -385,6 +408,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -418,6 +442,8 @@
         private System.Windows.Forms.Label pcLabel;
         private System.Windows.Forms.Label oneLabel;
         private System.Windows.Forms.Label zeroLabel;
+        private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.Button runAllButton;
     }
 }
 
