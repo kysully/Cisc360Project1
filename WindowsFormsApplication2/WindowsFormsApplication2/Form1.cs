@@ -1,5 +1,5 @@
 ﻿/**
- * Seth Morecraft
+ * Kyle Sullivan and Melody Lugo
  */
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace WindowsFormsApplication2
             InitializeComponent();
 
 #if DEBUG
-            loadFileButton.Text = "Load - Debug";
+            loadFileButton.Text = "Load file";
 #endif
         }
 
@@ -60,6 +60,26 @@ namespace WindowsFormsApplication2
         public void setCPUValuesToView()
         {
             this.accLabel.Text = this.myCPU.ACC.ToString();
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void accLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
