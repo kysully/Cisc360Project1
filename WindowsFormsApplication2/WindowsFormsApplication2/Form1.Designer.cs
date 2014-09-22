@@ -61,15 +61,15 @@
             this.runAllButton = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.previousInstructionLabel = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.currentInstructionLabel = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.currInstructionCountLabel = new System.Windows.Forms.Label();
             this.totalInstructionCountLabel = new System.Windows.Forms.Label();
+            this.currInstructionCountLabel = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.currentInstructionLabel = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.previousInstructionLabel = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -92,7 +92,7 @@
             this.accLabel.Location = new System.Drawing.Point(125, 30);
             this.accLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.accLabel.Name = "accLabel";
-            this.accLabel.Size = new System.Drawing.Size(70, 19);
+            this.accLabel.Size = new System.Drawing.Size(76, 19);
             this.accLabel.TabIndex = 1;
             this.accLabel.Text = "0x0000000";
             this.accLabel.Click += new System.EventHandler(this.accLabel_Click);
@@ -240,6 +240,7 @@
             this.bLabel.Size = new System.Drawing.Size(70, 16);
             this.bLabel.TabIndex = 14;
             this.bLabel.Text = "0x0000000";
+            this.bLabel.Click += new System.EventHandler(this.bLabel_Click);
             // 
             // aLabel
             // 
@@ -427,34 +428,50 @@
             this.panel2.Size = new System.Drawing.Size(200, 172);
             this.panel2.TabIndex = 9;
             // 
-            // label15
+            // totalInstructionCountLabel
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(288, 66);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(90, 16);
-            this.label15.TabIndex = 10;
-            this.label15.Text = "Instructions:";
+            this.totalInstructionCountLabel.AutoSize = true;
+            this.totalInstructionCountLabel.Location = new System.Drawing.Point(150, 156);
+            this.totalInstructionCountLabel.Name = "totalInstructionCountLabel";
+            this.totalInstructionCountLabel.Size = new System.Drawing.Size(25, 13);
+            this.totalInstructionCountLabel.TabIndex = 7;
+            this.totalInstructionCountLabel.Text = "100";
             // 
-            // label16
+            // currInstructionCountLabel
             // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(17, 24);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(137, 15);
-            this.label16.TabIndex = 0;
-            this.label16.Text = "Previous Instruction:";
+            this.currInstructionCountLabel.AutoSize = true;
+            this.currInstructionCountLabel.Location = new System.Drawing.Point(106, 156);
+            this.currInstructionCountLabel.Name = "currInstructionCountLabel";
+            this.currInstructionCountLabel.Size = new System.Drawing.Size(13, 13);
+            this.currInstructionCountLabel.TabIndex = 6;
+            this.currInstructionCountLabel.Text = "0";
             // 
-            // previousInstructionLabel
+            // label19
             // 
-            this.previousInstructionLabel.AutoSize = true;
-            this.previousInstructionLabel.Location = new System.Drawing.Point(20, 44);
-            this.previousInstructionLabel.Name = "previousInstructionLabel";
-            this.previousInstructionLabel.Size = new System.Drawing.Size(103, 13);
-            this.previousInstructionLabel.TabIndex = 1;
-            this.previousInstructionLabel.Text = "--------------------------------";
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(128, 156);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(16, 13);
+            this.label19.TabIndex = 5;
+            this.label19.Text = "of";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(10, 156);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(90, 13);
+            this.label18.TabIndex = 4;
+            this.label18.Text = "Instruction Count:";
+            // 
+            // currentInstructionLabel
+            // 
+            this.currentInstructionLabel.AutoSize = true;
+            this.currentInstructionLabel.Location = new System.Drawing.Point(20, 113);
+            this.currentInstructionLabel.Name = "currentInstructionLabel";
+            this.currentInstructionLabel.Size = new System.Drawing.Size(103, 13);
+            this.currentInstructionLabel.TabIndex = 3;
+            this.currentInstructionLabel.Text = "--------------------------------";
             // 
             // label17
             // 
@@ -466,50 +483,34 @@
             this.label17.TabIndex = 2;
             this.label17.Text = "Current Instruction:";
             // 
-            // currentInstructionLabel
+            // previousInstructionLabel
             // 
-            this.currentInstructionLabel.AutoSize = true;
-            this.currentInstructionLabel.Location = new System.Drawing.Point(20, 113);
-            this.currentInstructionLabel.Name = "currentInstructionLabel";
-            this.currentInstructionLabel.Size = new System.Drawing.Size(103, 13);
-            this.currentInstructionLabel.TabIndex = 3;
-            this.currentInstructionLabel.Text = "--------------------------------";
+            this.previousInstructionLabel.AutoSize = true;
+            this.previousInstructionLabel.Location = new System.Drawing.Point(20, 44);
+            this.previousInstructionLabel.Name = "previousInstructionLabel";
+            this.previousInstructionLabel.Size = new System.Drawing.Size(103, 13);
+            this.previousInstructionLabel.TabIndex = 1;
+            this.previousInstructionLabel.Text = "--------------------------------";
             // 
-            // label18
+            // label16
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(10, 156);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(90, 13);
-            this.label18.TabIndex = 4;
-            this.label18.Text = "Instruction Count:";
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(17, 24);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(137, 15);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "Previous Instruction:";
             // 
-            // label19
+            // label15
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(128, 156);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(16, 13);
-            this.label19.TabIndex = 5;
-            this.label19.Text = "of";
-            // 
-            // currInstructionCountLabel
-            // 
-            this.currInstructionCountLabel.AutoSize = true;
-            this.currInstructionCountLabel.Location = new System.Drawing.Point(106, 156);
-            this.currInstructionCountLabel.Name = "currInstructionCountLabel";
-            this.currInstructionCountLabel.Size = new System.Drawing.Size(13, 13);
-            this.currInstructionCountLabel.TabIndex = 6;
-            this.currInstructionCountLabel.Text = "0";
-            // 
-            // totalInstructionCountLabel
-            // 
-            this.totalInstructionCountLabel.AutoSize = true;
-            this.totalInstructionCountLabel.Location = new System.Drawing.Point(150, 156);
-            this.totalInstructionCountLabel.Name = "totalInstructionCountLabel";
-            this.totalInstructionCountLabel.Size = new System.Drawing.Size(25, 13);
-            this.totalInstructionCountLabel.TabIndex = 7;
-            this.totalInstructionCountLabel.Text = "100";
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(288, 66);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(90, 16);
+            this.label15.TabIndex = 10;
+            this.label15.Text = "Instructions:";
             // 
             // Form1
             // 

@@ -25,6 +25,9 @@ namespace WindowsFormsApplication2
 
             InitializeComponent();
 
+            this.zeroLabel.Text = "0x" + this.myCPU.ZERO.ToString("X7");
+            this.oneLabel.Text = "0x" + this.myCPU.ONE.ToString("X7");
+
 #if DEBUG
             loadFileButton.Text = "Load Assembly";
 #endif
@@ -40,11 +43,12 @@ namespace WindowsFormsApplication2
                     try
                     {
                         var ipe = new IPE(ofd.FileName);
-                        ipe.ParseFile();
+                        List<string> assemblyLines = ipe.ParseFile();
+                        short[] binaryLines = ipe.AssemblytoBinary(assemblyLines);
                     }
                     catch (Exception err)
                     {
-                        // show a dialog with error
+                        // show a dialog with error              
                     }
                 }
             }
@@ -59,7 +63,8 @@ namespace WindowsFormsApplication2
 
         public void setCPUValuesToView()
         {
-            this.accLabel.Text = this.myCPU.ACC.ToString();
+            this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
+            this.aLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -84,10 +89,15 @@ namespace WindowsFormsApplication2
 
         private void aLabel_Click(object sender, EventArgs e)
         {
-
+      
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bLabel_Click(object sender, EventArgs e)
         {
 
         }
