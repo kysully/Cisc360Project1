@@ -11,8 +11,12 @@ namespace GeminiCore
 {
     public class CPU
     {
-        public int ACC { get; private set; }
-
+        public short ACC { get; private set; }
+        public short A { get; private set; }
+        public short B { get; private set; }
+        public short PC { get; private set; }
+        public readonly short ONE = 1;
+        public readonly short ZERO = 0;
         public CPU()
         {
             ACC = 0;
