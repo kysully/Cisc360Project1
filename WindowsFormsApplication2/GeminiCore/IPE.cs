@@ -18,7 +18,8 @@ namespace GeminiCore
     public class IPE
     {
 
-        Dictionary<String, int> labels; // String = label, int = line number the label points to
+        Dictionary<string, int> labels; // String = label, int = line number the label points to
+        Dictionary<string, ushort> instructionCodes;
 
         public string FileToParse { get; set; }
 
@@ -26,17 +27,74 @@ namespace GeminiCore
         {
             this.FileToParse = filename;
             labels = new Dictionary<String, int>();
+            instructionCodes = initializeInstrCodes();
         }
 
-        public void AssemblytoBinary(List<string> assemblyLines) { }//TODO print assembly to binary
+        public Dictionary<string, ushort> initializeInstrCodes()
+        {
+            //Building a mapping for the assembly instructions to a binary representation
+            Dictionary<string, ushort> temp = new Dictionary<string, ushort>(20);
+            temp.Add("nop", 0);
+            temp.Add("hlt", 0);
+            temp.Add("lda", 8192);
+            temp.Add("sta", 8192);
+            temp.Add("add", 16384);
+            temp.Add("sub", 16384);
+            temp.Add("mul", 16384);
+            temp.Add("div", 16384);
+            temp.Add("shl", 16384);
+            temp.Add("and", 24576);
+            temp.Add("or", 24576);
+            temp.Add("nota", 24576);
+            temp.Add("ba", 32768);
+            temp.Add("be", 32768);
+            temp.Add("bl", 32768);
+            temp.Add("bg", 32768);
+
+            //Developer loop to see whats going on inside the dictionary
+            foreach (var x in temp)
+            {
+                string value = (Convert.ToString(x.Value, 2)).PadLeft(16, '0');
+                Debug.Write("Key is: " + x.Key + " and value is: " + value + "\n");
+            }
+            //End developer loop
+            return temp;
+        }
+
+        public ushort[] AssemblytoBinary(List<string> assemblyLines)
+        {
+            ushort[] binaryInstructions = new ushort[assemblyLines.Count];
+            int count = 0;
+            string[] separators = {" "};
+            foreach (var line in assemblyLines)
+            {
+
+                var elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                Debug.Write("Command: ");
+                foreach (var temp in elements)
+                {
+                    Debug.Write(temp + " " );
+                    if (instructionCodes.ContainsKey(temp))
+                    {
+                        //STOPPED HERE - have to piece together the parts of the instruction first
+                    }
+
+                }
+                Debug.Write("\n");
+                count++;
+            }
+     
+             return binaryInstructions;
+        }//TODO print assembly to binary
 
         public void PrintBinarytoFile(string fileName) { }
 
-        public void ParseFile()
+        public List<string> ParseFile()
         {
             var linesRaw = File.ReadAllLines(this.FileToParse).ToArray<string>();
             var linesWithLabels = new List<string>();
             var lines = new List<string>();
+            var assemblyLines = new List<string>();
 
             //Some code here to remove whitespace lines//
             Debug.WriteLine("Printing file without white space...");
@@ -107,6 +165,7 @@ namespace GeminiCore
                 {
                     var instruction = instructionCommentStmtMatch.Groups["instructionWithComment"].Value;
                     Debug.WriteLine(instruction);
+                    assemblyLines.Add(instruction);
 
                 }
                 else
@@ -122,11 +181,13 @@ namespace GeminiCore
                     {
                         var instruction = instructionStmtMatch.Value;
                         Debug.WriteLine(instruction);
+                        assemblyLines.Add(instruction);
                     }
                     else if (instructionBlankMatch.Success)
                     {
                         var instruction = instructionBlankMatch.Value;
                         Debug.WriteLine(instruction);
+                        assemblyLines.Add(instruction);
                     }
 
                 }
@@ -136,6 +197,8 @@ namespace GeminiCore
             {
                 Debug.WriteLine("Label {0} points to instruction at line {1}", mem.Key, mem.Value);
             }
+
+            return assemblyLines;
         }
     }
 }
