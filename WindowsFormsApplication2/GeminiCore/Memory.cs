@@ -11,13 +11,34 @@ namespace GeminiCore
 {
     public class Memory
     {
-        List<short> instructions;
+        static List<short> binaryInstructions = new List<short>(10);
+        static List<string> assemblyInstructions = new List<string>(10);
         int[] memory;
 
         public Memory()
         {
-            instructions = new List<short>(10); // Default instruction size is 10
+            binaryInstructions = new List<short>(10); // Default instruction size is 10
+            assemblyInstructions = new List<string>(10); // Default instruction size 10
             memory = new int[256]; // Default memory size is 256
+        }
+
+        public static void setAssemblyInstructions(List<string> instr){
+            assemblyInstructions = instr;
+        }
+
+        public static List<string> getAssemblyInstructions()
+        {
+            return assemblyInstructions;
+        }
+
+        public static void setBinaryInstructions(List<short> instr)
+        {
+            binaryInstructions = instr;
+        }
+
+        public static List<short> getBinaryInstructions()
+        {
+            return binaryInstructions;
         }
     }
 }
