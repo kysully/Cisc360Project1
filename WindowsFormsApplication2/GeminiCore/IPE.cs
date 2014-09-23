@@ -210,6 +210,7 @@ namespace GeminiCore
                 Debug.WriteLine("Label {0} points to instruction at line {1}", mem.Key, mem.Value);
             }
 
+            Memory.setAssemblyInstructions(assemblyLines);
             return assemblyLines;
         }
     }
