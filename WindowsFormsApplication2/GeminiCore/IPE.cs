@@ -19,7 +19,7 @@ namespace GeminiCore
     {
 
         Dictionary<string, int> labels; // String = label, int = line number the label points to
-        Dictionary<string, ushort> instructionCodes;
+        Dictionary<string, short> instructionCodes;
 
         public string FileToParse { get; set; }
 
@@ -30,10 +30,10 @@ namespace GeminiCore
             instructionCodes = initializeInstrCodes();
         }
 
-        public Dictionary<string, ushort> initializeInstrCodes()
+        public Dictionary<string, short> initializeInstrCodes()
         {
             //Building a mapping for the assembly instructions to a binary representation
-            Dictionary<string, ushort> temp = new Dictionary<string, ushort>(20);
+            Dictionary<string, short> temp = new Dictionary<string, short>(20);
             temp.Add("nop", 0);
             temp.Add("hlt", 0);
             temp.Add("lda", 8192);
@@ -46,10 +46,12 @@ namespace GeminiCore
             temp.Add("and", 24576);
             temp.Add("or", 24576);
             temp.Add("nota", 24576);
-            temp.Add("ba", 32768);
-            temp.Add("be", 32768);
-            temp.Add("bl", 32768);
-            temp.Add("bg", 32768);
+            temp.Add("ba", -32768);
+            temp.Add("be", -32768);
+            temp.Add("bl", -32768);
+            temp.Add("bg", -32768);
+            temp.Add("#", 123);//FIX THIS
+            temp.Add("$", 456);//FIX THIS
 
             //Developer loop to see whats going on inside the dictionary
             foreach (var x in temp)
@@ -61,15 +63,25 @@ namespace GeminiCore
             return temp;
         }
 
-        public ushort[] AssemblytoBinary(List<string> assemblyLines)
+        public short[] AssemblytoBinary(List<string> assemblyLines)
         {
-            ushort[] binaryInstructions = new ushort[assemblyLines.Count];
+            short[] binaryInstructions = new short[assemblyLines.Count];
             int count = 0;
             string[] separators = {" "};
             foreach (var line in assemblyLines)
             {
 
-                var elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                short opcode = -1;
+                if (instructionCodes.ContainsKey(elements[0]))
+                {
+                    opcode = instructionCodes[elements[0]];
+                }
+                else
+                {
+                    //throw an error here cause we used an illegal opcode
+                }
+                //STOPPED HERE*************************************************************
                 Debug.Write("Command: ");
                 foreach (var temp in elements)
                 {
