@@ -34,24 +34,25 @@ namespace GeminiCore
         {
             //Building a mapping for the assembly instructions to a binary representation
             Dictionary<string, short> temp = new Dictionary<string, short>(20);
-            temp.Add("nop", 0);
-            temp.Add("hlt", 0);
-            temp.Add("lda", 8192);
-            temp.Add("sta", 8192);
-            temp.Add("add", 16384);
-            temp.Add("sub", 16384);
-            temp.Add("mul", 16384);
-            temp.Add("div", 16384);
-            temp.Add("shl", 16384);
-            temp.Add("and", 24576);
-            temp.Add("or", 24576);
-            temp.Add("nota", 24576);
-            temp.Add("ba", -32768);
-            temp.Add("be", -32768);
-            temp.Add("bl", -32768);
-            temp.Add("bg", -32768);
-            temp.Add("#", 123);//FIX THIS
-            temp.Add("$", 456);//FIX THIS
+            temp.Add("nop", 0);//Other
+            temp.Add("hlt", 0);//Other
+            temp.Add("lda", 8448);//Memory
+            temp.Add("sta", 8704);//Memory
+            temp.Add("add", 16640);//Math
+            temp.Add("sub", 16896);//Math
+            temp.Add("mul", 17152);//Math
+            temp.Add("div", 16384);//Math //From here down need to be converted
+            temp.Add("shl", 16384);//Math
+            temp.Add("and", 24576);//Logic
+            temp.Add("or", 24576);//Logic
+            temp.Add("nota", 24576);//Logic
+            temp.Add("ba", -32768);//Control
+            temp.Add("be", -32768);//Control
+            temp.Add("bl", -32768);//Control
+            temp.Add("bg", -32768);//Control
+            //Flags
+            temp.Add("#", 4096);
+            temp.Add("$", 0);
 
             //Developer loop to see whats going on inside the dictionary
             foreach (var x in temp)
@@ -72,14 +73,29 @@ namespace GeminiCore
             {
 
                 string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                short opcode = -1;
+                short opcode = -1, flag = -1;
+
+                
                 if (instructionCodes.ContainsKey(elements[0]))
                 {
                     opcode = instructionCodes[elements[0]];
+                    Debug.Write("Opcode is " + elements[0] + " and its value is " + opcode);
                 }
                 else
                 {
                     //throw an error here cause we used an illegal opcode
+                    Debug.Write("Error: Opcode " + elements[0] + " is invalid.");
+                }
+                if (elements.Length > 1 )
+                {
+                    Debug.Write("Value in elements[1] is " + elements[1]);
+                    Debug.Write("Substring in element[1] is " + elements[1].Substring(0, 1));
+                    string substring = elements[1].Substring(0, 1);
+                    if(instructionCodes.ContainsKey(substring))
+                    {
+                        flag = instructionCodes[substring];
+                        Debug.Write("Flag is " + elements[1] + " and its value is " + flag);
+                    }
                 }
                 //STOPPED HERE*************************************************************
                 Debug.Write("Command: ");
