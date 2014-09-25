@@ -18,6 +18,7 @@ namespace WindowsFormsApplication2
     public partial class Form1 : Form
     {
         public CPU myCPU;
+        int incrementCounter = 1;
 
         public Form1()
         {
@@ -45,6 +46,10 @@ namespace WindowsFormsApplication2
                         var ipe = new IPE(ofd.FileName);
                         List<string> assemblyLines = ipe.ParseFile();
                         short[] binaryLines = ipe.AssemblytoBinary(assemblyLines);
+                        currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(0);
+                        totalInstructionCountLabel.Text = (Memory.getAssemblyInstructions().Count).ToString();
+                        incrementCounter = 0;
+                        currInstructionCountLabel.Text = this.incrementCounter.ToString();
                     }
                     catch (Exception err)
                     {
@@ -59,6 +64,10 @@ namespace WindowsFormsApplication2
         {
             this.myCPU.nextInstruction();
             this.setCPUValuesToView();
+            if (incrementCounter < Memory.getAssemblyInstructions().Count)
+             this.incrementCounter++;
+            currInstructionCountLabel.Text = incrementCounter.ToString();
+
         }
 
         public void setCPUValuesToView()
