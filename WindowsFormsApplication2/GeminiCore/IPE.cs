@@ -35,23 +35,23 @@ namespace GeminiCore
             //Building a mapping for the assembly instructions to a binary representation
             Dictionary<string, short> temp = new Dictionary<string, short>(20);
             temp.Add("nop", 0);//Other
-            temp.Add("hlt", 0);//Other
-            temp.Add("lda", 8448);//Memory
-            temp.Add("sta", 8704);//Memory
-            temp.Add("add", 16640);//Math
-            temp.Add("sub", 16896);//Math
-            temp.Add("mul", 17152);//Math
-            temp.Add("div", 16384);//Math //From here down need to be converted
-            temp.Add("shl", 16384);//Math
-            temp.Add("and", 24576);//Logic
-            temp.Add("or", 24576);//Logic
-            temp.Add("nota", 24576);//Logic
-            temp.Add("ba", -32768);//Control
-            temp.Add("be", -32768);//Control
-            temp.Add("bl", -32768);//Control
-            temp.Add("bg", -32768);//Control
+            temp.Add("hlt", 512);//Other
+            temp.Add("lda", 8704);//Memory
+            temp.Add("sta", 9216);//Memory
+            temp.Add("add", 16896);//Math
+            temp.Add("sub", 17408);//Math
+            temp.Add("mul", 17920);//Math
+            temp.Add("div", 18432);//Math //From here down need to be converted
+            temp.Add("shl", 18944);//Math
+            temp.Add("and", 25088);//Logic
+            temp.Add("or", 25600);//Logic
+            temp.Add("nota", 26112);//Logic
+            temp.Add("ba", -32256);//Control
+            temp.Add("be", -31744);//Control
+            temp.Add("bl", -31232);//Control
+            temp.Add("bg", -30720);//Control
             //Flags
-            temp.Add("#", 4096);
+            temp.Add("#", 256);
             temp.Add("$", 0);
 
             //Developer loop to see whats going on inside the dictionary
@@ -71,10 +71,11 @@ namespace GeminiCore
             string[] separators = {" "};
             foreach (var line in assemblyLines)
             {
-
+                //Elements is an array containing each segment of the instruction delimited by whitespace
+                //example: line is lda #$5 ---> element[0] = "lda", element[1] = "#$5"
                 string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                short opcode = -1, flag = -1;
-
+                short opcode = 0, flag = 0, value = 0;
+                short currLineBinary = 0;
                 
                 if (instructionCodes.ContainsKey(elements[0]))
                 {
@@ -89,13 +90,34 @@ namespace GeminiCore
                 if (elements.Length > 1 )
                 {
                     Debug.Write("Value in elements[1] is " + elements[1]);
-                    Debug.Write("Substring in element[1] is " + elements[1].Substring(0, 1));
+                    Debug.Write(" Substring in element[1] is " + elements[1].Substring(0, 1));
                     string substring = elements[1].Substring(0, 1);
-                    if(instructionCodes.ContainsKey(substring))
+                    if (substring.Equals("#", StringComparison.OrdinalIgnoreCase)) //instructionsCodes.ContainsKey(substring);
                     {
                         flag = instructionCodes[substring];
-                        Debug.Write("Flag is " + elements[1] + " and its value is " + flag);
+                        Debug.Write(" elements 1 length is " + (elements[1].Length));
+                        Debug.Write(" Flag is " + elements[1] + " and its value is " + flag);
+                        var argumentString = elements[1].Substring(2, elements[1].Length-2);
+                        Debug.Write(" Argument string is " + argumentString);
+                        value = Convert.ToInt16(argumentString);
+                        Debug.Write(" Argument string is " + argumentString);
                     }
+                    else if (substring.Equals("$", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var argumentString = elements[1].Substring(1, elements[1].Length-1);
+                        value = Convert.ToInt16(argumentString);
+                        Debug.Write("Argument string is " + argumentString);
+                    }
+                    else//branch case
+                    {
+                        value = (short)(labels[elements[1]]);
+                        Debug.Write(" Label is " + elements[1] + " and its value is " + value);
+                    }
+                    Debug.Write("Opcode is " + Convert.ToString(opcode,2));
+                    Debug.Write(" Flag is " + flag);
+                    Debug.Write(" and value is " + value);
+                    currLineBinary = (short)((ushort)opcode | (ushort)flag | (ushort)value);
+                    Debug.Write("Instruction is " + line + " and binary is " + (Convert.ToString(currLineBinary, 2).PadLeft(16, '0')) );
                 }
                 //STOPPED HERE*************************************************************
                 Debug.Write("Command: ");
@@ -109,10 +131,20 @@ namespace GeminiCore
 
                 }
                 Debug.Write("\n");
+
+                var tempString = Convert.ToString(currLineBinary, 2).PadLeft(16, '0');
+                Debug.Write("Temp string is " + tempString + " and currLineBinary is " + currLineBinary);// + " and temp short is " + tempShort);
+                
+                binaryInstructions[count] = currLineBinary;
+                Debug.Write("Added the short " + currLineBinary + " to the array of binary instructions.\n");
                 count++;
             }
-     
-             return binaryInstructions;
+
+            for (int i = 0; i < binaryInstructions.Length; i++)
+            {
+                Debug.Write("\nLine " + i + ": " + binaryInstructions[i]);
+            }
+                return binaryInstructions;
         }//TODO print assembly to binary
 
         public void PrintBinarytoFile(string fileName) { }
