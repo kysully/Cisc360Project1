@@ -22,6 +22,12 @@ namespace GeminiCore
             memory = new int[256]; // Default memory size is 256
         }
 
+        public static void clearInstructions()
+        {
+            binaryInstructions = new List<short>(0);
+            assemblyInstructions = new List<string>(0);
+        }
+
         public static void setAssemblyInstructions(List<string> instr){
             assemblyInstructions = instr;
         }
