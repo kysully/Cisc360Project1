@@ -56,7 +56,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.loadBinaryButton = new System.Windows.Forms.Button();
             this.titleLabel = new System.Windows.Forms.Label();
             this.runAllButton = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
@@ -70,6 +69,7 @@
             this.previousInstructionLabel = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.resetButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -99,12 +99,12 @@
             // 
             // loadFileButton
             // 
-            this.loadFileButton.Location = new System.Drawing.Point(334, 36);
+            this.loadFileButton.Location = new System.Drawing.Point(334, 35);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(100, 25);
             this.loadFileButton.TabIndex = 2;
-            this.loadFileButton.Text = "Load Assembly";
+            this.loadFileButton.Text = "Load File";
             this.loadFileButton.UseVisualStyleBackColor = true;
             this.loadFileButton.Click += new System.EventHandler(this.loadFileButton_Click);
             // 
@@ -374,24 +374,15 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "A:";
             // 
-            // loadBinaryButton
-            // 
-            this.loadBinaryButton.Location = new System.Drawing.Point(234, 36);
-            this.loadBinaryButton.Name = "loadBinaryButton";
-            this.loadBinaryButton.Size = new System.Drawing.Size(100, 25);
-            this.loadBinaryButton.TabIndex = 5;
-            this.loadBinaryButton.Text = "Load Binary";
-            this.loadBinaryButton.UseVisualStyleBackColor = true;
-            // 
             // titleLabel
             // 
             this.titleLabel.AutoSize = true;
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.Location = new System.Drawing.Point(138, 9);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(159, 24);
+            this.titleLabel.Size = new System.Drawing.Size(153, 24);
             this.titleLabel.TabIndex = 6;
-            this.titleLabel.Text = "Title Place Holder";
+            this.titleLabel.Text = "Gemini Simulator";
             // 
             // runAllButton
             // 
@@ -401,6 +392,7 @@
             this.runAllButton.TabIndex = 7;
             this.runAllButton.Text = "Run All ";
             this.runAllButton.UseVisualStyleBackColor = true;
+            this.runAllButton.Click += new System.EventHandler(this.runAllButton_Click);
             // 
             // label14
             // 
@@ -514,17 +506,27 @@
             this.label15.TabIndex = 10;
             this.label15.Text = "Instructions:";
             // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(234, 35);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(100, 25);
+            this.resetButton.TabIndex = 11;
+            this.resetButton.Text = "Reset CPU";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(445, 325);
+            this.Controls.Add(this.resetButton);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.runAllButton);
             this.Controls.Add(this.titleLabel);
-            this.Controls.Add(this.loadBinaryButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.nextInstructionButton);
             this.Controls.Add(this.loadFileButton);
@@ -561,7 +563,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Button loadBinaryButton;
         private System.Windows.Forms.Label aLabel;
         private System.Windows.Forms.Label bLabel;
         private System.Windows.Forms.Label ccLabel;
@@ -585,6 +586,7 @@
         private System.Windows.Forms.Label currInstructionCountLabel;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button resetButton;
     }
 }
 
