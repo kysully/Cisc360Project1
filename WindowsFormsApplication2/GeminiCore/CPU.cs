@@ -22,11 +22,27 @@ namespace GeminiCore
         public CPU()
         {
             ACC = 0;
+            PC = 0;
+        }
+
+        
+        //Method which resets CPU to default state
+        public void reset()
+        {
+            ACC = 0;
+            PC = 0;
+            Memory.clearInstructions();
         }
 
         public void nextInstruction()
         {
-            ACC++;
+            
+            if ((PC + 1) < Memory.getBinaryInstructions().Count)
+            {
+                short instruction = Memory.getBinaryInstructions().ElementAt(PC);
+                executeBinary(instruction);
+                PC++;
+            }
         }
 
         public static bool isFlag(string f)
@@ -37,7 +53,7 @@ namespace GeminiCore
                 return false;
         }
 
-        public static void executeBinary(short binInstruction)
+        public void executeBinary(short binInstruction)
         {
             string binaryString = Convert.ToString(binInstruction, 2).PadLeft(16, '0');
 
@@ -80,6 +96,7 @@ namespace GeminiCore
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("ADD# has been reached");
+                            ACC += Convert.ToInt16(value);
                         }
                         else{
                             //$
