@@ -45,7 +45,14 @@ namespace WindowsFormsApplication2
                     {
                         var ipe = new IPE(ofd.FileName);
                         List<string> assemblyLines = ipe.ParseFile();
+                        if (assemblyLines.Count == 0)
+                        {
+                            //maybe make a popup here or something
+                            return;
+                        }
                         short[] binaryLines = ipe.AssemblytoBinary(assemblyLines);
+                        Memory.setBinaryInstructions(binaryLines.ToList());
+                        ipe.WriteBinarytoFile(binaryLines);
                         currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(0);
                         totalInstructionCountLabel.Text = (Memory.getAssemblyInstructions().Count).ToString();
                         incrementCounter = 0;
