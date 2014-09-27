@@ -72,7 +72,7 @@ namespace WindowsFormsApplication2
             this.myCPU.nextInstruction();
             this.setCPUValuesToView();
             if (incrementCounter < Memory.getAssemblyInstructions().Count)
-             this.incrementCounter++;
+                this.incrementCounter++;
             currInstructionCountLabel.Text = incrementCounter.ToString();
 
         }
@@ -115,6 +115,24 @@ namespace WindowsFormsApplication2
 
         private void bLabel_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void totalInstructionCountLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+            CPU.executeBinary(0);
+            CPU.executeBinary(9472);//sta
+            CPU.executeBinary(4352);//lda
+            CPU.executeBinary(17152);//add#
+            CPU.executeBinary(16896);//add
+            CPU.executeBinary(17920);//m
+            CPU.executeBinary(25856);//0r#
+            CPU.executeBinary(-30720);//bg
 
         }
     }

@@ -433,9 +433,10 @@
             this.totalInstructionCountLabel.AutoSize = true;
             this.totalInstructionCountLabel.Location = new System.Drawing.Point(150, 156);
             this.totalInstructionCountLabel.Name = "totalInstructionCountLabel";
-            this.totalInstructionCountLabel.Size = new System.Drawing.Size(25, 13);
+            this.totalInstructionCountLabel.Size = new System.Drawing.Size(13, 13);
             this.totalInstructionCountLabel.TabIndex = 7;
-            this.totalInstructionCountLabel.Text = "100";
+            this.totalInstructionCountLabel.Text = "0";
+            this.totalInstructionCountLabel.Click += new System.EventHandler(this.totalInstructionCountLabel_Click);
             // 
             // currInstructionCountLabel
             // 
@@ -463,6 +464,7 @@
             this.label18.Size = new System.Drawing.Size(90, 13);
             this.label18.TabIndex = 4;
             this.label18.Text = "Instruction Count:";
+            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // currentInstructionLabel
             // 
