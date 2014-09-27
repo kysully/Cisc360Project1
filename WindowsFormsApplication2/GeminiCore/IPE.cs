@@ -113,12 +113,13 @@ namespace GeminiCore
                         value = (short)(labels[elements[1]]);
                         Debug.Write(" Label is " + elements[1] + " and its value is " + value);
                     }
-                    Debug.Write("Opcode is " + Convert.ToString(opcode,2));
-                    Debug.Write(" Flag is " + flag);
-                    Debug.Write(" and value is " + value);
-                    currLineBinary = (short)((ushort)opcode | (ushort)flag | (ushort)value);
-                    Debug.Write("Instruction is " + line + " and binary is " + (Convert.ToString(currLineBinary, 2).PadLeft(16, '0')) );
+                    
                 }
+                Debug.Write("Opcode is " + Convert.ToString(opcode, 2));
+                Debug.Write(" Flag is " + flag);
+                Debug.Write(" and value is " + value);
+                currLineBinary = (short)((ushort)opcode | (ushort)flag | (ushort)value);
+                Debug.Write("Instruction is " + line + " and binary is " + (Convert.ToString(currLineBinary, 2).PadLeft(16, '0')));
                 //STOPPED HERE*************************************************************
                 Debug.Write("Command: ");
                 foreach (var temp in elements)
@@ -147,7 +148,28 @@ namespace GeminiCore
                 return binaryInstructions;
         }//TODO print assembly to binary
 
-        public void PrintBinarytoFile(string fileName) { }
+        public void WriteBinarytoFile(short[] binaryInstructions) {
+
+            FileStream writeStream;
+            try
+            {
+                writeStream = new FileStream("c:\\users\\kyle\\desktop\\binaryOutput.out", FileMode.Create);
+                BinaryWriter writeBinary = new BinaryWriter(writeStream);
+
+                for (int i = 0; i < binaryInstructions.Length; i++)
+                {
+                    writeBinary.Write(binaryInstructions[i]);
+                }
+                
+
+                    writeBinary.Close();
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+            }
+        
+        }
 
         public List<string> ParseFile()
         {
@@ -215,43 +237,59 @@ namespace GeminiCore
 
             Debug.WriteLine(labels);
             Debug.WriteLine("Parsing out instructions:\n");
-            foreach (var line in lines)
+            try
             {
-                //Regex instructionCommentStmtFormat = new Regex(@"^(?<instructionWithComment>.*?)\s*!");//grabs any text before a ! (comment)
-                Regex instructionCommentStmtFormat = new Regex(@"^(?<instructionWithComment>\w*?)\s*!");
-
-                var instructionCommentStmtMatch = instructionCommentStmtFormat.Match(line);
-                if (instructionCommentStmtMatch.Success)
+                foreach (var line in lines)
                 {
-                    var instruction = instructionCommentStmtMatch.Groups["instructionWithComment"].Value;
-                    Debug.WriteLine(instruction);
-                    assemblyLines.Add(instruction);
+                    //Regex instructionCommentStmtFormat = new Regex(@"^(?<instructionWithComment>.*?)\s*!");//grabs any text before a ! (comment)
+                    Regex instructionCommentStmtFormat = new Regex(@"^(?<instructionWithComment>\w*?)\s*!");
 
-                }
-                else
-                {
-                    //Regex instructionStmtFormat = new Regex(@"\s*\w+\s+\w*\#?\$?\d*"); //zero or more white space followed by 
-                    Regex instructionStmtFormat = new Regex(@"\w+\s+\w*\#?\$?\d*");
-                    var instructionStmtMatch = instructionStmtFormat.Match(line);
+                    string[] separators = { " ", "  " };
+                    string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
-                    Regex instructionBlankFormat = new Regex(@"\w+");
-                    var instructionBlankMatch = instructionBlankFormat.Match(line);
-
-                    if (instructionStmtMatch.Success)
+                    if (elements.Length > 2 && !elements[2].Substring(0,1).Equals("!", StringComparison.Ordinal))
                     {
-                        var instruction = instructionStmtMatch.Value;
-                        Debug.WriteLine(instruction);
-                        assemblyLines.Add(instruction);
-                    }
-                    else if (instructionBlankMatch.Success)
-                    {
-                        var instruction = instructionBlankMatch.Value;
-                        Debug.WriteLine(instruction);
-                        assemblyLines.Add(instruction);
+                        throw new Exception("Error: improperly formated instruction at instruction '" + line + "'");
                     }
 
-                }
+                    var instructionCommentStmtMatch = instructionCommentStmtFormat.Match(line);
+                    if (instructionCommentStmtMatch.Success)
+                    {
+                        var instruction = instructionCommentStmtMatch.Groups["instructionWithComment"].Value;
+                        Debug.WriteLine(instruction);
+                        assemblyLines.Add(instruction);
 
+                    }
+                    else
+                    {
+                        //Regex instructionStmtFormat = new Regex(@"\s*\w+\s+\w*\#?\$?\d*"); //zero or more white space followed by 
+                        Regex instructionStmtFormat = new Regex(@"\w+\s+\w*\#?\$?\d*");
+                        var instructionStmtMatch = instructionStmtFormat.Match(line);
+
+                        Regex instructionBlankFormat = new Regex(@"\w+");
+                        var instructionBlankMatch = instructionBlankFormat.Match(line);
+
+                        if (instructionStmtMatch.Success)
+                        {
+                            var instruction = instructionStmtMatch.Value;
+                            Debug.WriteLine(instruction);
+                            assemblyLines.Add(instruction);
+                        }
+                        else if (instructionBlankMatch.Success)
+                        {
+                            var instruction = instructionBlankMatch.Value;
+                            Debug.WriteLine(instruction);
+                            assemblyLines.Add(instruction);
+                        }
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Write(e.ToString());
+                return new List<string>();
             }
             foreach (var mem in labels)
             {
