@@ -19,7 +19,8 @@ namespace WindowsFormsApplication2
     public partial class Form1 : Form
     {
         public CPU myCPU;
-        int instructionCount = 1;
+        int instructionCount = 0;
+        string defaultFileName = "c:\\users\\kyle\\desktop\\binaryOutput1.out";
 
         public Form1()
         {
@@ -53,12 +54,14 @@ namespace WindowsFormsApplication2
                             return;
                         }
                         short[] binaryLines = ipe.AssemblytoBinary(assemblyLines);
-                        Memory.setBinaryInstructions(binaryLines.ToList());//Now memory contains all the instructions (in binary) we read in from the file
-                        ipe.WriteBinarytoFile(binaryLines);//Write out the binary instructions to a file
+                        //Memory.setBinaryInstructions(binaryLines.ToList());//Now memory contains all the instructions (in binary) we read in from the file
+                        ipe.WriteBinarytoFile(binaryLines, defaultFileName);//Write out the binary instructions to a file
+                        binaryLines = ipe.readBinaryFromFile(defaultFileName);//Read in the binary and load to memory
+                        Memory.setBinaryInstructions(binaryLines.ToList());//Load the binary we just read from file into Memory
                         currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(0);
                         totalInstructionCountLabel.Text = (Memory.getAssemblyInstructions().Count).ToString();
                         instructionCount = 1;
-                        currInstructionCountLabel.Text = this.instructionCount.ToString();
+                        currInstructionCountLabel.Text = (this.myCPU.PC+1).ToString();
                     }
                     catch (Exception err)
                     {
@@ -71,14 +74,22 @@ namespace WindowsFormsApplication2
 
         private void nextInstructionButton_Click(object sender, EventArgs e)
         {
-            if (this.myCPU.PC < Memory.getBinaryInstructions().Count)
+            if ((this.myCPU.PC) < (Memory.getBinaryInstructions().Count))
             {
                 this.myCPU.nextInstruction();
                 this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
-                this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(myCPU.PC);
-                if((myCPU.PC+1) == Memory.getBinaryInstructions().Count)
+                if ((this.myCPU.PC < (Memory.getAssemblyInstructions().Count)))
+                {
+                    this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(myCPU.PC);
+                    currInstructionCountLabel.Text = (this.myCPU.PC + 1).ToString();
+                }
+                else
                 {
                     this.currentInstructionLabel.Text = "--------------------------------";
+                    this.setCPUValuesToView();
+                    //Do a popup here saying you finished the program
+                    MessageBox.Show("The loaded assembly program has finished.");
+
                 }
 
                 this.setCPUValuesToView();
@@ -86,8 +97,13 @@ namespace WindowsFormsApplication2
                 {
                     this.instructionCount++;
                 }
-                    currInstructionCountLabel.Text = instructionCount.ToString();
             }
+            else
+            {
+                this.currentInstructionLabel.Text = "--------------------------------";
+
+            }
+            
         }
 
         private void runAllButton_Click(object sender, EventArgs e)
@@ -108,6 +124,7 @@ namespace WindowsFormsApplication2
         {
             this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
             this.aLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
+            this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X7");
         }
 
         public void resetGUI()
@@ -117,6 +134,8 @@ namespace WindowsFormsApplication2
             this.previousInstructionLabel.Text = "--------------------------------";
             this.instructionCount = 0;
             this.currInstructionCountLabel.Text = instructionCount.ToString();
+            this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X7");
+            this.totalInstructionCountLabel.Text = "0";
 
 
         }
