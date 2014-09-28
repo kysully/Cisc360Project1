@@ -148,12 +148,12 @@ namespace GeminiCore
                 return binaryInstructions;
         }//TODO print assembly to binary
 
-        public void WriteBinarytoFile(short[] binaryInstructions) {
+        public void WriteBinarytoFile(short[] binaryInstructions, string fileName) {
 
             FileStream writeStream;
             try
             {
-                writeStream = new FileStream("c:\\users\\kyle\\desktop\\binaryOutput.out", FileMode.Create);
+                writeStream = new FileStream(fileName, FileMode.Create);
                 BinaryWriter writeBinary = new BinaryWriter(writeStream);
 
                 for (int i = 0; i < binaryInstructions.Length; i++)
@@ -169,6 +169,24 @@ namespace GeminiCore
                 Debug.Write(ex.ToString());
             }
         
+        }
+
+        public short[] readBinaryFromFile(string fileName)
+        {
+            BinaryReader binRead = new BinaryReader(File.Open(fileName, FileMode.Open));
+
+            List<short> ans = new List<short>();
+
+            while (binRead.PeekChar() != -1)
+            {
+                short temp = binRead.ReadInt16();
+                ans.Add(temp);
+                Debug.Write("\n" + temp);
+            }
+
+            binRead.Close();
+
+            return ans.ToArray();
         }
 
         public List<string> ParseFile()
