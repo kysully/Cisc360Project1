@@ -34,10 +34,11 @@ namespace GeminiCore
             Memory.clearInstructions();
         }
 
+        //When PC == instruction count, that means you executed all instructions
         public void nextInstruction()
         {
             
-            if ((PC + 1) < Memory.getBinaryInstructions().Count)
+            if (PC < Memory.getBinaryInstructions().Count)
             {
                 short instruction = Memory.getBinaryInstructions().ElementAt(PC);
                 executeBinary(instruction);
