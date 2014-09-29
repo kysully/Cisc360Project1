@@ -20,7 +20,7 @@ namespace WindowsFormsApplication2
     {
         public CPU myCPU;
         int instructionCount = 0;
-        string defaultFileName = "C:\\Users\\user\\Documents\\University of Delaware\\Cisc360\\output";
+        string defaultFileName = "C:\\Users\\kyle\\desktop\\output.out";
 
         public Form1()
         {
