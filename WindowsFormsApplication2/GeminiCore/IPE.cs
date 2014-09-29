@@ -73,6 +73,7 @@ namespace GeminiCore
             {
                 //Elements is an array containing each segment of the instruction delimited by whitespace
                 //example: line is lda #$5 ---> element[0] = "lda", element[1] = "#$5"
+                Debug.Write("Line is " + line + "\n");
                 string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
                 short opcode = 0, flag = 0, value = 0;
                 short currLineBinary = 0;
@@ -264,10 +265,13 @@ namespace GeminiCore
 
                     string[] separators = { " ", "  " };
                     string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-
+                    if(elements[0].CompareTo("!") == 0){
+                        Debug.Write("Found a line with a comment on it: " + line);
+                        continue;
+                    }
                     if (elements.Length > 2 && !elements[2].Substring(0,1).Equals("!", StringComparison.Ordinal))
                     {
-                        throw new Exception("Error: improperly formated instruction at instruction '" + line + "'");
+                        throw new Exception("Error: improperly formated instruction at instruction " + line );
                     }
 
                     var instructionCommentStmtMatch = instructionCommentStmtFormat.Match(line);
