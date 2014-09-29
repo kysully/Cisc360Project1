@@ -1,5 +1,5 @@
 ﻿/**
- * Seth Morecraft
+ * Kyle Sullivan and Melody Lugo
  */
 using System;
 using System.Collections.Generic;
