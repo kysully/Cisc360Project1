@@ -17,6 +17,7 @@ namespace GeminiCore
         public short A { get; private set; }
         public short B { get; private set; }
         public short PC { get; private set; }
+        public int TEMP { get; private set; }
         public short CC { get; private set; }
         public readonly short ONE = 1;
         public readonly short ZERO = 0;
@@ -24,6 +25,7 @@ namespace GeminiCore
         {
             ACC = 0;
             PC = 0;
+            TEMP = 0;
         }
 
         
@@ -32,6 +34,8 @@ namespace GeminiCore
         {
             ACC = 0;
             PC = 0;
+            TEMP = 0;
+            CC = 0;
             Memory.clearInstructions();
         }
 
@@ -98,6 +102,11 @@ namespace GeminiCore
                         Memory.stack[value] = ACC;
                         Debug.Write("Stored the value " + ACC + " into stack at index " + value);
                     }
+                    else if(command == "1010"){
+                        Debug.WriteLine("STA special has been reached");
+                        TEMP = ACC;
+                        Debug.WriteLine("TEMP = " + TEMP);
+                    }
                     break;
                 case "010":// --------------GROUP3
                     if(command == "0001"){ //ADD
@@ -113,6 +122,12 @@ namespace GeminiCore
                             Debug.WriteLine("ADD$ has been reached");
                             ACC += Memory.stack[value];
                         }
+                        break;
+                    }
+                    if (command == "1001")//Special add
+                    {
+                        Debug.WriteLine("Special ADD has been reached");
+                        ACC += TEMP;
                     }
                     if(command == "0010"){ // SUB
                       if(flag == "1"){
