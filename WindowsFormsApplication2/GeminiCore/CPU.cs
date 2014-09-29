@@ -17,6 +17,7 @@ namespace GeminiCore
         public short A { get; private set; }
         public short B { get; private set; }
         public short PC { get; private set; }
+        public short CC { get; private set; }
         public readonly short ONE = 1;
         public readonly short ZERO = 0;
         public CPU()
@@ -191,27 +192,37 @@ namespace GeminiCore
                     } 
                     if(command == "0010"){//BE
                         Debug.WriteLine("BE has been reached");
-                        if (ACC == 0)
+                        if (CC == 0)
                         {
                             PC = value;
                         }
                     } 
                     if(command == "0011"){//BL
                         Debug.WriteLine("BL has been reached");
-                        if (ACC < 0)
+                        if (CC < 0)
                         {
                             PC = value;
                         }
                     }
                     if (command == "0100"){//BG
                         Debug.WriteLine("BG has been reached");
-                        if (ACC > 0)
+                        if (CC > 0)
                         {
                             PC = value;
                         }
                     }
                     break;
             }
+
+            if (ACC > 0)
+            {
+                CC = 1;
+            }
+            else if (ACC < 0)
+            {
+                CC = -1;
+            }
+            else CC = 0;
 
             return;
         }

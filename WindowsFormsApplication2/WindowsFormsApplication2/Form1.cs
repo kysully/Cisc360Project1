@@ -20,7 +20,7 @@ namespace WindowsFormsApplication2
     {
         public CPU myCPU;
         int instructionCount = 0;
-        string defaultFileName = "c:\\users\\kyle\\desktop\\binaryOutput1.out";
+        string defaultFileName = "C:\\Users\\user\\Documents\\University of Delaware\\Cisc360\\output";
 
         public Form1()
         {
@@ -135,9 +135,15 @@ namespace WindowsFormsApplication2
 
         public void setCPUValuesToView()
         {
+
             this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
             this.aLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
             this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X7");
+            if (myCPU.PC < Memory.getBinaryInstructions().Count)
+            {
+                this.irLabel.Text = "0x" + Memory.getBinaryInstructions().ElementAt(myCPU.PC).ToString("X7");
+            }
+            this.ccLabel.Text = "0x" + this.myCPU.CC.ToString("X7");
         }
 
         public void resetGUI()
@@ -149,6 +155,8 @@ namespace WindowsFormsApplication2
             this.currInstructionCountLabel.Text = instructionCount.ToString();
             this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X7");
             this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
+            this.aLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
+            this.ccLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
             this.totalInstructionCountLabel.Text = "0";
 
 
