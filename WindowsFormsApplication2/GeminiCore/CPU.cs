@@ -13,7 +13,7 @@ namespace GeminiCore
 {
     public class CPU
     {
-        public short ACC { get; private set; }
+        public int ACC { get; private set; }
         public short A { get; private set; }
         public short B { get; private set; }
         public short PC { get; private set; }
@@ -61,7 +61,8 @@ namespace GeminiCore
             String opcode = binaryString.Substring(0, 3);
             String command = binaryString.Substring(3, 4);
             String flag = binaryString.Substring(7, 1);
-            String value = binaryString.Substring(8, 8); 
+            String valueRaw = binaryString.Substring(8, 8);
+            short value = Convert.ToInt16(valueRaw, 2);
 
             Debug.WriteLine("AGERNGGKDNBKS ---->" + binaryString + " O " + opcode + " C " + command + " F " + flag + " V " + value);
 
@@ -82,14 +83,18 @@ namespace GeminiCore
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("LDA# has been reached");
+                            ACC = value;
                         }
                         else{
                             //$
                             Debug.WriteLine("LDA$ has been reached");
+                            ACC = Memory.stack[value];
                         }
                     }
                     if(command == "0010"){ //STA
                         Debug.WriteLine("STA has been reached");
+                        Memory.stack[value] = ACC;
+                        Debug.Write("Stored the value " + ACC + " into stack at index " + value);
                     }
                     break;
                 case "010":// --------------GROUP3
@@ -97,21 +102,27 @@ namespace GeminiCore
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("ADD# has been reached");
-                            ACC += Convert.ToInt16(value);
+                            Debug.Write("Value is " + value);
+                            //ACC += Convert.ToInt16(Convert.ToInt16(value, 2));
+                            ACC += value;
+                            Debug.Write(" ACC is " + ACC);
                         }
                         else{
                             //$
                             Debug.WriteLine("ADD$ has been reached");
+                            ACC += Memory.stack[value];
                         }
                     }
                     if(command == "0010"){ // SUB
                       if(flag == "1"){
                             //#
                           Debug.WriteLine("SUB# has been reached");
+                          ACC -= value;
                         }
                         else{
                             //$
                           Debug.WriteLine("SUB$ has been reached");
+                          ACC -= Memory.stack[value];
                         }
                     }
                     if(command == "0011"){//MUL
@@ -147,39 +158,57 @@ namespace GeminiCore
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("AND# has been reached");
+                            ACC = ACC & value;
                         }
                         else{
                             //$
                             Debug.WriteLine("AND$ has been reached");
+                            ACC = ACC & Memory.stack[value];
                         }
                     }
                     if(command == "0010"){//OR
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("OR# has been reached");
+                            ACC = ACC | (ushort)value; // Do we need to cast here? perhaps
                         }
                         else{
                             //$
                             Debug.WriteLine("OR$ has been reached");
+                            ACC = ACC | Memory.stack[value];
                         }
                     }
                     if(command == "0011"){//NOTA
                       //NOTA things
                         Debug.WriteLine("NOTA# has been reached");
+                        ACC = ~ACC; // I think ~ is a bitwise not
                     }
                     break;
                 case "100": // ------------------GROUP5
                     if (command == "0001"){//BA
                         Debug.WriteLine("BA has been reached");
+                        PC = value;
                     } 
                     if(command == "0010"){//BE
                         Debug.WriteLine("BE has been reached");
+                        if (ACC == 0)
+                        {
+                            PC = value;
+                        }
                     } 
                     if(command == "0011"){//BL
                         Debug.WriteLine("BL has been reached");
+                        if (ACC < 0)
+                        {
+                            PC = value;
+                        }
                     }
                     if (command == "0100"){//BG
                         Debug.WriteLine("BG has been reached");
+                        if (ACC > 0)
+                        {
+                            PC = value;
+                        }
                     }
                     break;
             }
