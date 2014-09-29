@@ -95,6 +95,7 @@ namespace WindowsFormsApplication2
                 {
                     this.currentInstructionLabel.Text = "--------------------------------";
                     this.setCPUValuesToView();
+                    this.currInstructionCountLabel.Text = this.totalInstructionCountLabel.Text;
                     //Do a popup here saying you finished the program
                     MessageBox.Show("The loaded assembly program has finished.");
 
@@ -136,13 +137,14 @@ namespace WindowsFormsApplication2
         public void setCPUValuesToView()
         {
             this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
-            this.aLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
             this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X7");
         }
 
         public void resetGUI()
         {
             this.myCPU.reset();
+            Memory.clearStack();
+            this.currMemValueLabel.Text = Memory.stack[this.memComboBox.SelectedIndex].ToString();
             this.currentInstructionLabel.Text = "--------------------------------";
             this.previousInstructionLabel.Text = "--------------------------------";
             this.instructionCount = 0;

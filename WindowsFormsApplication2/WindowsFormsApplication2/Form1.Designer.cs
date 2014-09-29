@@ -516,7 +516,7 @@
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(100, 25);
             this.resetButton.TabIndex = 11;
-            this.resetButton.Text = "Reset CPU";
+            this.resetButton.Text = "Reset CPU ";
             this.resetButton.UseVisualStyleBackColor = true;
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
