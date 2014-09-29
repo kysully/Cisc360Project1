@@ -66,15 +66,20 @@ namespace GeminiCore
 
         public short[] AssemblytoBinary(List<string> assemblyLines)
         {
-            short[] binaryInstructions = new short[assemblyLines.Count];
+            //short[] binaryInstructions = new short[assemblyLines.Count];//cant use this cause loading can be 3 instructions
+            List<short> binaryInstructions = new List<short>(assemblyLines.Count);
             int count = 0;
-            string[] separators = {" "};
+            string[] separators = {" ","   "};
+            Memory.setAssemblyInstructions(assemblyLines);
+            Dictionary<List<string>, int> newCommands = new Dictionary<List<string>, int>();
             foreach (var line in assemblyLines)
             {
                 //Elements is an array containing each segment of the instruction delimited by whitespace
                 //example: line is lda #$5 ---> element[0] = "lda", element[1] = "#$5"
                 Debug.Write("Line is " + line + "\n");
-                string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                //string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                string[] elements = line.Split(new char[0],StringSplitOptions.RemoveEmptyEntries);
+               
                 short opcode = 0, flag = 0, value = 0;
                 short currLineBinary = 0;
                 
@@ -90,6 +95,7 @@ namespace GeminiCore
                 }
                 if (elements.Length > 1 )
                 {
+                    
                     Debug.Write("Value in elements[1] is " + elements[1]);
                     Debug.Write(" Substring in element[1] is " + elements[1].Substring(0, 1));
                     string substring = elements[1].Substring(0, 1);
@@ -116,6 +122,57 @@ namespace GeminiCore
                     }
                     
                 }
+                //Special case - shift bits to load stuff
+                if ((value > 255) && (opcode == 8704) && (flag == 256))
+                {
+                    Debug.Write("Special shift case for load");
+                    short instrPart1, shift, instrPart2;
+                    string valueWhole, valuePart1, valuePart2;
+
+                    valueWhole = Convert.ToString(value, 2).PadLeft(16, '0');
+                    Debug.Write("Larger than normal load value: " + valueWhole);
+                    valuePart1 = valueWhole.Substring(0, 8);
+                    valuePart2 = valueWhole.Substring(8, 8);
+
+                    instrPart1 = (short)(8960 | Convert.ToInt16(valuePart1,2));
+                    shift = 19208;// (18944 | 256 | 8)
+                    instrPart2 = (short)(25856 | Convert.ToInt16(valuePart2,2));
+                    Debug.Write("Part 1 is " + valuePart1 + " and part 2 is " + valuePart2);
+
+                    binaryInstructions.Add(instrPart1);
+                    binaryInstructions.Add(shift);
+                    binaryInstructions.Add(instrPart2);
+
+                    Debug.WriteLine("Just added " + instrPart1 + ", " + shift + ", and " + instrPart2);
+                    //1 instruction is becoming 3, so we need to adjust our labels
+                    Dictionary<string, int> temp = new Dictionary<string, int>(labels.Count+10);
+                    //var labelArray = labels.ToArray();
+                    foreach(var label in labels)
+                    {
+                        if (label.Value > count)
+                        {
+                            temp.Add(label.Key, (label.Value + 2));
+                        }
+                        else
+                        {
+                            temp.Add(label.Key, label.Value);
+                        }
+                        Debug.WriteLine("Copied over " + temp.Last().Key + ", " + temp.Last().Value);
+                    }
+                    labels = temp;
+
+                    //also have to update the assemblyInstructions
+                    List<string> tempLines = new List<string>(3);
+                    tempLines.Add("or #$" + Convert.ToInt16(valuePart2, 2));
+                    tempLines.Add("shl #$" + 8);
+                    tempLines.Add("lda #$" + Convert.ToInt16(valuePart1, 2));
+                    newCommands.Add(tempLines, count);
+                   
+                   // instrPart1 = 8704 | 256 | Convert.ToInt16(valuePart1);
+                    continue;
+                    
+
+                }
                 Debug.Write("Opcode is " + Convert.ToString(opcode, 2));
                 Debug.Write(" Flag is " + flag);
                 Debug.Write(" and value is " + value);
@@ -136,17 +193,33 @@ namespace GeminiCore
 
                 var tempString = Convert.ToString(currLineBinary, 2).PadLeft(16, '0');
                 Debug.Write("Temp string is " + tempString + " and currLineBinary is " + currLineBinary);// + " and temp short is " + tempShort);
-                
-                binaryInstructions[count] = currLineBinary;
+
+                binaryInstructions.Add(currLineBinary);
+                //binaryInstructions[count] = currLineBinary;
                 Debug.Write("Added the short " + currLineBinary + " to the array of binary instructions.\n");
                 count++;
             }
 
-            for (int i = 0; i < binaryInstructions.Length; i++)
+            foreach (var temp in newCommands)
+            {
+                assemblyLines.RemoveAt(temp.Value);
+                foreach (var item in temp.Key)
+                {
+                    assemblyLines.Insert(temp.Value, item);
+                }
+            }
+
+            Debug.WriteLine("New assembly lines:");
+            foreach (var temp in assemblyLines)
+            {
+                Debug.WriteLine(temp);
+            }
+
+            for (int i = 0; i < binaryInstructions.Count(); i++)
             {
                 Debug.Write("\nLine " + i + ": " + binaryInstructions[i]);
             }
-                return binaryInstructions;
+                return binaryInstructions.ToArray();
         }//TODO print assembly to binary
 
         public void WriteBinarytoFile(short[] binaryInstructions, string fileName) {
@@ -266,7 +339,7 @@ namespace GeminiCore
                     string[] separators = { " ", "  " };
                     string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
                     if(elements[0].CompareTo("!") == 0){
-                        Debug.Write("Found a line with a comment on it: " + line);
+                        Debug.Write("Found a line with a comment on it: " + line +"\n");
                         continue;
                     }
                     if (elements.Length > 2 && !elements[2].Substring(0,1).Equals("!", StringComparison.Ordinal))
