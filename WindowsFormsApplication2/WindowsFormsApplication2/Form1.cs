@@ -263,5 +263,10 @@ namespace WindowsFormsApplication2
 
         }
 
+        private void pcLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
