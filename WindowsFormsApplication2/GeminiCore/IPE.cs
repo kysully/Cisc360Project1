@@ -41,7 +41,7 @@ namespace GeminiCore
             temp.Add("add", 16896);//Math
             temp.Add("sub", 17408);//Math
             temp.Add("mul", 17920);//Math
-            temp.Add("div", 18432);//Math //From here down need to be converted
+            temp.Add("div", 18432);//Math 
             temp.Add("shl", 18944);//Math
             temp.Add("and", 25088);//Logic
             temp.Add("or", 25600);//Logic
@@ -68,12 +68,13 @@ namespace GeminiCore
         {
             //short[] binaryInstructions = new short[assemblyLines.Count];//cant use this cause loading can be 3 instructions
             List<short> binaryInstructions = new List<short>(assemblyLines.Count);
-            int count = 0;
+            int count = -1;
             string[] separators = {" ","   "};
             Memory.setAssemblyInstructions(assemblyLines);
             Dictionary<List<string>, int> newCommands = new Dictionary<List<string>, int>();
             foreach (var line in assemblyLines)
             {
+                count++;
                 //Elements is an array containing each segment of the instruction delimited by whitespace
                 //example: line is lda #$5 ---> element[0] = "lda", element[1] = "#$5"
                 Debug.Write("Line is " + line + "\n");
@@ -122,8 +123,14 @@ namespace GeminiCore
                     }
                     
                 }
+                //Segmentation fault
+                if ((value > 255) && (opcode == 9216))
+                {
+                    Debug.Write("Index out of bounds for stack.");
+                    throw new Exception("Segmentation fault: index of " + value + " is out of bounds."); ;
+                }
                 //Special case - shift bits to load stuff
-                if ((value > 255) && (opcode == 8704) && (flag == 256))
+                else if ((value > 255) && (opcode == 8704) && (flag == 256))
                 {
                     Debug.Write("Special shift case for load");
                     short instrPart1, shift, instrPart2;
@@ -169,8 +176,66 @@ namespace GeminiCore
                     newCommands.Add(tempLines, count);
                    
                    // instrPart1 = 8704 | 256 | Convert.ToInt16(valuePart1);
+                    
                     continue;
                     
+
+                }
+                //Special case for adding numbers larger than 255
+                else if ( (value > 255) && (opcode == 16896) && (flag == 256) )
+                {
+                    short staSpecial = 13312; //special store to temp register command
+                    short addSpecial = 20992;//special add between temp and ACC
+                    Debug.Write("Special shift case for add");
+                    short instrPart1, shift, instrPart2;
+                    string valueWhole, valuePart1, valuePart2;
+
+                    valueWhole = Convert.ToString(value, 2).PadLeft(16, '0');
+                    Debug.Write("Larger than normal load value: " + valueWhole);
+                    valuePart1 = valueWhole.Substring(0, 8);
+                    valuePart2 = valueWhole.Substring(8, 8);
+
+                    instrPart1 = (short)(8960 | Convert.ToInt16(valuePart1, 2));
+                    shift = 19208;// (18944 | 256 | 8)
+                    instrPart2 = (short)(25856 | Convert.ToInt16(valuePart2, 2));
+                    Debug.Write("Part 1 is " + valuePart1 + " and part 2 is " + valuePart2);
+
+                    binaryInstructions.Add(staSpecial);
+                    binaryInstructions.Add(instrPart1);
+                    binaryInstructions.Add(shift);
+                    binaryInstructions.Add(instrPart2);
+                    binaryInstructions.Add(addSpecial);
+
+                    Debug.WriteLine("Just added " + instrPart1 + ", " + shift + ", and " + instrPart2);
+                    //1 instruction is becoming 3, so we need to adjust our labels
+                    Dictionary<string, int> temp = new Dictionary<string, int>(labels.Count + 10);
+                    //var labelArray = labels.ToArray();
+                    foreach (var label in labels)
+                    {
+                        if (label.Value > count)
+                        {
+                            temp.Add(label.Key, (label.Value + 5));
+                        }
+                        else
+                        {
+                            temp.Add(label.Key, label.Value);
+                        }
+                        Debug.WriteLine("Copied over " + temp.Last().Key + ", " + temp.Last().Value);
+                    }
+                    labels = temp;
+
+                    //also have to update the assemblyInstructions
+                    List<string> tempLines = new List<string>(5);
+                    tempLines.Add("add $TEMP");
+                    tempLines.Add("or #$" + Convert.ToInt16(valuePart2, 2));
+                    tempLines.Add("shl #$" + 8);
+                    tempLines.Add("lda #$" + Convert.ToInt16(valuePart1, 2));
+                    tempLines.Add("sta $TEMP");
+                    newCommands.Add(tempLines, count);
+
+                    // instrPart1 = 8704 | 256 | Convert.ToInt16(valuePart1);
+                    
+                    continue;
 
                 }
                 Debug.Write("Opcode is " + Convert.ToString(opcode, 2));
@@ -178,7 +243,6 @@ namespace GeminiCore
                 Debug.Write(" and value is " + value);
                 currLineBinary = (short)((ushort)opcode | (ushort)flag | (ushort)value);
                 Debug.Write("Instruction is " + line + " and binary is " + (Convert.ToString(currLineBinary, 2).PadLeft(16, '0')));
-                //STOPPED HERE*************************************************************
                 Debug.Write("Command: ");
                 foreach (var temp in elements)
                 {
@@ -197,16 +261,22 @@ namespace GeminiCore
                 binaryInstructions.Add(currLineBinary);
                 //binaryInstructions[count] = currLineBinary;
                 Debug.Write("Added the short " + currLineBinary + " to the array of binary instructions.\n");
-                count++;
+              
             }
 
+            int addedCount = 0;
             foreach (var temp in newCommands)
             {
-                assemblyLines.RemoveAt(temp.Value);
+                int adjustedIndex = temp.Value + addedCount;
+                Debug.Write("Removed: " + assemblyLines.ElementAt(adjustedIndex));
+                assemblyLines.RemoveAt(temp.Value + addedCount);
                 foreach (var item in temp.Key)
                 {
-                    assemblyLines.Insert(temp.Value, item);
+                    assemblyLines.Insert(adjustedIndex, item);
+                    addedCount++;
                 }
+                addedCount--;
+                Debug.WriteLine(", added count is " + addedCount);
             }
 
             Debug.WriteLine("New assembly lines:");
@@ -220,7 +290,7 @@ namespace GeminiCore
                 Debug.Write("\nLine " + i + ": " + binaryInstructions[i]);
             }
                 return binaryInstructions.ToArray();
-        }//TODO print assembly to binary
+        }
 
         public void WriteBinarytoFile(short[] binaryInstructions, string fileName) {
 
@@ -336,8 +406,8 @@ namespace GeminiCore
                     //Regex instructionCommentStmtFormat = new Regex(@"^(?<instructionWithComment>.*?)\s*!");//grabs any text before a ! (comment)
                     Regex instructionCommentStmtFormat = new Regex(@"^(?<instructionWithComment>\w*?)\s*!");
 
-                    string[] separators = { " ", "  " };
-                    string[] elements = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                    //string[] separators = { " ", "  " };
+                    string[] elements = line.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
                     if(elements[0].CompareTo("!") == 0){
                         Debug.Write("Found a line with a comment on it: " + line +"\n");
                         continue;
