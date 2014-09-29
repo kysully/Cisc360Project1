@@ -22,6 +22,12 @@ namespace GeminiCore
             stack = new int[256]; // Default memory size is 256
         }
 
+        //Resets the stack back to 0's
+        public static void clearStack()
+        {
+            stack = new int[256];
+        }
+
         public static void clearInstructions()
         {
             binaryInstructions = new List<short>(0);
