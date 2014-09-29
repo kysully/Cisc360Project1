@@ -65,7 +65,7 @@ namespace GeminiCore
             String valueRaw = binaryString.Substring(8, 8);
             short value = Convert.ToInt16(valueRaw, 2);
 
-            Debug.WriteLine("AGERNGGKDNBKS ---->" + binaryString + " O " + opcode + " C " + command + " F " + flag + " V " + value);
+            Debug.WriteLine("Executing ---->" + binaryString + " O " + opcode + " C " + command + " F " + flag + " V " + value);
 
             switch (opcode)
             {
@@ -77,6 +77,7 @@ namespace GeminiCore
                     else{ // HTP
                         //DO HLT THINGS
                         Debug.WriteLine("HLT has been reached");
+                        return;
                     }
                     break;
                 case "001":// ------------GROUP2
@@ -130,28 +131,30 @@ namespace GeminiCore
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("MUL# has been reached");
+                            ACC = ACC * value;
                         }
                         else{
                             //$
                             Debug.WriteLine("MUL$ has been reached");
+                            ACC = ACC * Memory.stack[value];
                         }
                     }
                     if(command == "0100"){//DIV
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("DIV# has been reached");
-
+                            ACC = ACC / value;
                         }
                         else{
                             //$
                             Debug.WriteLine("DIV$ has been reached");
-
+                            ACC = ACC / Memory.stack[value];
                         }
                     }
                     if(command == "0101"){//SHL
                       //SHL things
                         Debug.WriteLine("SHL has been reached");
-
+                        ACC = ACC << value;
                     }
                     break;
                 case "011": //-----------------GROUP4
