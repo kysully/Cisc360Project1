@@ -74,8 +74,8 @@ namespace GeminiCore
                         Debug.WriteLine("NOP has been reached");
                         return;
                     }
-                    else{ // HTP
-                        //DO HLT THINGS
+                    else{ // HLT
+                        //DO HLT 
                         Debug.WriteLine("HLT has been reached");
                         return;
                     }
@@ -105,7 +105,6 @@ namespace GeminiCore
                             //#
                             Debug.WriteLine("ADD# has been reached");
                             Debug.Write("Value is " + value);
-                            //ACC += Convert.ToInt16(Convert.ToInt16(value, 2));
                             ACC += value;
                             Debug.Write(" ACC is " + ACC);
                         }

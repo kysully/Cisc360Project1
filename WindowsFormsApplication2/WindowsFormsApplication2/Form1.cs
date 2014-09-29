@@ -20,7 +20,7 @@ namespace WindowsFormsApplication2
     {
         public CPU myCPU;
         int instructionCount = 0;
-        string defaultFileName = "C:\\Users\\kyle\\desktop\\output.out";
+        string defaultFileName = "C:\\Users\\user\\Documents\\University of Delaware\\Cisc360\\output";
 
         public Form1()
         {
@@ -51,11 +51,9 @@ namespace WindowsFormsApplication2
                         List<string> assemblyLines = ipe.ParseFile();
                         if (assemblyLines.Count == 0)
                         {
-                            //maybe make a popup here or something
                             return;
                         }
                         short[] binaryLines = ipe.AssemblytoBinary(assemblyLines);
-                        //Memory.setBinaryInstructions(binaryLines.ToList());//Now memory contains all the instructions (in binary) we read in from the file
                         ipe.WriteBinarytoFile(binaryLines, defaultFileName);//Write out the binary instructions to a file
                         binaryLines = ipe.readBinaryFromFile(defaultFileName);//Read in the binary and load to memory
                         Memory.setBinaryInstructions(binaryLines.ToList());//Load the binary we just read from file into Memory
@@ -66,7 +64,6 @@ namespace WindowsFormsApplication2
                     }
                     catch (Exception err)
                     {
-                        // show a dialog with error              
                     }
                 }
             }
@@ -117,11 +114,6 @@ namespace WindowsFormsApplication2
 
         private void runAllButton_Click(object sender, EventArgs e)
         {
-            //Debug.Write("test");
-            /*for (int i = this.myCPU.PC; i < Memory.getBinaryInstructions().Count; i++ )
-            {
-                nextInstructionButton_Click(sender, e);
-            }*/
             //The while loop will work rather than the for loop above
             while (this.myCPU.PC < Memory.getBinaryInstructions().Count)
             {
