@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
 
 using GeminiCore;
 
@@ -29,8 +30,8 @@ namespace WindowsFormsApplication2
             InitializeComponent();
             fillComboBox();
 
-            this.zeroLabel.Text = "0x" + this.myCPU.ZERO.ToString("X7");
-            this.oneLabel.Text = "0x" + this.myCPU.ONE.ToString("X7");
+            this.zeroLabel.Text = "0x" + this.myCPU.ZERO.ToString("X8");
+            this.oneLabel.Text = "0x" + this.myCPU.ONE.ToString("X8");
 
 #if DEBUG
             loadFileButton.Text = "Load File";
@@ -47,6 +48,13 @@ namespace WindowsFormsApplication2
                     try
                     {
                         resetGUI();
+                        string fileName = Path.GetFileNameWithoutExtension(ofd.FileName);
+                       /* if (ofd.FileName.Length > 25)
+                        {
+                            temp = ofd.FileName.Substring(0,3) + "..." + ofd.FileName.Substring(temp.Length-23, 23);
+                            
+                        }*/
+                        this.fileNameLabel.Text = fileName + ".s";
                         var ipe = new IPE(ofd.FileName);
                         List<string> assemblyLines = ipe.ParseFile();
                         if (assemblyLines.Count == 0)
@@ -56,8 +64,10 @@ namespace WindowsFormsApplication2
                         }
                         short[] binaryLines = ipe.AssemblytoBinary(assemblyLines);
                         //Memory.setBinaryInstructions(binaryLines.ToList());//Now memory contains all the instructions (in binary) we read in from the file
-                        ipe.WriteBinarytoFile(binaryLines, defaultFileName);//Write out the binary instructions to a file
-                        binaryLines = ipe.readBinaryFromFile(defaultFileName);//Read in the binary and load to memory
+                        string tempFileName = Path.GetDirectoryName(ofd.FileName) + "\\" + fileName + ".out";
+                        Debug.WriteLine("\nOutput to file: " + tempFileName);
+                        ipe.WriteBinarytoFile(binaryLines, tempFileName);//Write out the binary instructions to a file
+                        binaryLines = ipe.readBinaryFromFile(tempFileName);//Read in the binary and load to memory
                         Memory.setBinaryInstructions(binaryLines.ToList());//Load the binary we just read from file into Memory
                         currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(0);
                         totalInstructionCountLabel.Text = (Memory.getAssemblyInstructions().Count).ToString();
@@ -66,7 +76,9 @@ namespace WindowsFormsApplication2
                     }
                     catch (Exception err)
                     {
-                        // show a dialog with error              
+                        // show a dialog with error     
+                        MessageBox.Show(err.Message);
+                        resetGUI();
                     }
                 }
             }
@@ -137,31 +149,34 @@ namespace WindowsFormsApplication2
         public void setCPUValuesToView()
         {
 
-            this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
-            this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X7");
+            this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X8");
+            this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X8");
+            this.tempLabel.Text = "0x" + this.myCPU.TEMP.ToString("X8");
             if (myCPU.PC < Memory.getBinaryInstructions().Count)
             {
-                this.irLabel.Text = "0x" + Memory.getBinaryInstructions().ElementAt(myCPU.PC).ToString("X7");
+                this.irLabel.Text = "0x" + Memory.getBinaryInstructions().ElementAt(myCPU.PC).ToString("X8");
             }
-            this.ccLabel.Text = "0x" + this.myCPU.CC.ToString("X7");
+            this.ccLabel.Text = "0x" + this.myCPU.CC.ToString("X8");
         }
 
         public void resetGUI()
         {
             this.myCPU.reset();
+            setCPUValuesToView();
             Memory.clearStack();
             this.currMemValueLabel.Text = Memory.stack[this.memComboBox.SelectedIndex].ToString();
             this.currentInstructionLabel.Text = "--------------------------------";
             this.previousInstructionLabel.Text = "--------------------------------";
             this.instructionCount = 0;
             this.currInstructionCountLabel.Text = instructionCount.ToString();
-            this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X7");
-            this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
-            this.aLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
-            this.ccLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
+            this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X8");
+            this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X8");
+            this.aLabel.Text = "0x" + this.myCPU.ACC.ToString("X8");
+            this.ccLabel.Text = "0x" + this.myCPU.ACC.ToString("X8");
             this.totalInstructionCountLabel.Text = "0";
-
-
+            this.fileNameLabel.Text = "...";
+            this.irLabel.Text = "0x" + "00000000";
+            
         }
 
         public void fillComboBox()
@@ -236,6 +251,16 @@ namespace WindowsFormsApplication2
         {
             var index = this.memComboBox.SelectedIndex;
             currMemValueLabel.Text = (Memory.stack[index]).ToString();
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tempLabel_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
