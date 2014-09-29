@@ -540,7 +540,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(21, 345);
+            this.label21.Location = new System.Drawing.Point(165, 319);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(77, 13);
             this.label21.TabIndex = 14;
@@ -549,7 +549,7 @@
             // currMemValueLabel
             // 
             this.currMemValueLabel.AutoSize = true;
-            this.currMemValueLabel.Location = new System.Drawing.Point(104, 345);
+            this.currMemValueLabel.Location = new System.Drawing.Point(244, 319);
             this.currMemValueLabel.Name = "currMemValueLabel";
             this.currMemValueLabel.Size = new System.Drawing.Size(13, 13);
             this.currMemValueLabel.TabIndex = 15;
