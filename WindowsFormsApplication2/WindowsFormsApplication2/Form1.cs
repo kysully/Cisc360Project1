@@ -27,6 +27,7 @@ namespace WindowsFormsApplication2
             myCPU = new CPU();
 
             InitializeComponent();
+            fillComboBox();
 
             this.zeroLabel.Text = "0x" + this.myCPU.ZERO.ToString("X7");
             this.oneLabel.Text = "0x" + this.myCPU.ONE.ToString("X7");
@@ -78,6 +79,13 @@ namespace WindowsFormsApplication2
             {
                 this.myCPU.nextInstruction();
                 this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
+
+                //If we just stored something, we need to update the memory label
+                var temp = (this.previousInstructionLabel.Text).Substring(0, 3);
+                if ( temp.CompareTo("sta") == 0)
+                {
+                    this.currMemValueLabel.Text = Memory.stack[this.memComboBox.SelectedIndex].ToString();
+                }
                 if ((this.myCPU.PC < (Memory.getAssemblyInstructions().Count)))
                 {
                     this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(myCPU.PC);
@@ -108,8 +116,13 @@ namespace WindowsFormsApplication2
 
         private void runAllButton_Click(object sender, EventArgs e)
         {
-            Debug.Write("test");
-            for (int i = this.myCPU.PC; i < Memory.getBinaryInstructions().Count; i++ )
+            //Debug.Write("test");
+            /*for (int i = this.myCPU.PC; i < Memory.getBinaryInstructions().Count; i++ )
+            {
+                nextInstructionButton_Click(sender, e);
+            }*/
+            //The while loop will work rather than the for loop above
+            while (this.myCPU.PC < Memory.getBinaryInstructions().Count)
             {
                 nextInstructionButton_Click(sender, e);
             }
@@ -135,9 +148,23 @@ namespace WindowsFormsApplication2
             this.instructionCount = 0;
             this.currInstructionCountLabel.Text = instructionCount.ToString();
             this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X7");
+            this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X7");
             this.totalInstructionCountLabel.Text = "0";
 
 
+        }
+
+        public void fillComboBox()
+        {
+            this.memComboBox.SelectedIndexChanged +=
+            new System.EventHandler(ComboBox1_SelectedIndexChanged);
+
+            for (int i = 0; i < 256; i++)
+            {
+                this.memComboBox.Items.Add(i);
+            }
+
+            this.memComboBox.SelectedIndex = 0;
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -193,5 +220,13 @@ namespace WindowsFormsApplication2
             myCPU.executeBinary(-30720);//bg
 
         }
+
+        private void ComboBox1_SelectedIndexChanged(object sender,
+        System.EventArgs e)
+        {
+            var index = this.memComboBox.SelectedIndex;
+            currMemValueLabel.Text = (Memory.stack[index]).ToString();
+        }
+
     }
 }

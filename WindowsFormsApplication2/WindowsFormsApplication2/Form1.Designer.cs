@@ -70,6 +70,10 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.resetButton = new System.Windows.Forms.Button();
+            this.memComboBox = new System.Windows.Forms.ComboBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.currMemValueLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -516,11 +520,50 @@
             this.resetButton.UseVisualStyleBackColor = true;
             this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
+            // memComboBox
+            // 
+            this.memComboBox.FormattingEnabled = true;
+            this.memComboBox.Location = new System.Drawing.Point(100, 311);
+            this.memComboBox.Name = "memComboBox";
+            this.memComboBox.Size = new System.Drawing.Size(45, 21);
+            this.memComboBox.TabIndex = 12;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(21, 319);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(76, 13);
+            this.label20.TabIndex = 13;
+            this.label20.Text = "Memory Index:";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(21, 345);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(77, 13);
+            this.label21.TabIndex = 14;
+            this.label21.Text = "Memory Value:";
+            // 
+            // currMemValueLabel
+            // 
+            this.currMemValueLabel.AutoSize = true;
+            this.currMemValueLabel.Location = new System.Drawing.Point(104, 345);
+            this.currMemValueLabel.Name = "currMemValueLabel";
+            this.currMemValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.currMemValueLabel.TabIndex = 15;
+            this.currMemValueLabel.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(445, 325);
+            this.ClientSize = new System.Drawing.Size(445, 382);
+            this.Controls.Add(this.currMemValueLabel);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.memComboBox);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.panel2);
@@ -587,6 +630,10 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button resetButton;
+        private System.Windows.Forms.ComboBox memComboBox;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label currMemValueLabel;
     }
 }
 
