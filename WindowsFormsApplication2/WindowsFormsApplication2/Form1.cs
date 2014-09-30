@@ -54,11 +54,9 @@ namespace WindowsFormsApplication2
                         List<string> assemblyLines = ipe.ParseFile();
                         if (assemblyLines.Count == 0)
                         {
-                            //maybe make a popup here or something
                             return;
                         }
                         short[] binaryLines = ipe.AssemblytoBinary(assemblyLines);
-                        //Memory.setBinaryInstructions(binaryLines.ToList());//Now memory contains all the instructions (in binary) we read in from the file
                         string tempFileName = Path.GetDirectoryName(ofd.FileName) + "\\" + fileName + ".out";
                         Debug.WriteLine("\nOutput to file: " + tempFileName);
                         ipe.WriteBinarytoFile(binaryLines, tempFileName);//Write out the binary instructions to a file
@@ -87,7 +85,6 @@ namespace WindowsFormsApplication2
                 this.myCPU.nextInstruction();
                 this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
 
-                //If we just stored something, we need to update the memory label
                 var temp = (this.previousInstructionLabel.Text).Substring(0, 3);
                 if ( temp.CompareTo("sta") == 0)
                 {
@@ -103,7 +100,6 @@ namespace WindowsFormsApplication2
                     this.currentInstructionLabel.Text = "--------------------------------";
                     this.setCPUValuesToView();
                     this.currInstructionCountLabel.Text = this.totalInstructionCountLabel.Text;
-                    //Do a popup here saying you finished the program
                     MessageBox.Show("The loaded assembly program has finished.");
 
                 }
