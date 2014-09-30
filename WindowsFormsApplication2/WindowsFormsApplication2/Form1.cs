@@ -49,11 +49,6 @@ namespace WindowsFormsApplication2
                     {
                         resetGUI();
                         string fileName = Path.GetFileNameWithoutExtension(ofd.FileName);
-                       /* if (ofd.FileName.Length > 25)
-                        {
-                            temp = ofd.FileName.Substring(0,3) + "..." + ofd.FileName.Substring(temp.Length-23, 23);
-                            
-                        }*/
                         this.fileNameLabel.Text = fileName + ".s";
                         var ipe = new IPE(ofd.FileName);
                         List<string> assemblyLines = ipe.ParseFile();
@@ -130,11 +125,6 @@ namespace WindowsFormsApplication2
         private void runAllButton_Click(object sender, EventArgs e)
         {
             //Debug.Write("test");
-            /*for (int i = this.myCPU.PC; i < Memory.getBinaryInstructions().Count; i++ )
-            {
-                nextInstructionButton_Click(sender, e);
-            }*/
-            //The while loop will work rather than the for loop above
             while (this.myCPU.PC < Memory.getBinaryInstructions().Count)
             {
                 nextInstructionButton_Click(sender, e);
@@ -234,16 +224,6 @@ namespace WindowsFormsApplication2
 
         private void label18_Click(object sender, EventArgs e)
         {
-            myCPU.executeBinary(8965);
-            myCPU.executeBinary(0);
-            myCPU.executeBinary(9472);//sta
-            myCPU.executeBinary(4352);//lda
-            myCPU.executeBinary(17152);//add#
-            myCPU.executeBinary(16896);//add
-            myCPU.executeBinary(17920);//m
-            myCPU.executeBinary(25856);//0r#
-            myCPU.executeBinary(-30720);//bg
-
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender,
