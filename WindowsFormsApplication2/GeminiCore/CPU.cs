@@ -133,12 +133,17 @@ namespace GeminiCore
                       if(flag == "1"){
                             //#
                           Debug.WriteLine("SUB# has been reached");
-                          ACC -= value;
+                          Debug.WriteLine("ACC is " + ACC + " and value is " + value);
+                          ACC = value - ACC;
+                          Debug.WriteLine("ACC is now " + ACC);
                         }
                         else{
-                            //$
-                          Debug.WriteLine("SUB$ has been reached");
-                          ACC -= Memory.stack[value];
+                           //$
+                            int temp = Memory.stack[value];
+                            Debug.WriteLine("SUB$ has been reached");
+                            Debug.WriteLine("ACC is " + ACC + " and value is " + temp);
+                            ACC = temp - ACC;
+                            Debug.WriteLine("ACC is now " + ACC);
                         }
                     }
                     if(command == "0011"){//MUL
@@ -199,6 +204,7 @@ namespace GeminiCore
                     if(command == "0011"){//NOTA
                       //NOTA things
                         Debug.WriteLine("NOTA# has been reached");
+                        Debug.WriteLine("!" + ACC + " is " + ~ACC);
                         ACC = ~ACC; // I think ~ is a bitwise not
                     }
                     break;
