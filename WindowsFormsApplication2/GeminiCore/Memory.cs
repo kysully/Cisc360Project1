@@ -14,12 +14,32 @@ namespace GeminiCore
         static List<short> binaryInstructions = new List<short>(10);
         static List<string> assemblyInstructions = new List<string>(10);
         public static int[] stack = new int[256];
+        struct Cache
+        {
+            public static int[] cacheStack;
+            public int[] getCacheStack(){
+                return cacheStack;
+            }
+            public void setCacheStack(int size){
+                cacheStack = new int[size];
+            }
+        }
+        static Cache cacheStackPointer = new Cache();
+        int hitCounter = 0;
+        int missCounter = 0;
+        String hitOrMiss = "---------";
+        //How do you implement block size?
 
         public Memory()
         {
             binaryInstructions = new List<short>(10); // Default instruction size is 10
             assemblyInstructions = new List<string>(10); // Default instruction size 10
             stack = new int[256]; // Default memory size is 256
+        }
+
+        public static void at(IEnumerable<int> x)
+        {
+            //TODO not really sure yeat
         }
 
         //Resets the stack back to 0's
@@ -53,5 +73,14 @@ namespace GeminiCore
             return binaryInstructions;
         }
 
+        public static void setCacheStackPointer(int size)
+        {
+            cacheStackPointer.setCacheStack(size);
+        }
+
+        
+
     }
+
+  
 }

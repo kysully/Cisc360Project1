@@ -229,6 +229,20 @@ namespace WindowsFormsApplication2
             currMemValueLabel.Text = (Memory.stack[index]).ToString();
         }
 
+        private void comboBox2_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            var index = this.cacheSizeBox.SelectedIndex;
+            Memory.setCacheStackPointer(index);
+            Debug.WriteLine("Got here");
+        }
+
+        private void blockSizeBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var index = this.blockSizeBox.SelectedIndex;
+            Debug.WriteLine("Got here1");
+            //Memory.setBlockSize(index);
+        }
+
         private void label16_Click(object sender, EventArgs e)
         {
 
@@ -240,6 +254,71 @@ namespace WindowsFormsApplication2
         }
 
         private void pcLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label23_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label23_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label26_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label30_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label29_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label33_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label34_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cacheSizeLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void memComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void currMemValueLabel_Click(object sender, EventArgs e)
         {
 
         }
