@@ -336,25 +336,42 @@ namespace GeminiCore
         public List<string> ParseFile()
         {
             var linesRaw = File.ReadAllLines(this.FileToParse).ToArray<string>();
+            var linesWithComments = new List<string>();
             var linesWithLabels = new List<string>();
             var lines = new List<string>();
             var assemblyLines = new List<string>();
 
             //Some code here to remove whitespace lines//
-            Debug.WriteLine("Printing file without white space...");
+            Debug.WriteLine("Printing file without white space or commented lines...");
             Regex emptyLineFormat = new Regex(@"^\s+$[\r\n]*");
+            Regex commentedLineFormat = new Regex(@"^\s*[!]");
+
             for (int i = 0; i < linesRaw.Length; i++)
             {
-                var emptyLineMatch = emptyLineFormat.Match(linesRaw[i]);
-                if (!string.IsNullOrWhiteSpace(linesRaw[i]))
+                
+               
+                if ( (!string.IsNullOrWhiteSpace(linesRaw[i])) )
                 {
                     Debug.WriteLine(linesRaw[i]);
-                    linesWithLabels.Add(linesRaw[i]);
+                    linesWithComments.Add(linesRaw[i]);
                 }
             }
-            //Lines is now a list containing all the lines from the file without whitespace lines
+            var linesCommTemp = linesWithComments.ToArray<string>();
+            int validCount = 0;
+            for (int i = 0; i < linesCommTemp.Length; i++)
+            {
+                var commentedLineMatch = commentedLineFormat.Match(linesCommTemp[i]);
+                if (!commentedLineMatch.Success)
+                {
+                    Debug.WriteLine("Valid line " + validCount +": " + linesCommTemp[i]);
+                    linesWithLabels.Add(linesCommTemp[i]);
+                    validCount++;
+                }
 
-            Debug.WriteLine("\nStarting label foreach loop\n");
+            }
+                //Lines is now a list containing all the lines from the file without whitespace lines
+
+                Debug.WriteLine("\nStarting label foreach loop\n");
             int labelCount = 0; // important to index labels to instructions
             int lineCount = 0; // which line we are on
             Regex labelStmtFormat = new Regex(@"^(?<label>.*?)\s*:$");
@@ -366,7 +383,7 @@ namespace GeminiCore
                 {
                     var label = labelStmtMatch.Groups["label"].Value;
                     
-                    labels.Add(label, i - labelCount);//subtract because "label" will be removed from the final instruction list
+                    labels.Add(label.Trim(), i - labelCount);//subtract because "label" will be removed from the final instruction list
                     Debug.WriteLine("Inserted label named " + label + " which points to instruction at line " + (i-labelCount));
                     Debug.WriteLine("Line is currently " + i + " and label count is currently " + labelCount);
                     labelCount++;
@@ -399,10 +416,12 @@ namespace GeminiCore
 
             Debug.WriteLine(labels);
             Debug.WriteLine("Parsing out instructions:\n");
+            int instrCount = 0;
             try
             {
                 foreach (var line in lines)
                 {
+
                     //Regex instructionCommentStmtFormat = new Regex(@"^(?<instructionWithComment>.*?)\s*!");//grabs any text before a ! (comment)
                     Regex instructionCommentStmtFormat = new Regex(@"^(?<instructionWithComment>\w*?)\s*!");
 
@@ -421,7 +440,7 @@ namespace GeminiCore
                     if (instructionCommentStmtMatch.Success)
                     {
                         var instruction = instructionCommentStmtMatch.Groups["instructionWithComment"].Value;
-                        Debug.WriteLine(instruction);
+                        Debug.WriteLine("Line " + instrCount++ + ": " + instruction);
                         assemblyLines.Add(instruction);
 
                     }
@@ -437,13 +456,13 @@ namespace GeminiCore
                         if (instructionStmtMatch.Success)
                         {
                             var instruction = instructionStmtMatch.Value;
-                            Debug.WriteLine(instruction);
+                            Debug.WriteLine("Line " + instrCount++ + ": " + instruction);
                             assemblyLines.Add(instruction);
                         }
                         else if (instructionBlankMatch.Success)
                         {
                             var instruction = instructionBlankMatch.Value;
-                            Debug.WriteLine(instruction);
+                            Debug.WriteLine("Line " + instrCount++ + ": " + instruction);
                             assemblyLines.Add(instruction);
                         }
 
