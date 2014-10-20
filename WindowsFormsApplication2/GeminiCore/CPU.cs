@@ -21,11 +21,14 @@ namespace GeminiCore
         public short CC { get; private set; }
         public readonly short ONE = 1;
         public readonly short ZERO = 0;
-        public CPU()
+        public Memory memory;
+        public CPU(Memory memory)
         {
             ACC = 0;
             PC = 0;
             TEMP = 0;
+            //We store a reference to main memory so the CPU can interact with it
+            this.memory = memory;
         }
 
         
@@ -94,12 +97,14 @@ namespace GeminiCore
                         else{
                             //$
                             Debug.WriteLine("LDA$ has been reached");
-                            ACC = Memory.stack[value];
+                            //ACC = Memory.stack[value];
+                            ACC = memory[value];
                         }
                     }
                     if(command == "0010"){ //STA
                         Debug.WriteLine("STA has been reached");
-                        Memory.stack[value] = ACC;
+                        //Memory.stack[value] = ACC;
+                        memory[value] = ACC;
                         Debug.Write("Stored the value " + ACC + " into stack at index " + value);
                     }
                     else if(command == "1010"){
@@ -120,7 +125,8 @@ namespace GeminiCore
                         else{
                             //$
                             Debug.WriteLine("ADD$ has been reached");
-                            ACC += Memory.stack[value];
+                            //ACC += Memory.stack[value];
+                            ACC += memory[value];
                         }
                         break;
                     }
@@ -134,15 +140,16 @@ namespace GeminiCore
                             //#
                           Debug.WriteLine("SUB# has been reached");
                           Debug.WriteLine("ACC is " + ACC + " and value is " + value);
-                          ACC = value - ACC;
+                          ACC -= value;
                           Debug.WriteLine("ACC is now " + ACC);
                         }
                         else{
                            //$
-                            int temp = Memory.stack[value];
+                            //int temp = Memory.stack[value];
+                            int temp = memory[value];
                             Debug.WriteLine("SUB$ has been reached");
                             Debug.WriteLine("ACC is " + ACC + " and value is " + temp);
-                            ACC = temp - ACC;
+                            ACC -= temp;
                             Debug.WriteLine("ACC is now " + ACC);
                         }
                     }
@@ -155,7 +162,8 @@ namespace GeminiCore
                         else{
                             //$
                             Debug.WriteLine("MUL$ has been reached");
-                            ACC = ACC * Memory.stack[value];
+                            //ACC = ACC * Memory.stack[value];
+                            ACC = ACC * memory[value];
                         }
                     }
                     if(command == "0100"){//DIV
@@ -167,7 +175,8 @@ namespace GeminiCore
                         else{
                             //$
                             Debug.WriteLine("DIV$ has been reached");
-                            ACC = ACC / Memory.stack[value];
+                            //ACC = ACC / Memory.stack[value];
+                            ACC = ACC / memory[value];
                         }
                     }
                     if(command == "0101"){//SHL
@@ -185,8 +194,12 @@ namespace GeminiCore
                         }
                         else{
                             //$
+                            //int temp = Memory.stack[value];
+                            int temp = memory[value];
                             Debug.WriteLine("AND$ has been reached");
-                            ACC = ACC & Memory.stack[value];
+                            Debug.WriteLine("ACC is " + ACC + " and value is " + temp);
+                            ACC = ACC & temp;
+                            Debug.WriteLine("ACC is now " + ACC);
                         }
                     }
                     if(command == "0010"){//OR
@@ -198,7 +211,8 @@ namespace GeminiCore
                         else{
                             //$
                             Debug.WriteLine("OR$ has been reached");
-                            ACC = ACC | Memory.stack[value];
+                            //ACC = ACC | Memory.stack[value];
+                            ACC = ACC | memory[value];
                         }
                     }
                     if(command == "0011"){//NOTA
@@ -211,27 +225,27 @@ namespace GeminiCore
                 case "100": // ------------------GROUP5
                     if (command == "0001"){//BA
                         Debug.WriteLine("BA has been reached");
-                        PC = value;
+                        PC = (short)(value-1);
                     } 
                     if(command == "0010"){//BE
                         Debug.WriteLine("BE has been reached");
                         if (CC == 0)
                         {
-                            PC = value;
+                            PC = (short)(value-1);
                         }
                     } 
                     if(command == "0011"){//BL
                         Debug.WriteLine("BL has been reached");
                         if (CC < 0)
                         {
-                            PC = value;
+                            PC = (short)(value-1);
                         }
                     }
                     if (command == "0100"){//BG
                         Debug.WriteLine("BG has been reached");
                         if (CC > 0)
                         {
-                            PC = value;
+                            PC = (short)(value-1);
                         }
                     }
                     break;
