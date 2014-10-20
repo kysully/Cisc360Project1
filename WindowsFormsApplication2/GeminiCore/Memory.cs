@@ -70,13 +70,13 @@ namespace GeminiCore
                 if (tag == stackIndex)
                 {
                     Debug.WriteLine("Hit: requested item at stack[" + stackIndex + "] and it was in cache. Yay :D");
-                    readHitCounter++;
-                    return temp;
+                    Debug.WriteLine("readhit counter is: " + readHitCounter++);
+                    return ((temp & 16711680) >> 16);
                 }
                 else
                 {
                     Debug.WriteLine("Miss: requested item at stack[" + stackIndex + "] and stack[" + tag + "] was there instead. Boo :(");
-                    readMissCounter++;
+                    Debug.WriteLine("readmiss counter is: " + readMissCounter++);
                     //Taking value from memory and putting it into stack
                     int dirty = temp << 31;
                     if (dirty == -2147483648)
@@ -107,13 +107,13 @@ namespace GeminiCore
                     cache[stackIndex % cacheSize] = tag | (value << 16) | 1;
                     int data = ( (cache[stackIndex % cacheSize] & 16711680) >> 16);
                     Debug.WriteLine("Write Hit: writing to item at stack[" + stackIndex + "] and it was in cache, and now its marked dirty");
-                    writeHitCounter++;
+                    Debug.WriteLine("write hit counter is: " + writeHitCounter++);
                     Debug.WriteLine("Value at cache index[" + (stackIndex % cacheSize) + "] is " + data);
                 }
                 else
                 {//miss
                     Debug.WriteLine("Write Miss: writing to stack[" + stackIndex + "] and stack[" + tag + "] was in cache instead.");
-                    writeMissCounter++;
+                    Debug.WriteLine("writemiss counter is: " + writeMissCounter++);
                     stack[stackIndex] = value;
                     Debug.WriteLine("Wrote " + value + " to stack[" + stackIndex + "]");
 
@@ -136,7 +136,7 @@ namespace GeminiCore
             writeHitCounter = 0;
             writeMissCounter = 0;
             Debug.WriteLine("Just made a new memory object with stack of size 256 and cache of size " + cacheSize);
-            testMemory();
+            //testMemory();
         }
 
         void testMemory()

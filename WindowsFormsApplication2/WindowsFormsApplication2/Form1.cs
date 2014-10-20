@@ -111,6 +111,7 @@ namespace WindowsFormsApplication2
                 }
 
                 this.setCPUValuesToView();
+                this.setCacheLabelsToView();
                 if (instructionCount < Memory.getAssemblyInstructions().Count)
                 {
                     this.instructionCount++;
@@ -153,10 +154,12 @@ namespace WindowsFormsApplication2
 
         public void setCacheLabelsToView()
         {
-            this.readHitLabel.Text = memory.readHitCounter.ToString();
-            this.readMissLabel.Text = memory.readMissCounter.ToString();
-            this.writeMissLabel.Text = memory.writeMissCounter.ToString();
-            this.writeHitLabel.Text = memory.writeHitCounter.ToString();
+            this.readHitLabel.Text = this.myCPU.memory.readHitCounter.ToString();
+            this.readMissLabel.Text = this.myCPU.memory.readMissCounter.ToString();
+            this.writeMissLabel.Text = this.myCPU.memory.writeMissCounter.ToString();
+            this.writeHitLabel.Text = this.myCPU.memory.writeHitCounter.ToString();
+            this.totalHitsLabel.Text = (this.myCPU.memory.readHitCounter + this.myCPU.memory.writeHitCounter).ToString();
+            this.totalMissesLabel.Text = (this.myCPU.memory.readMissCounter + this.myCPU.memory.writeMissCounter).ToString();
 
         }
 
@@ -164,7 +167,9 @@ namespace WindowsFormsApplication2
         {
             this.myCPU.reset();
             memory = new Memory( (int)(this.cacheSizeBox.SelectedItem), false );
+            this.myCPU.memory = memory;
             setCPUValuesToView();
+            setCacheLabelsToView();
             Memory.clearStack();
             this.currMemValueLabel.Text = Memory.stack[this.memComboBox.SelectedIndex].ToString();
             this.currentInstructionLabel.Text = "--------------------------------";
