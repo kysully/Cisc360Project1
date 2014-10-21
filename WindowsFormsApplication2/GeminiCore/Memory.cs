@@ -15,13 +15,15 @@ namespace GeminiCore
         static List<short> binaryInstructions = new List<short>(10);
         static List<string> assemblyInstructions = new List<string>(10);
         public static int[] stack = new int[256];
-        Cache cache;
-        int cacheSize;
+        public Cache cache;
+        public int cacheSize { get; private set; }
+        public int blockSize { get; private set; }
         public int writeHitCounter { get; private set; }
         public int readHitCounter { get; private set; }
         public int writeMissCounter { get; private set; }
         public int readMissCounter { get; private set; }
-        String hitOrMiss = "---------";
+        public int spatialCounter { get; private set; }
+        public string hitOrMiss = "---------";
         
         bool addressMode;
 
@@ -36,7 +38,7 @@ namespace GeminiCore
             }
         }*/
 
-        class Cache
+        public class Cache
         {
             private int[] arr;
 
@@ -70,13 +72,21 @@ namespace GeminiCore
                 if (tag == stackIndex)
                 {
                     Debug.WriteLine("Hit: requested item at stack[" + stackIndex + "] and it was in cache. Yay :D");
-                    Debug.WriteLine("readhit counter is: " + readHitCounter++);
-                    return ((temp & 16711680) >> 16);
+                    Debug.WriteLine("readhit counter is: " + ++readHitCounter);
+                    hitOrMiss = "Hit";
+                    Debug.WriteLine(temp);
+                    if ((temp & 2) == 2)
+                    {//this hit was a result of spatial help
+                        Debug.WriteLine("Spatial help: " + spatialCounter + 1);
+                        spatialCounter++;
+                    }
+                     return ((temp & 16711680) >> 16);
                 }
                 else
                 {
                     Debug.WriteLine("Miss: requested item at stack[" + stackIndex + "] and stack[" + tag + "] was there instead. Boo :(");
-                    Debug.WriteLine("readmiss counter is: " + readMissCounter++);
+                    Debug.WriteLine("readmiss counter is: " + ++readMissCounter);
+                    hitOrMiss = "Miss";
                     //Taking value from memory and putting it into stack
                     int dirty = temp << 31;
                     if (dirty == -2147483648)
@@ -86,7 +96,40 @@ namespace GeminiCore
                         Debug.WriteLine("Replaced stack[" + tag + "] with the value " + data);
                     }
 
+                    //The main read from stack and store on cache call
                     cache[stackIndex % cacheSize] = (stackIndex << 24) | (stack[stackIndex] << 16);
+                    
+                    //If block size is 2, we want to read the partner value onto cache as well
+                    //but first check to ensure we arent overwritting a dirty value on cache
+                    if (blockSize > 1)
+                    {
+                        Debug.WriteLine("Block size bigger than 1");
+                        if ((stackIndex % 2) == 0)
+                        {
+                            int check = cache[(stackIndex + 1) % cacheSize];// = ((stackIndex+1) << 24) | (stack[stackIndex+1] << 16);
+                            //before we overwrite the value on cache we check if it needs to be saved onto the stack
+                            if ((check << 31) == -2147483648 )
+                            {
+                                int data = ((check & 16711680) >> 16);
+                                stack[(check>>24)] = data;
+                            }
+                            Debug.WriteLine("Spatial value is: " + (((stackIndex + 1) << 24) | (stack[stackIndex + 1] << 16) | 2));
+                            cache[(stackIndex + 1) % cacheSize] = ((stackIndex + 1) << 24) | (stack[stackIndex + 1] << 16) | 2; // or'd with 2 to give it a spatial flag
+                        }
+                        else
+                        {
+                            int check = cache[(stackIndex - 1) % cacheSize];// = ((stackIndex+1) << 24) | (stack[stackIndex+1] << 16);
+                            //before we overwrite the value on cache we check if it needs to be saved onto the stack
+                            if ((check << 31) == -2147483648)
+                            {
+                                int data = ((check & 16711680) >> 16);
+                                stack[(check >> 24)] = data;
+                            }
+                            Debug.WriteLine("Spatial value is: " + (((stackIndex - 1) << 24) | (stack[stackIndex - 1] << 16) | 2));
+                            cache[(stackIndex - 1) % cacheSize] = ((stackIndex-1) << 24) | (stack[stackIndex-1] << 16) | 2;
+                        }
+                        Debug.WriteLine("Performed a spatial load");
+                    }
                     Debug.WriteLine("Cache[" + (stackIndex % cacheSize) + "] has the value of " + stack[stackIndex]);
                     return ((cache[stackIndex % cacheSize] & 16711680) >> 16); // using a mask to extract the data bits
                 }
@@ -95,7 +138,7 @@ namespace GeminiCore
             }
             return stack[0];
         }
-
+         
         void writeStackValue(int stackIndex, int value){
             if(!addressMode)
             {//1 way
@@ -104,26 +147,94 @@ namespace GeminiCore
                 if (tag == stackIndex)
                 {//hit
                     
-                    cache[stackIndex % cacheSize] = tag | (value << 16) | 1;
+                    cache[stackIndex % cacheSize] = (stackIndex << 24) | (value << 16) | 1;
                     int data = ( (cache[stackIndex % cacheSize] & 16711680) >> 16);
                     Debug.WriteLine("Write Hit: writing to item at stack[" + stackIndex + "] and it was in cache, and now its marked dirty");
-                    Debug.WriteLine("write hit counter is: " + writeHitCounter++);
+                    Debug.WriteLine("write hit counter is: " + ++writeHitCounter);
+                    Debug.WriteLine("Value at cache[" + (stackIndex % cacheSize) + "] is " + temp );
+                    hitOrMiss = "Hit";
                     Debug.WriteLine("Value at cache index[" + (stackIndex % cacheSize) + "] is " + data);
+                    if ((temp & 2) == 2)
+                    {//this hit was a result of spatial help
+                        Debug.WriteLine("Spatial help: " + spatialCounter + 1);
+                        spatialCounter++;
+                    }
                 }
                 else
                 {//miss
                     Debug.WriteLine("Write Miss: writing to stack[" + stackIndex + "] and stack[" + tag + "] was in cache instead.");
-                    Debug.WriteLine("writemiss counter is: " + writeMissCounter++);
+                    Debug.WriteLine("writemiss counter is: " + ++writeMissCounter);
+                    hitOrMiss = "Miss";
                     stack[stackIndex] = value;
                     Debug.WriteLine("Wrote " + value + " to stack[" + stackIndex + "]");
 
                 }
+            }
+            else
+            {//2 way
+                int way0 = cache[(stackIndex % (cacheSize/2))*2+1]; // cache index = stackindex % num sets
+                int way1 = cache[((stackIndex) % ((cacheSize/2)))*2+1];
+                Debug.WriteLine("Stack index is " + stackIndex +
+                    " and way 0 index is " + ((stackIndex % (cacheSize/2))*2) +
+                    " and way 1 index is " + ((stackIndex % (cacheSize/2))*2+1));
+
+                if ((way0 >> 24) == stackIndex)
+                {//hit on way 0
+                    cache[stackIndex % (cacheSize/2)] = (stackIndex << 24) | (value << 16) | 1;
+                    int data = ((cache[stackIndex % (cacheSize/2)] & 16711680) >> 16);
+                    Debug.WriteLine("Write Hit: writing to item at stack[" + stackIndex + "] and it was in cache, and now its marked dirty");
+                    Debug.WriteLine("write hit counter is: " + ++writeHitCounter);
+                    Debug.WriteLine("Way 0 write");
+                    hitOrMiss = "Hit";
+                    Debug.WriteLine("Value at cache index[" + (stackIndex % cacheSize) + "] is " + data);
+                    if ((way0 & 2) == 2)
+                    {//this hit was a result of spatial help
+                        Debug.WriteLine("Spatial help: " + spatialCounter + 1);
+                        spatialCounter++;
+                    }
+
+                }
+                else if ((way1 >> 24) == stackIndex)
+                {//hit on way 1
+                    cache[stackIndex+1 % (cacheSize / 2)] = (stackIndex << 24) | (value << 16) | 1;
+                    int data = ((cache[stackIndex + 1 % (cacheSize / 2)] & 16711680) >> 16);
+                    Debug.WriteLine("Write Hit: writing to item at stack[" + stackIndex + "] and it was in cache, and now its marked dirty");
+                    Debug.WriteLine("write hit counter is: " + ++writeHitCounter);
+                    Debug.WriteLine("Way 1 write");
+                    hitOrMiss = "Hit";
+                    Debug.WriteLine("Value at cache index[" + (stackIndex + 1 % (cacheSize / 2)) + "] is " + data);
+                    if ((way1 & 2) == 2)
+                    {//this hit was a result of spatial help
+                        Debug.WriteLine("Spatial help: " + spatialCounter + 1);
+                        spatialCounter++;
+                    }
+
+                }
+                else
+                {//miss, was at neither way 0/1
+                    /*Random rnd = new Random();
+                    int replaceIndex = (stackIndex % (cacheSize / 2)) * 2 + +rnd.Next(0, 1);
+                    int replaceValue = cache[replaceIndex];
+                    int dirty = replaceValue << 31;
+                    if (dirty == -2147483648)
+                    {
+                        int data = ((cache[replaceIndex] & 16711680) >> 16);
+                        stack[replaceValue>>24] = data;
+                        Debug.WriteLine("Replaced stack[" + (replaceValue>>24) + "] with the value " + data);
+                    }*/
+                    stack[stackIndex] = value;
+                    Debug.WriteLine("2-way Miss: put " + value + " into stack[" + stackIndex + "]");
+                    hitOrMiss = "Miss";
+                    writeMissCounter++;
+                    
+                }
             }     
         }
+       
 
         //How do you implement block size?
 
-        public Memory(int cacheSize, bool addressMode)
+        public Memory(int cacheSize, int blockSize, bool addressMode)
         {
             binaryInstructions = new List<short>(10); // Default instruction size is 10
             assemblyInstructions = new List<string>(10); // Default instruction size 10
@@ -131,11 +242,14 @@ namespace GeminiCore
             cache = new Cache(cacheSize);
             this.cacheSize = cacheSize;
             this.addressMode = addressMode;
+            this.blockSize = blockSize;
             readHitCounter = 0;
             readMissCounter = 0;
             writeHitCounter = 0;
             writeMissCounter = 0;
-            Debug.WriteLine("Just made a new memory object with stack of size 256 and cache of size " + cacheSize);
+            spatialCounter = 0;
+            Debug.WriteLine("Just made a new memory object with stack of size 256 and cache of size " + cacheSize +
+                " with address mode:" + (addressMode ? "2-way" : "1-way") + " and block size of " + blockSize);
             //testMemory();
         }
 
@@ -149,6 +263,20 @@ namespace GeminiCore
             this[0] = 7;
             int temp = this[4];
             Debug.WriteLine("Item at stack 4 = " + temp);
+        }
+
+       public void clearMemory()
+        {
+            stack = new int[256];
+            cache = new Cache(cacheSize);
+        }
+
+        public int getTagAtCacheIndex(int index){
+            int temp = cache[index % cacheSize];
+            Debug.Write("Full value at cache[" + index + "] is " + temp);
+            Debug.Write(". The related stack index is " + (temp >> 24) + "\n");
+            return temp >> 24;
+
         }
 
         public int this[int stackIndex]

@@ -40,6 +40,7 @@ namespace GeminiCore
             TEMP = 0;
             CC = 0;
             Memory.clearInstructions();
+            memory.clearMemory();
         }
 
         //When PC == instruction count, that means you executed all instructions

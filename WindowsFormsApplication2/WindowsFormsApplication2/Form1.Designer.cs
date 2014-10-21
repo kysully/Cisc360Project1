@@ -77,6 +77,14 @@
             this.label21 = new System.Windows.Forms.Label();
             this.currMemValueLabel = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.readMissLabel = new System.Windows.Forms.Label();
+            this.readHitLabel = new System.Windows.Forms.Label();
+            this.writeMissLabel = new System.Windows.Forms.Label();
+            this.writeHitLabel = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.cacheSizeBox = new System.Windows.Forms.ComboBox();
             this.blockSizeBox = new System.Windows.Forms.ComboBox();
             this.hitOrMissLabel = new System.Windows.Forms.Label();
@@ -92,14 +100,14 @@
             this.label28 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.writeHitLabel = new System.Windows.Forms.Label();
-            this.writeMissLabel = new System.Windows.Forms.Label();
-            this.readHitLabel = new System.Windows.Forms.Label();
-            this.readMissLabel = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.cacheIndexComboBox = new System.Windows.Forms.ComboBox();
+            this.label36 = new System.Windows.Forms.Label();
+            this.cacheValueLabel = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.cacheTagLabel = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.spatialHitsLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -125,7 +133,7 @@
             this.accLabel.Name = "accLabel";
             this.accLabel.Size = new System.Drawing.Size(77, 19);
             this.accLabel.TabIndex = 1;
-            this.accLabel.Text = "0x00000000";
+            this.accLabel.Text = "0";
             this.accLabel.Click += new System.EventHandler(this.accLabel_Click);
             // 
             // loadFileButton
@@ -189,7 +197,7 @@
             this.ccLabel.Name = "ccLabel";
             this.ccLabel.Size = new System.Drawing.Size(77, 16);
             this.ccLabel.TabIndex = 22;
-            this.ccLabel.Text = "0x00000000";
+            this.ccLabel.Text = "0";
             // 
             // irLabel
             // 
@@ -198,7 +206,7 @@
             this.irLabel.Name = "irLabel";
             this.irLabel.Size = new System.Drawing.Size(77, 16);
             this.irLabel.TabIndex = 21;
-            this.irLabel.Text = "0x00000000";
+            this.irLabel.Text = "0";
             // 
             // tempLabel
             // 
@@ -207,7 +215,7 @@
             this.tempLabel.Name = "tempLabel";
             this.tempLabel.Size = new System.Drawing.Size(77, 16);
             this.tempLabel.TabIndex = 20;
-            this.tempLabel.Text = "0x00000000";
+            this.tempLabel.Text = "0";
             this.tempLabel.Click += new System.EventHandler(this.tempLabel_Click);
             // 
             // mdrLabel
@@ -217,7 +225,7 @@
             this.mdrLabel.Name = "mdrLabel";
             this.mdrLabel.Size = new System.Drawing.Size(77, 16);
             this.mdrLabel.TabIndex = 19;
-            this.mdrLabel.Text = "0x00000000";
+            this.mdrLabel.Text = "0";
             // 
             // marLabel
             // 
@@ -226,7 +234,7 @@
             this.marLabel.Name = "marLabel";
             this.marLabel.Size = new System.Drawing.Size(77, 16);
             this.marLabel.TabIndex = 18;
-            this.marLabel.Text = "0x00000000";
+            this.marLabel.Text = "0";
             // 
             // pcLabel
             // 
@@ -234,9 +242,9 @@
             this.pcLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pcLabel.Location = new System.Drawing.Point(120, 138);
             this.pcLabel.Name = "pcLabel";
-            this.pcLabel.Size = new System.Drawing.Size(77, 16);
+            this.pcLabel.Size = new System.Drawing.Size(15, 16);
             this.pcLabel.TabIndex = 17;
-            this.pcLabel.Text = "0x00000000";
+            this.pcLabel.Text = "0";
             this.pcLabel.Click += new System.EventHandler(this.pcLabel_Click);
             // 
             // oneLabel
@@ -246,7 +254,7 @@
             this.oneLabel.Name = "oneLabel";
             this.oneLabel.Size = new System.Drawing.Size(77, 16);
             this.oneLabel.TabIndex = 16;
-            this.oneLabel.Text = "0x00000000";
+            this.oneLabel.Text = "0";
             // 
             // zeroLabel
             // 
@@ -254,9 +262,9 @@
             this.zeroLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.zeroLabel.Location = new System.Drawing.Point(120, 93);
             this.zeroLabel.Name = "zeroLabel";
-            this.zeroLabel.Size = new System.Drawing.Size(77, 16);
+            this.zeroLabel.Size = new System.Drawing.Size(15, 16);
             this.zeroLabel.TabIndex = 15;
-            this.zeroLabel.Text = "0x00000000";
+            this.zeroLabel.Text = "0";
             // 
             // bLabel
             // 
@@ -264,9 +272,9 @@
             this.bLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.bLabel.Location = new System.Drawing.Point(120, 71);
             this.bLabel.Name = "bLabel";
-            this.bLabel.Size = new System.Drawing.Size(77, 16);
+            this.bLabel.Size = new System.Drawing.Size(15, 16);
             this.bLabel.TabIndex = 14;
-            this.bLabel.Text = "0x00000000";
+            this.bLabel.Text = "0";
             this.bLabel.Click += new System.EventHandler(this.bLabel_Click);
             // 
             // aLabel
@@ -275,9 +283,9 @@
             this.aLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aLabel.Location = new System.Drawing.Point(120, 49);
             this.aLabel.Name = "aLabel";
-            this.aLabel.Size = new System.Drawing.Size(77, 16);
+            this.aLabel.Size = new System.Drawing.Size(15, 16);
             this.aLabel.TabIndex = 13;
-            this.aLabel.Text = "0x00000000";
+            this.aLabel.Text = "0";
             this.aLabel.Click += new System.EventHandler(this.aLabel_Click);
             // 
             // label13
@@ -580,18 +588,18 @@
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(439, 35);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(76, 13);
+            this.label20.Size = new System.Drawing.Size(67, 13);
             this.label20.TabIndex = 13;
-            this.label20.Text = "Memory Index:";
+            this.label20.Text = "Stack Index:";
             // 
             // label21
             // 
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(572, 35);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(77, 13);
+            this.label21.Size = new System.Drawing.Size(68, 13);
             this.label21.TabIndex = 14;
-            this.label21.Text = "Memory Value:";
+            this.label21.Text = "Stack Value:";
             // 
             // currMemValueLabel
             // 
@@ -606,6 +614,8 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.panel3.Controls.Add(this.spatialHitsLabel);
+            this.panel3.Controls.Add(this.label38);
             this.panel3.Controls.Add(this.readMissLabel);
             this.panel3.Controls.Add(this.readHitLabel);
             this.panel3.Controls.Add(this.writeMissLabel);
@@ -631,10 +641,82 @@
             this.panel3.TabIndex = 10;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
+            // readMissLabel
+            // 
+            this.readMissLabel.AutoSize = true;
+            this.readMissLabel.Location = new System.Drawing.Point(257, 92);
+            this.readMissLabel.Name = "readMissLabel";
+            this.readMissLabel.Size = new System.Drawing.Size(22, 13);
+            this.readMissLabel.TabIndex = 24;
+            this.readMissLabel.Text = "-----";
+            // 
+            // readHitLabel
+            // 
+            this.readHitLabel.AutoSize = true;
+            this.readHitLabel.Location = new System.Drawing.Point(257, 69);
+            this.readHitLabel.Name = "readHitLabel";
+            this.readHitLabel.Size = new System.Drawing.Size(22, 13);
+            this.readHitLabel.TabIndex = 23;
+            this.readHitLabel.Text = "-----";
+            // 
+            // writeMissLabel
+            // 
+            this.writeMissLabel.AutoSize = true;
+            this.writeMissLabel.Location = new System.Drawing.Point(257, 44);
+            this.writeMissLabel.Name = "writeMissLabel";
+            this.writeMissLabel.Size = new System.Drawing.Size(22, 13);
+            this.writeMissLabel.TabIndex = 22;
+            this.writeMissLabel.Text = "-----";
+            // 
+            // writeHitLabel
+            // 
+            this.writeHitLabel.AutoSize = true;
+            this.writeHitLabel.Location = new System.Drawing.Point(257, 14);
+            this.writeHitLabel.Name = "writeHitLabel";
+            this.writeHitLabel.Size = new System.Drawing.Size(22, 13);
+            this.writeHitLabel.TabIndex = 21;
+            this.writeHitLabel.Text = "-----";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(10, 80);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(49, 13);
+            this.label34.TabIndex = 20;
+            this.label34.Text = "Hit/Miss:";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(10, 133);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(69, 13);
+            this.label33.TabIndex = 19;
+            this.label33.Text = "Total Misses:";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(189, 44);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(59, 13);
+            this.label32.TabIndex = 18;
+            this.label32.Text = "Write Miss:";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(189, 17);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(51, 13);
+            this.label31.TabIndex = 17;
+            this.label31.Text = "Write Hit:";
+            // 
             // cacheSizeBox
             // 
             this.cacheSizeBox.FormattingEnabled = true;
-            this.cacheSizeBox.Location = new System.Drawing.Point(129, 14);
+            this.cacheSizeBox.Location = new System.Drawing.Point(87, 11);
             this.cacheSizeBox.Name = "cacheSizeBox";
             this.cacheSizeBox.Size = new System.Drawing.Size(45, 21);
             this.cacheSizeBox.TabIndex = 16;
@@ -643,10 +725,7 @@
             // blockSizeBox
             // 
             this.blockSizeBox.FormattingEnabled = true;
-            this.blockSizeBox.Items.AddRange(new object[] {
-            "1",
-            "2"});
-            this.blockSizeBox.Location = new System.Drawing.Point(130, 47);
+            this.blockSizeBox.Location = new System.Drawing.Point(87, 43);
             this.blockSizeBox.Name = "blockSizeBox";
             this.blockSizeBox.Size = new System.Drawing.Size(45, 21);
             this.blockSizeBox.TabIndex = 15;
@@ -655,7 +734,7 @@
             // hitOrMissLabel
             // 
             this.hitOrMissLabel.AutoSize = true;
-            this.hitOrMissLabel.Location = new System.Drawing.Point(126, 80);
+            this.hitOrMissLabel.Location = new System.Drawing.Point(89, 80);
             this.hitOrMissLabel.Name = "hitOrMissLabel";
             this.hitOrMissLabel.Size = new System.Drawing.Size(43, 13);
             this.hitOrMissLabel.TabIndex = 12;
@@ -665,7 +744,7 @@
             // totalMissesLabel
             // 
             this.totalMissesLabel.AutoSize = true;
-            this.totalMissesLabel.Location = new System.Drawing.Point(126, 133);
+            this.totalMissesLabel.Location = new System.Drawing.Point(89, 133);
             this.totalMissesLabel.Name = "totalMissesLabel";
             this.totalMissesLabel.Size = new System.Drawing.Size(43, 13);
             this.totalMissesLabel.TabIndex = 13;
@@ -675,7 +754,7 @@
             // totalHitsLabel
             // 
             this.totalHitsLabel.AutoSize = true;
-            this.totalHitsLabel.Location = new System.Drawing.Point(126, 104);
+            this.totalHitsLabel.Location = new System.Drawing.Point(89, 104);
             this.totalHitsLabel.Name = "totalHitsLabel";
             this.totalHitsLabel.Size = new System.Drawing.Size(43, 13);
             this.totalHitsLabel.TabIndex = 14;
@@ -694,7 +773,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(25, 104);
+            this.label29.Location = new System.Drawing.Point(10, 104);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(55, 13);
             this.label29.TabIndex = 4;
@@ -722,7 +801,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(25, 47);
+            this.label24.Location = new System.Drawing.Point(10, 46);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(60, 13);
             this.label24.TabIndex = 1;
@@ -731,7 +810,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(25, 14);
+            this.label23.Location = new System.Drawing.Point(10, 14);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(64, 13);
             this.label23.TabIndex = 0;
@@ -767,6 +846,7 @@
             this.button1.TabIndex = 19;
             this.button1.Text = "2-Way";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -777,84 +857,92 @@
             this.button2.TabIndex = 20;
             this.button2.Text = "1-Way";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // label31
+            // label35
             // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(189, 17);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(51, 13);
-            this.label31.TabIndex = 17;
-            this.label31.Text = "Write Hit:";
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(686, 34);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(70, 13);
+            this.label35.TabIndex = 21;
+            this.label35.Text = "Cache Index:";
             // 
-            // label32
+            // cacheIndexComboBox
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(189, 44);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(59, 13);
-            this.label32.TabIndex = 18;
-            this.label32.Text = "Write Miss:";
+            this.cacheIndexComboBox.FormattingEnabled = true;
+            this.cacheIndexComboBox.Location = new System.Drawing.Point(762, 35);
+            this.cacheIndexComboBox.Name = "cacheIndexComboBox";
+            this.cacheIndexComboBox.Size = new System.Drawing.Size(43, 21);
+            this.cacheIndexComboBox.TabIndex = 22;
             // 
-            // label33
+            // label36
             // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(25, 133);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(69, 13);
-            this.label33.TabIndex = 19;
-            this.label33.Text = "Total Misses:";
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(826, 34);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(71, 13);
+            this.label36.TabIndex = 23;
+            this.label36.Text = "Cache Value:";
             // 
-            // label34
+            // cacheValueLabel
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(25, 80);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(49, 13);
-            this.label34.TabIndex = 20;
-            this.label34.Text = "Hit/Miss:";
+            this.cacheValueLabel.AutoSize = true;
+            this.cacheValueLabel.Location = new System.Drawing.Point(904, 35);
+            this.cacheValueLabel.Name = "cacheValueLabel";
+            this.cacheValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.cacheValueLabel.TabIndex = 24;
+            this.cacheValueLabel.Text = "0";
             // 
-            // writeHitLabel
+            // label37
             // 
-            this.writeHitLabel.AutoSize = true;
-            this.writeHitLabel.Location = new System.Drawing.Point(257, 14);
-            this.writeHitLabel.Name = "writeHitLabel";
-            this.writeHitLabel.Size = new System.Drawing.Size(22, 13);
-            this.writeHitLabel.TabIndex = 21;
-            this.writeHitLabel.Text = "-----";
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(767, 66);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(115, 13);
+            this.label37.TabIndex = 25;
+            this.label37.Text = "Actual Index on Stack:";
+            this.label37.Click += new System.EventHandler(this.label37_Click);
             // 
-            // writeMissLabel
+            // cacheTagLabel
             // 
-            this.writeMissLabel.AutoSize = true;
-            this.writeMissLabel.Location = new System.Drawing.Point(257, 44);
-            this.writeMissLabel.Name = "writeMissLabel";
-            this.writeMissLabel.Size = new System.Drawing.Size(22, 13);
-            this.writeMissLabel.TabIndex = 22;
-            this.writeMissLabel.Text = "-----";
+            this.cacheTagLabel.AutoSize = true;
+            this.cacheTagLabel.Location = new System.Drawing.Point(904, 66);
+            this.cacheTagLabel.Name = "cacheTagLabel";
+            this.cacheTagLabel.Size = new System.Drawing.Size(13, 13);
+            this.cacheTagLabel.TabIndex = 26;
+            this.cacheTagLabel.Text = "0";
             // 
-            // readHitLabel
+            // label38
             // 
-            this.readHitLabel.AutoSize = true;
-            this.readHitLabel.Location = new System.Drawing.Point(257, 69);
-            this.readHitLabel.Name = "readHitLabel";
-            this.readHitLabel.Size = new System.Drawing.Size(22, 13);
-            this.readHitLabel.TabIndex = 23;
-            this.readHitLabel.Text = "-----";
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(189, 113);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(63, 13);
+            this.label38.TabIndex = 25;
+            this.label38.Text = "Spatial Hits:";
+            this.label38.Click += new System.EventHandler(this.label38_Click);
             // 
-            // readMissLabel
+            // spatialHitsLabel
             // 
-            this.readMissLabel.AutoSize = true;
-            this.readMissLabel.Location = new System.Drawing.Point(257, 92);
-            this.readMissLabel.Name = "readMissLabel";
-            this.readMissLabel.Size = new System.Drawing.Size(22, 13);
-            this.readMissLabel.TabIndex = 24;
-            this.readMissLabel.Text = "-----";
+            this.spatialHitsLabel.AutoSize = true;
+            this.spatialHitsLabel.Location = new System.Drawing.Point(257, 113);
+            this.spatialHitsLabel.Name = "spatialHitsLabel";
+            this.spatialHitsLabel.Size = new System.Drawing.Size(22, 13);
+            this.spatialHitsLabel.TabIndex = 26;
+            this.spatialHitsLabel.Text = "-----";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 382);
+            this.ClientSize = new System.Drawing.Size(941, 382);
+            this.Controls.Add(this.cacheTagLabel);
+            this.Controls.Add(this.label37);
+            this.Controls.Add(this.cacheValueLabel);
+            this.Controls.Add(this.label36);
+            this.Controls.Add(this.cacheIndexComboBox);
+            this.Controls.Add(this.label35);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label28);
@@ -962,6 +1050,14 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.ComboBox cacheIndexComboBox;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label cacheValueLabel;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label cacheTagLabel;
+        private System.Windows.Forms.Label spatialHitsLabel;
+        private System.Windows.Forms.Label label38;
     }
 }
 

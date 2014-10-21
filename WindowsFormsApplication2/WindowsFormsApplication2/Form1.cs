@@ -22,6 +22,7 @@ namespace WindowsFormsApplication2
         public CPU myCPU;
         public Memory memory;
         int instructionCount = 0;
+        bool addressMode = false; // default 1 way
 
         public Form1()
         {
@@ -29,14 +30,21 @@ namespace WindowsFormsApplication2
             InitializeComponent();
             fillMemComboBox();
             fillCacheSizeComboBox();
+            fillBlockSizeComboBox();
 
             cacheSizeBox.SelectedIndex = 0;
 
-            memory = new Memory(2, false);
+            memory = new Memory((int)(cacheSizeBox.SelectedItem), (int)(blockSizeBox.SelectedItem), addressMode);
             myCPU = new CPU(memory);
 
-            this.zeroLabel.Text = "0x" + this.myCPU.ZERO.ToString("X8");
-            this.oneLabel.Text = "0x" + this.myCPU.ONE.ToString("X8");
+            fillCacheIndexComboBox();
+
+            this.zeroLabel.Text = this.myCPU.ZERO.ToString();
+            this.oneLabel.Text = this.myCPU.ONE.ToString();
+
+            //Starts with 1 way mode highlighted
+            button2_Click(null, null);
+
 
 #if DEBUG
             loadFileButton.Text = "Load File";
@@ -143,13 +151,13 @@ namespace WindowsFormsApplication2
         {
 
             this.accLabel.Text = this.myCPU.ACC.ToString();
-            this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X8");
-            this.tempLabel.Text = "0x" + this.myCPU.TEMP.ToString("X8");
+            this.pcLabel.Text = this.myCPU.PC.ToString();
+            this.tempLabel.Text = this.myCPU.TEMP.ToString();
             if (myCPU.PC < Memory.getBinaryInstructions().Count)
             {
-                this.irLabel.Text = "0x" + Memory.getBinaryInstructions().ElementAt(myCPU.PC).ToString("X8");
+                this.irLabel.Text = Memory.getBinaryInstructions().ElementAt(myCPU.PC).ToString();
             }
-            this.ccLabel.Text = "0x" + this.myCPU.CC.ToString("X8");
+            this.ccLabel.Text = this.myCPU.CC.ToString();
         }
 
         public void setCacheLabelsToView()
@@ -160,13 +168,18 @@ namespace WindowsFormsApplication2
             this.writeHitLabel.Text = this.myCPU.memory.writeHitCounter.ToString();
             this.totalHitsLabel.Text = (this.myCPU.memory.readHitCounter + this.myCPU.memory.writeHitCounter).ToString();
             this.totalMissesLabel.Text = (this.myCPU.memory.readMissCounter + this.myCPU.memory.writeMissCounter).ToString();
+            var index = this.cacheIndexComboBox.SelectedIndex;
+            cacheValueLabel.Text = (((this.myCPU.memory.cache[index]) & 16711680) >> 16).ToString();
+            cacheTagLabel.Text = (this.myCPU.memory.getTagAtCacheIndex(index)).ToString();
+            this.hitOrMissLabel.Text = this.myCPU.memory.hitOrMiss;
+            this.spatialHitsLabel.Text = this.myCPU.memory.spatialCounter.ToString();
 
         }
 
         public void resetGUI()
         {
             this.myCPU.reset();
-            memory = new Memory( (int)(this.cacheSizeBox.SelectedItem), false );
+            memory = new Memory( (int)(this.cacheSizeBox.SelectedItem), (int)(this.blockSizeBox.SelectedItem), addressMode );
             this.myCPU.memory = memory;
             setCPUValuesToView();
             setCacheLabelsToView();
@@ -176,13 +189,15 @@ namespace WindowsFormsApplication2
             this.previousInstructionLabel.Text = "--------------------------------";
             this.instructionCount = 0;
             this.currInstructionCountLabel.Text = instructionCount.ToString();
-            this.pcLabel.Text = "0x" + this.myCPU.PC.ToString("X8");
-            this.accLabel.Text = "0x" + this.myCPU.ACC.ToString("X8");
-            this.aLabel.Text = "0x" + this.myCPU.ACC.ToString("X8");
-            this.ccLabel.Text = "0x" + this.myCPU.ACC.ToString("X8");
+            this.pcLabel.Text =  this.myCPU.PC.ToString();
+            this.accLabel.Text = this.myCPU.ACC.ToString();
+            this.aLabel.Text = this.myCPU.ACC.ToString();
+            this.ccLabel.Text = this.myCPU.ACC.ToString();
             this.totalInstructionCountLabel.Text = "0";
             this.fileNameLabel.Text = "...";
-            this.irLabel.Text = "0x" + "00000000";
+            this.irLabel.Text = "0";
+            this.cacheIndexComboBox.Items.Clear();
+            fillCacheIndexComboBox();
             
         }
 
@@ -199,6 +214,19 @@ namespace WindowsFormsApplication2
             this.memComboBox.SelectedIndex = 0;
         }
 
+        public void fillCacheIndexComboBox()
+        {
+            this.cacheIndexComboBox.SelectedIndexChanged +=
+                new System.EventHandler(ComboBox3_SelectedIndexChanged);
+
+            for (int i = 0; i < this.myCPU.memory.cacheSize; i++)
+            {
+                this.cacheIndexComboBox.Items.Add(i);
+            }
+
+            this.cacheIndexComboBox.SelectedIndex = 0;
+        }
+
         public void fillCacheSizeComboBox()
         {
             this.cacheSizeBox.SelectedIndexChanged +=
@@ -209,6 +237,16 @@ namespace WindowsFormsApplication2
             this.cacheSizeBox.Items.Add(8);
             this.cacheSizeBox.Items.Add(16);
             this.cacheSizeBox.SelectedIndex = 0;
+        }
+
+        public void fillBlockSizeComboBox()
+        {
+            this.blockSizeBox.SelectedIndexChanged +=
+                new System.EventHandler(blockSizeBox_SelectedIndexChanged);
+
+            this.blockSizeBox.Items.Add(1);
+            this.blockSizeBox.Items.Add(2);
+            this.blockSizeBox.SelectedIndex = 0;
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -254,6 +292,19 @@ namespace WindowsFormsApplication2
         private void label18_Click(object sender, EventArgs e)
         {
         }
+        private void button1_Click(object sender, EventArgs e) 
+        {//2way
+            addressMode = true;
+            button1.BackColor = Color.LightYellow;
+            button2.BackColor = resetButton.BackColor;
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {//1way
+            addressMode = false;
+            button2.BackColor = Color.LightYellow;
+            button1.BackColor = resetButton.BackColor;
+        }
+
 
         private void ComboBox1_SelectedIndexChanged(object sender,
         System.EventArgs e)
@@ -265,15 +316,22 @@ namespace WindowsFormsApplication2
         private void comboBox2_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             var index = this.cacheSizeBox.SelectedIndex;
-            Debug.WriteLine("Cachesizebos selected index is " + index);
+            //Debug.WriteLine("Cachesizebos selected index is " + index);
             Memory.setCacheStackPointer(index);
-            Debug.WriteLine("Got here");
+            //Debug.WriteLine("Got here");
+        }
+
+        private void ComboBox3_SelectedIndexChanged(object sender,
+        System.EventArgs e)
+        {
+            var index = this.cacheIndexComboBox.SelectedIndex;
+            cacheValueLabel.Text = (((this.myCPU.memory.cache[index]) & 16711680) >> 16).ToString();
+            cacheTagLabel.Text = (this.myCPU.memory.getTagAtCacheIndex(index)).ToString();
         }
 
         private void blockSizeBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var index = this.blockSizeBox.SelectedIndex;
-            Debug.WriteLine("Got here1");
             //Memory.setBlockSize(index);
         }
 
@@ -353,6 +411,16 @@ namespace WindowsFormsApplication2
         }
 
         private void currMemValueLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label37_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label38_Click(object sender, EventArgs e)
         {
 
         }
