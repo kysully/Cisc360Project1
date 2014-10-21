@@ -77,6 +77,14 @@
             this.label21 = new System.Windows.Forms.Label();
             this.currMemValueLabel = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.readMissLabel = new System.Windows.Forms.Label();
+            this.readHitLabel = new System.Windows.Forms.Label();
+            this.writeMissLabel = new System.Windows.Forms.Label();
+            this.writeHitLabel = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.cacheSizeBox = new System.Windows.Forms.ComboBox();
             this.blockSizeBox = new System.Windows.Forms.ComboBox();
             this.hitOrMissLabel = new System.Windows.Forms.Label();
@@ -92,14 +100,6 @@
             this.label28 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.writeHitLabel = new System.Windows.Forms.Label();
-            this.writeMissLabel = new System.Windows.Forms.Label();
-            this.readHitLabel = new System.Windows.Forms.Label();
-            this.readMissLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -130,7 +130,7 @@
             // 
             // loadFileButton
             // 
-            this.loadFileButton.Location = new System.Drawing.Point(334, 35);
+            this.loadFileButton.Location = new System.Drawing.Point(422, 50);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(100, 25);
@@ -631,6 +631,78 @@
             this.panel3.TabIndex = 10;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
+            // readMissLabel
+            // 
+            this.readMissLabel.AutoSize = true;
+            this.readMissLabel.Location = new System.Drawing.Point(257, 92);
+            this.readMissLabel.Name = "readMissLabel";
+            this.readMissLabel.Size = new System.Drawing.Size(22, 13);
+            this.readMissLabel.TabIndex = 24;
+            this.readMissLabel.Text = "-----";
+            // 
+            // readHitLabel
+            // 
+            this.readHitLabel.AutoSize = true;
+            this.readHitLabel.Location = new System.Drawing.Point(257, 69);
+            this.readHitLabel.Name = "readHitLabel";
+            this.readHitLabel.Size = new System.Drawing.Size(22, 13);
+            this.readHitLabel.TabIndex = 23;
+            this.readHitLabel.Text = "-----";
+            // 
+            // writeMissLabel
+            // 
+            this.writeMissLabel.AutoSize = true;
+            this.writeMissLabel.Location = new System.Drawing.Point(257, 44);
+            this.writeMissLabel.Name = "writeMissLabel";
+            this.writeMissLabel.Size = new System.Drawing.Size(22, 13);
+            this.writeMissLabel.TabIndex = 22;
+            this.writeMissLabel.Text = "-----";
+            // 
+            // writeHitLabel
+            // 
+            this.writeHitLabel.AutoSize = true;
+            this.writeHitLabel.Location = new System.Drawing.Point(257, 14);
+            this.writeHitLabel.Name = "writeHitLabel";
+            this.writeHitLabel.Size = new System.Drawing.Size(22, 13);
+            this.writeHitLabel.TabIndex = 21;
+            this.writeHitLabel.Text = "-----";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(25, 80);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(49, 13);
+            this.label34.TabIndex = 20;
+            this.label34.Text = "Hit/Miss:";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(25, 133);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(69, 13);
+            this.label33.TabIndex = 19;
+            this.label33.Text = "Total Misses:";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(189, 44);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(59, 13);
+            this.label32.TabIndex = 18;
+            this.label32.Text = "Write Miss:";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(189, 17);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(51, 13);
+            this.label31.TabIndex = 17;
+            this.label31.Text = "Write Hit:";
+            // 
             // cacheSizeBox
             // 
             this.cacheSizeBox.FormattingEnabled = true;
@@ -777,78 +849,6 @@
             this.button2.TabIndex = 20;
             this.button2.Text = "1-Way";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(189, 17);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(51, 13);
-            this.label31.TabIndex = 17;
-            this.label31.Text = "Write Hit:";
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(189, 44);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(59, 13);
-            this.label32.TabIndex = 18;
-            this.label32.Text = "Write Miss:";
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(25, 133);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(69, 13);
-            this.label33.TabIndex = 19;
-            this.label33.Text = "Total Misses:";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(25, 80);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(49, 13);
-            this.label34.TabIndex = 20;
-            this.label34.Text = "Hit/Miss:";
-            // 
-            // writeHitLabel
-            // 
-            this.writeHitLabel.AutoSize = true;
-            this.writeHitLabel.Location = new System.Drawing.Point(257, 14);
-            this.writeHitLabel.Name = "writeHitLabel";
-            this.writeHitLabel.Size = new System.Drawing.Size(22, 13);
-            this.writeHitLabel.TabIndex = 21;
-            this.writeHitLabel.Text = "-----";
-            // 
-            // writeMissLabel
-            // 
-            this.writeMissLabel.AutoSize = true;
-            this.writeMissLabel.Location = new System.Drawing.Point(257, 44);
-            this.writeMissLabel.Name = "writeMissLabel";
-            this.writeMissLabel.Size = new System.Drawing.Size(22, 13);
-            this.writeMissLabel.TabIndex = 22;
-            this.writeMissLabel.Text = "-----";
-            // 
-            // readHitLabel
-            // 
-            this.readHitLabel.AutoSize = true;
-            this.readHitLabel.Location = new System.Drawing.Point(257, 69);
-            this.readHitLabel.Name = "readHitLabel";
-            this.readHitLabel.Size = new System.Drawing.Size(22, 13);
-            this.readHitLabel.TabIndex = 23;
-            this.readHitLabel.Text = "-----";
-            // 
-            // readMissLabel
-            // 
-            this.readMissLabel.AutoSize = true;
-            this.readMissLabel.Location = new System.Drawing.Point(257, 92);
-            this.readMissLabel.Name = "readMissLabel";
-            this.readMissLabel.Size = new System.Drawing.Size(22, 13);
-            this.readMissLabel.TabIndex = 24;
-            this.readMissLabel.Text = "-----";
             // 
             // Form1
             // 
