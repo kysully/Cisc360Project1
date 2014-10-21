@@ -28,6 +28,7 @@ namespace GeminiCore
             PC = 0;
             TEMP = 0;
             //We store a reference to main memory so the CPU can interact with it
+            //essentially simulating the CPU making calls to memory.
             this.memory = memory;
         }
 

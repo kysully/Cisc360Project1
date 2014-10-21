@@ -115,7 +115,6 @@ namespace WindowsFormsApplication2
                     this.setCacheLabelsToView();
                     this.currInstructionCountLabel.Text = this.totalInstructionCountLabel.Text;
                     MessageBox.Show("The loaded assembly program has finished.");
-
                 }
 
                 this.setCPUValuesToView();
@@ -128,14 +127,12 @@ namespace WindowsFormsApplication2
             else
             {
                 this.currentInstructionLabel.Text = "--------------------------------";
-
             }
             
         }
 
         private void runAllButton_Click(object sender, EventArgs e)
         {
-            //Debug.Write("test");
             while (this.myCPU.PC < Memory.getBinaryInstructions().Count)
             {
                 nextInstructionButton_Click(sender, e);
@@ -160,6 +157,9 @@ namespace WindowsFormsApplication2
             this.ccLabel.Text = this.myCPU.CC.ToString();
         }
 
+        /////////////////////////////////////////////////////////////////
+        //New to Project 2, method which handles updating cache labels///
+        /////////////////////////////////////////////////////////////////
         public void setCacheLabelsToView()
         {
             this.readHitLabel.Text = this.myCPU.memory.readHitCounter.ToString();
@@ -214,6 +214,9 @@ namespace WindowsFormsApplication2
             this.memComboBox.SelectedIndex = 0;
         }
 
+        ////////////////////////////////////////////////////////////////
+        //New to Project 2, method which handles cache index combo box//
+        ////////////////////////////////////////////////////////////////
         public void fillCacheIndexComboBox()
         {
             this.cacheIndexComboBox.SelectedIndexChanged +=
@@ -227,6 +230,9 @@ namespace WindowsFormsApplication2
             this.cacheIndexComboBox.SelectedIndex = 0;
         }
 
+        ///////////////////////////////////////////////////////////////
+        //New to Project 2, method which handles cache size combo box//
+        ///////////////////////////////////////////////////////////////
         public void fillCacheSizeComboBox()
         {
             this.cacheSizeBox.SelectedIndexChanged +=
@@ -239,6 +245,9 @@ namespace WindowsFormsApplication2
             this.cacheSizeBox.SelectedIndex = 0;
         }
 
+        ///////////////////////////////////////////////////////////////
+        //New to Project 2, method which handles block size combo box//
+        ///////////////////////////////////////////////////////////////
         public void fillBlockSizeComboBox()
         {
             this.blockSizeBox.SelectedIndexChanged +=
