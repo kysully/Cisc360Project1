@@ -424,15 +424,12 @@ namespace WindowsFormsApplication2
 
         }
 
-        private void label37_Click(object sender, EventArgs e)
+        private void label47_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void label38_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
     }
 }
