@@ -23,7 +23,7 @@ namespace WindowsFormsApplication2
         public Memory memory;
         int instructionCount = 0;
         bool addressMode = false; // default 1 way
-        List<short> instructionsInPipeline;
+        Queue<String> instructionsInPipeline;
 
         public Form1()
         {
@@ -38,7 +38,7 @@ namespace WindowsFormsApplication2
             memory = new Memory((int)(cacheSizeBox.SelectedItem), (int)(blockSizeBox.SelectedItem), addressMode);
             myCPU = new CPU(memory);
             myCPU.OnFetchDone += myCPU_OnFetchDone;
-            instructionsInPipeline = new List<short>(5);
+            instructionsInPipeline = new Queue<String>(5);
 
             fillCacheIndexComboBox();
 
@@ -60,6 +60,8 @@ namespace WindowsFormsApplication2
             {
                 Console.WriteLine("Fetch Done in GUI " + this.myCPU.ACC);
                 this.irLabel.Text = args.CurrentIR.ToString();
+                String instructionText = Memory.getAssemblyInstructions().ElementAt(args.CurrentInstructionIndex);
+                this.instructionsInPipeline.Enqueue(instructionText);
 
             };
 
