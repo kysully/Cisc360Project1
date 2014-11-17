@@ -23,6 +23,7 @@ namespace WindowsFormsApplication2
         public Memory memory;
         int instructionCount = 0;
         bool addressMode = false; // default 1 way
+        List<short> instructionsInPipeline;
 
         public Form1()
         {
@@ -36,6 +37,8 @@ namespace WindowsFormsApplication2
 
             memory = new Memory((int)(cacheSizeBox.SelectedItem), (int)(blockSizeBox.SelectedItem), addressMode);
             myCPU = new CPU(memory);
+            myCPU.OnFetchDone += myCPU_OnFetchDone;
+            instructionsInPipeline = new List<short>(5);
 
             fillCacheIndexComboBox();
 
@@ -49,6 +52,25 @@ namespace WindowsFormsApplication2
 #if DEBUG
             loadFileButton.Text = "Load File";
 #endif
+        }
+
+        void myCPU_OnFetchDone(object sender, FetchEventArgs args)
+        {
+            MethodInvoker method = delegate
+            {
+                Console.WriteLine("Fetch Done in GUI " + this.myCPU.ACC);
+                this.irLabel.Text = args.CurrentIR.ToString();
+
+            };
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method.Invoke();
+            }
         }
 
         #region Events
@@ -95,7 +117,7 @@ namespace WindowsFormsApplication2
         {
             if ((this.myCPU.PC) < (Memory.getBinaryInstructions().Count))
             {
-                this.myCPU.nextInstruction();
+                this.myCPU.nextInstructionPipeline();//used to be nextInstruction
                 this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
 
                 var temp = (this.previousInstructionLabel.Text).Substring(0, 3);
