@@ -3,34 +3,186 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
+using System.Threading;
+
 
 
 namespace GeminiCore
 {
-    public class CPU
+    public class CPU : IDisposable
     {
         public int ACC { get; private set; }
-        public short A { get; private set; }
-        public short B { get; private set; }
         public short PC { get; private set; }
+        public short IR { get; private set; }
         public int TEMP { get; private set; }
         public short CC { get; private set; }
         public readonly short ONE = 1;
         public readonly short ZERO = 0;
         public Memory memory;
+
+        /////////////////////////////////////////////////////////////////
+        ///New to Project 3, threads for the four stages of pipelining///
+        /////////////////////////////////////////////////////////////////
+        public short IR_D { get; set; }//short since our instructions are shorts
+        public int F_Counter { get; set; }
+
+        Thread fetchThread;
+        AutoResetEvent fetchEvent = new AutoResetEvent(false);
+        Thread decodeThread;
+        AutoResetEvent decodeEvent = new AutoResetEvent(false);
+        Thread executeThread;
+        AutoResetEvent executeEvent = new AutoResetEvent(false);
+        Thread storeThread;
+        AutoResetEvent storeEvent = new AutoResetEvent(false);
+
+        public delegate void FetchDone(object sender, FetchEventArgs args);
+        public event FetchDone OnFetchDone;
+
+        bool areWeDone = false;
+
         public CPU(Memory memory)
         {
             ACC = 0;
             PC = 0;
             TEMP = 0;
+            F_Counter = 0;
             //We store a reference to main memory so the CPU can interact with it
             //essentially simulating the CPU making calls to memory.
             this.memory = memory;
+            
+            ///Initlialize all the new threads for pipelining
+            IR_D = 0;//default to NOP
+
+            fetchThread = new Thread(new ThreadStart(PerformFetch));
+            fetchThread.Name = "Fetch Thread";
+            fetchThread.Start();
+
+            decodeThread = new Thread(new ThreadStart(PerformDecode));
+            decodeThread.Name = "Decode Thread";
+            decodeThread.Start();
+
+            executeThread = new Thread(new ThreadStart(PerformExecute));
+            executeThread.Name = "Execute Thread";
+            executeThread.Start();
+
+            storeThread = new Thread(new ThreadStart(PerformStore));
+            storeThread.Name = "Store Thread";
+            storeThread.Start();
         }
+
+        //Takes a 16 bit binary instruction and decodes it into
+        // opcode, command, flag, and value
+        public class DecodedInstruction
+        {
+            public String opcode { get; private set; }
+            public String command { get; private set; }
+            public String flag { get; private set; }
+            public String valueString { get; private set; }
+            public short value { get; private set; }
+            public short binary { get; private set; }
+            public DecodedInstruction(short binary){
+                //Decodes the binary
+                String binaryString = Convert.ToString(binary, 2).PadLeft(16, '0');
+                this.binary = binary;
+                opcode = binaryString.Substring(0, 3);
+                command = binaryString.Substring(3, 4);
+                flag = binaryString.Substring(7, 1);
+                String valueRaw = binaryString.Substring(8, 8);
+                value = Convert.ToInt16(valueRaw, 2);
+            }
+        }
+
+        /////////////////////////////////////////////////////////////////
+        ///New to Project 3, methods for the four stages of pipelining///
+        /////////////////////////////////////////////////////////////////
+
+        //This should probably be called after the last instruction is completed
+        //aka when we have to reset the CPU
+        public void Dispose()
+        {
+            areWeDone = true;
+            fetchEvent.Set();
+            fetchThread.Join();
+
+            decodeEvent.Set();
+            decodeThread.Join();
+
+            executeEvent.Set();
+            executeThread.Join();
+
+            storeEvent.Set();
+            storeThread.Join();
+        }
+
+        public void nextInstructionPipeline()
+        {
+            if (PC < Memory.getBinaryInstructions().Count)
+            {
+                fetchEvent.Set();
+
+                decodeEvent.Set();
+
+                executeEvent.Set();
+
+                storeEvent.Set();
+                PC++; // do we need to do this here?
+            }
+        }
+
+        private void PerformFetch()
+        {
+            while (!areWeDone)
+            {
+                fetchEvent.WaitOne();
+                fetchEvent.
+                Console.WriteLine("In Fetch");
+                //fetch the instruction here
+                short instruction = Memory.getBinaryInstructions().ElementAt(F_Counter);
+                F_Counter++;
+
+                if (OnFetchDone != null)
+                {
+                    OnFetchDone(this, new FetchEventArgs(this.IR, instruction));
+                }
+            }
+        }
+
+        public void PerformDecode()
+        {
+            while (!areWeDone)
+            {
+                decodeEvent.WaitOne();
+                DecodedInstruction decodedInstr = new DecodedInstruction(this.IR);
+                Console.WriteLine("Just decoded: " + decodedInstr.binary);
+
+                Console.WriteLine("In Decode");
+            }
+        }
+        public void PerformExecute()
+        {
+            while (!areWeDone)
+            {
+                executeEvent.WaitOne();
+                executeInstruction()
+
+                Console.WriteLine("In Execute");
+            }
+        }
+        public void PerformStore()
+        {
+            while (!areWeDone)
+            {
+                storeEvent.WaitOne();
+
+                Console.WriteLine("In Store");
+            }
+        }
+
+        //end new methods for Project 3
 
         
         //Method which resets CPU to default state
@@ -38,6 +190,7 @@ namespace GeminiCore
         {
             ACC = 0;
             PC = 0;
+            F_Counter = 0;
             TEMP = 0;
             CC = 0;
             Memory.clearInstructions();
@@ -64,15 +217,14 @@ namespace GeminiCore
                 return false;
         }
 
-        public void executeBinary(short binInstruction)
+        public void executeInstruction(DecodedInstruction instr)
         {
-            string binaryString = Convert.ToString(binInstruction, 2).PadLeft(16, '0');
-
-            String opcode = binaryString.Substring(0, 3);
-            String command = binaryString.Substring(3, 4);
-            String flag = binaryString.Substring(7, 1);
-            String valueRaw = binaryString.Substring(8, 8);
-            short value = Convert.ToInt16(valueRaw, 2);
+            string binaryString = Convert.ToString(instr.binary, 2).PadLeft(16, '0');
+            String opcode = instr.opcode;
+            String command = instr.command;
+            String flag = instr.flag;
+            short value = instr.value;
+           
 
             Debug.WriteLine("Executing ---->" + binaryString + " O " + opcode + " C " + command + " F " + flag + " V " + value);
 
