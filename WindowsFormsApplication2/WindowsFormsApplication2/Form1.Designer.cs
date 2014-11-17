@@ -170,7 +170,7 @@
             // 
             // loadFileButton
             // 
-            this.loadFileButton.Location = new System.Drawing.Point(529, 35);
+            this.loadFileButton.Location = new System.Drawing.Point(419, 35);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(100, 25);
@@ -444,7 +444,7 @@
             // 
             this.titleLabel.AutoSize = true;
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleLabel.Location = new System.Drawing.Point(451, 9);
+            this.titleLabel.Location = new System.Drawing.Point(352, 9);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(153, 24);
             this.titleLabel.TabIndex = 6;
@@ -595,7 +595,7 @@
             // 
             // resetButton
             // 
-            this.resetButton.Location = new System.Drawing.Point(424, 35);
+            this.resetButton.Location = new System.Drawing.Point(316, 35);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(100, 25);
             this.resetButton.TabIndex = 11;
