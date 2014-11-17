@@ -258,49 +258,7 @@ namespace WindowsFormsApplication2
             this.blockSizeBox.SelectedIndex = 0;
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void accLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void aLabel_Click(object sender, EventArgs e)
-        {
-      
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void bLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void totalInstructionCountLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label18_Click(object sender, EventArgs e)
-        {
-        }
+     
         private void button1_Click(object sender, EventArgs e) 
         {//2way
             addressMode = true;
@@ -344,7 +302,37 @@ namespace WindowsFormsApplication2
             //Memory.setBlockSize(index);
         }
 
-        private void label16_Click(object sender, EventArgs e)
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void accLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void aLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void totalInstructionCountLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label33_Click(object sender, EventArgs e)
         {
 
         }
@@ -355,11 +343,6 @@ namespace WindowsFormsApplication2
         }
 
         private void pcLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label23_Click(object sender, EventArgs e)
         {
 
         }
@@ -379,36 +362,6 @@ namespace WindowsFormsApplication2
 
         }
 
-        private void label23_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label26_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label30_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label29_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label33_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label34_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void cacheSizeLabel_Click(object sender, EventArgs e)
         {
 
@@ -424,11 +377,7 @@ namespace WindowsFormsApplication2
 
         }
 
-        private void label47_Click(object sender, EventArgs e)
-        {
-
-        }
-
+ 
         
 
     }
