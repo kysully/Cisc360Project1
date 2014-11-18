@@ -29,7 +29,7 @@ namespace GeminiCore
         /////////////////////////////////////////////////////////////////
         public short IR_D { get; set; }//short since our instructions are shorts
         private int Fetch_Counter { get; set; }
-        private Queue<short> fetched_instructions;
+        private Queue<short> fetched_instructions, executed_instructions;
         private Queue<DecodedInstruction> decoded_instructions;
         private int Decode_Counter { get; set; }
         private int Execute_Counter { get; set; }
@@ -73,6 +73,7 @@ namespace GeminiCore
             IR_D = 0;//default to NOP
             fetched_instructions = new Queue<short>();
             decoded_instructions = new Queue<DecodedInstruction>();
+            executed_instructions = new Queue<short>();
 
             fetchThread = new Thread(new ThreadStart(PerformFetch));
             fetchThread.Name = "Fetch Thread";
@@ -212,6 +213,7 @@ namespace GeminiCore
                     
                     executeInstruction(instr);
                     Debug.WriteLine("Just executed: " + instr.binary);
+                    executed_instructions.Enqueue(instr.binary);
 
                     if (OnExecuteDone != null)
                     {
@@ -227,11 +229,16 @@ namespace GeminiCore
             {
                 storeEvent.WaitOne();
                 Console.WriteLine("In Store");
-                if (OnStoreDone != null)
+                if (executed_instructions.Count > 0)
                 {
-                    OnStoreDone(this, new StoreEventArgs(Store_Counter));
+                    short binary = executed_instructions.Dequeue();
+                    Console.WriteLine("Performed store on: " + binary);
+                    if (OnStoreDone != null)
+                    {
+                        OnStoreDone(this, new StoreEventArgs(Store_Counter));
+                    }
+                    Store_Counter++;
                 }
-                Store_Counter++;
             }
         }
 
