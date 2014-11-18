@@ -23,7 +23,7 @@ namespace WindowsFormsApplication2
         public Memory memory;
         int instructionCount = 0;
         bool addressMode = false; // default 1 way
-        Queue<String> instructionsInPipeline;
+        Queue<PipelineInstruction> instructionsInPipeline;
 
         public Form1()
         {
@@ -38,7 +38,9 @@ namespace WindowsFormsApplication2
             memory = new Memory((int)(cacheSizeBox.SelectedItem), (int)(blockSizeBox.SelectedItem), addressMode);
             myCPU = new CPU(memory);
             myCPU.OnFetchDone += myCPU_OnFetchDone;
-            instructionsInPipeline = new Queue<String>(5);
+            myCPU.OnDecodeDone += myCPU_OnDecodeDone;
+            myCPU.OnExecuteDone += myCPU_OnExecuteDone;
+            instructionsInPipeline = new Queue<PipelineInstruction>(5);
 
             fillCacheIndexComboBox();
 
@@ -52,6 +54,19 @@ namespace WindowsFormsApplication2
 #if DEBUG
             loadFileButton.Text = "Load File";
 #endif
+        }
+
+        public class PipelineInstruction
+        {
+            public int stage { get; set;}
+            public String instructionText {get; set;}
+            public int instructionIndex { get; set; }
+            public PipelineInstruction(String assemblyInstruction, int instructionIndex)
+            {
+                stage = 0;
+                this.instructionIndex = instructionIndex;
+                this.instructionText = assemblyInstruction;
+            }
         }
 
         void myCPU_OnFetchDone(object sender, FetchEventArgs args)
@@ -68,11 +83,53 @@ namespace WindowsFormsApplication2
                         var temp = this.instructionsInPipeline.Dequeue();
                         Debug.WriteLine("Just dequeued " + temp);
                     }
-                    this.instructionsInPipeline.Enqueue(instructionText);
+                    this.instructionsInPipeline.Enqueue(new PipelineInstruction(instructionText, args.CurrentInstructionIndex));
+                    this.setFetchPipelineLabel(args.CurrentInstructionIndex);
                     this.setPipelineValuesToView();
                 }
                 
 
+            };
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method.Invoke();
+            }
+        }
+
+        void myCPU_OnDecodeDone(object sender, DecodeEventArgs args)
+        {
+            MethodInvoker method = delegate
+            {
+                Console.WriteLine("Decode Done in GUI " + this.myCPU.ACC);
+
+                this.setDecodePipelineLabel(args.CurrentInstructionIndex);
+                setPipelineValuesToView();
+
+            };
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method.Invoke();
+            }
+        }
+
+        private void myCPU_OnExecuteDone(object sender, ExecuteEventArgs args)
+        {
+            MethodInvoker method = delegate
+            {
+                Console.WriteLine("Execute Done in GUI ");
+                this.setExecutePipelineLabel(args.CurrentInstructionIndex);
+                this.setCPUValuesToView();
+                setPipelineValuesToView();
             };
 
             if (this.InvokeRequired)
@@ -110,6 +167,9 @@ namespace WindowsFormsApplication2
                         binaryLines = ipe.readBinaryFromFile(tempFileName);//Read in the binary and load to memory
                         Memory.setBinaryInstructions(binaryLines.ToList());//Load the binary we just read from file into Memory
                         currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(0);
+                        PipelineInstruction temp = new PipelineInstruction(Memory.getAssemblyInstructions().ElementAt(0), 0);
+                        instructionsInPipeline.Enqueue(temp);
+                        this.setPipelineValuesToView();
                         totalInstructionCountLabel.Text = (Memory.getAssemblyInstructions().Count).ToString();
                         instructionCount = 1;
                         currInstructionCountLabel.Text = (this.myCPU.PC+1).ToString();
@@ -182,27 +242,173 @@ namespace WindowsFormsApplication2
        public void setPipelineValuesToView()
        {
            int count = 0;
+           String nullLine = "--------------";
            foreach(var instr in this.instructionsInPipeline){
                Debug.WriteLine("Pipeline value count " + count + " is " + instr);
                switch (count)
                {
                    case 0:
-                       this.pipeline1.Text = instr;
+                       this.pipeline1.Text = instr.instructionText;
+                       switch (instr.stage)
+                       {
+                           case 4:
+                               this.pipeline1Store.Text = "M";
+                               break;
+                           case 3:
+                               this.pipeline1Execute.Text = "X";
+                               break;
+                           case 2:
+                               this.pipeline1Decode.Text = "D";
+                               break;
+                           case 1:
+                               this.pipeline1Fetch.Text = "F";
+                               break;
+                           case 0:
+                               this.pipeline1Store.Text = nullLine;
+                               this.pipeline1Execute.Text = nullLine;
+                               this.pipeline1Decode.Text = nullLine;
+                               this.pipeline1Fetch.Text = nullLine;
+                               break;
+                       }                      
                        break;
                    case 1:
-                       this.pipeline2.Text = instr;
+                       this.pipeline2.Text = instr.instructionText;
+                       switch (instr.stage)
+                       {
+                           case 4:
+                               this.pipeline2Store.Text = "M";
+                               break;
+                           case 3:
+                               this.pipeline2Execute.Text = "X";
+                               break;
+                           case 2:
+                               this.pipeline2Decode.Text = "D";
+                               break;
+                           case 1:
+                               this.pipeline2Fetch.Text = "F";
+                               break;
+                           case 0:
+                               this.pipeline2Store.Text = nullLine;
+                               this.pipeline2Execute.Text = nullLine;
+                               this.pipeline2Decode.Text = nullLine;
+                               this.pipeline2Fetch.Text = nullLine;
+                               break;
+                       }    
                        break;
                    case 2:
-                       this.pipeline3.Text = instr;
+                       this.pipeline3.Text = instr.instructionText;
+                       switch (instr.stage)
+                       {
+                           case 4:
+                               this.pipeline3Store.Text = "M";
+                               break;
+                           case 3:
+                               this.pipeline3Execute.Text = "X";
+                               break;
+                           case 2:
+                               this.pipeline3Decode.Text = "D";
+                               break;
+                           case 1:
+                               this.pipeline3Fetch.Text = "F";
+                               break;
+                           case 0:
+                               this.pipeline3Store.Text = nullLine;
+                               this.pipeline3Execute.Text = nullLine;
+                               this.pipeline3Decode.Text = nullLine;
+                               this.pipeline3Fetch.Text = nullLine;
+                               break;
+                       }    
                        break;
                    case 3:
-                       this.pipeline4.Text = instr;
+                       this.pipeline4.Text = instr.instructionText;
+                       switch (instr.stage)
+                       {
+                           case 4:
+                               this.pipeline4Store.Text = "M";
+                               break;
+                           case 3:
+                               this.pipeline4Execute.Text = "X";
+                               break;
+                           case 2:
+                               this.pipeline4Decode.Text = "D";
+                               break;
+                           case 1:
+                               this.pipeline4Fetch.Text = "F";
+                               break;
+                           case 0:
+                               this.pipeline4Store.Text = nullLine;
+                               this.pipeline4Execute.Text = nullLine;
+                               this.pipeline4Decode.Text = nullLine;
+                               this.pipeline4Fetch.Text = nullLine;
+                               break;
+                       }    
                        break;
                    case 4:
-                       this.pipeline5.Text = instr;
+                       this.pipeline5.Text = instr.instructionText;
+                       switch (instr.stage)
+                       {
+                           case 4:
+                               this.pipeline5Store.Text = "M";
+                               break;
+                           case 3:
+                               this.pipeline5Execute.Text = "X";
+                               break;
+                           case 2:
+                               this.pipeline5Decode.Text = "D";
+                               break;
+                           case 1:
+                               this.pipeline5Fetch.Text = "F";
+                               break;
+                           case 0:
+                               this.pipeline5Store.Text = nullLine;
+                               this.pipeline5Execute.Text = nullLine;
+                               this.pipeline5Decode.Text = nullLine;
+                               this.pipeline5Fetch.Text = nullLine;
+                               break;
+                       }    
                        break;
                }
                count++;
+           }
+       }
+
+       
+
+        //updates the pipeline label indicating the given instruction has been fetched
+       public void setFetchPipelineLabel(int instrIndex)
+       {
+           foreach (var instr in instructionsInPipeline)
+           {
+               //if the instruction at the label is the same instruction that was just decoded
+               //this might break if theres multiple of the same instruction being pipelined
+               if (instr.instructionIndex == instrIndex)
+               {
+                   instr.stage = 1;//fetch stage
+               }
+           }
+       }
+       public void setDecodePipelineLabel(int instrIndex)
+       {
+           foreach (var instr in instructionsInPipeline)
+           {
+               //if the instruction at the label is the same instruction that was just decoded
+               //this might break if theres multiple of the same instruction being pipelined
+               if (instr.instructionIndex == instrIndex)
+               {
+                   instr.stage = 2;//decode stage
+               }
+           }
+       }
+       public void setExecutePipelineLabel(int instrIndex)
+       {
+           foreach (var instr in instructionsInPipeline)
+           {
+               //if the instruction at the label is the same instruction that was just decoded
+               //this might break if theres multiple of the same instruction being pipelined
+               if (instr.instructionIndex == instrIndex)
+               {
+                   instr.stage = 3;//execute stage
+               }
            }
        }
 
@@ -260,14 +466,38 @@ namespace WindowsFormsApplication2
             this.irLabel.Text = "0";
             this.cacheIndexComboBox.Items.Clear();
             fillCacheIndexComboBox();
+            resetPipelineLabels();
+            this.instructionsInPipeline = new Queue<PipelineInstruction>(5);
+            
+        }
+
+        void resetPipelineLabels(){
             String pipelineText = "--------------";
             this.pipeline1.Text = pipelineText;
             this.pipeline2.Text = pipelineText;
             this.pipeline3.Text = pipelineText;
             this.pipeline4.Text = pipelineText;
             this.pipeline5.Text = pipelineText;
-            this.instructionsInPipeline = new Queue<String>(5);
-            
+            this.pipeline1Fetch.Text = pipelineText;
+            this.pipeline2Fetch.Text = pipelineText;
+            this.pipeline3Fetch.Text = pipelineText;
+            this.pipeline4Fetch.Text = pipelineText;
+            this.pipeline5Fetch.Text = pipelineText;
+            this.pipeline1Decode.Text = pipelineText;
+            this.pipeline2Decode.Text = pipelineText;
+            this.pipeline3Decode.Text = pipelineText;
+            this.pipeline4Decode.Text = pipelineText;
+            this.pipeline5Decode.Text = pipelineText;
+            this.pipeline1Execute.Text = pipelineText;
+            this.pipeline2Execute.Text = pipelineText;
+            this.pipeline3Execute.Text = pipelineText;
+            this.pipeline4Execute.Text = pipelineText;
+            this.pipeline5Execute.Text = pipelineText;
+            this.pipeline1Store.Text = pipelineText;
+            this.pipeline2Store.Text = pipelineText;
+            this.pipeline3Store.Text = pipelineText;
+            this.pipeline4Store.Text = pipelineText;
+            this.pipeline5Store.Text = pipelineText;
         }
 
         public void fillMemComboBox()

@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="CPU.cs" />
     <Compile Include="DecodeEventArgs.cs" />
+    <Compile Include="ExecuteEventArgs.cs" />
     <Compile Include="FetchEventArgs.cs" />
     <Compile Include="IPE.cs" />
     <Compile Include="Memory.cs" />

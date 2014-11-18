@@ -29,6 +29,8 @@ namespace GeminiCore
         /////////////////////////////////////////////////////////////////
         public short IR_D { get; set; }//short since our instructions are shorts
         private int Fetch_Counter { get; set; }
+        private Queue<short> fetched_instructions;
+        private Queue<DecodedInstruction> decoded_instructions;
         private int Decode_Counter { get; set; }
         private int Execute_Counter { get; set; }
         private int Store_Counter { get; set; }
@@ -47,6 +49,8 @@ namespace GeminiCore
         public event FetchDone OnFetchDone;
         public delegate void DecodeDone(object sender, DecodeEventArgs args);
         public event DecodeDone OnDecodeDone;
+        public delegate void ExecuteDone(object sender, ExecuteEventArgs args);
+        public event ExecuteDone OnExecuteDone;
 
         bool areWeDone = false;
 
@@ -63,6 +67,8 @@ namespace GeminiCore
             
             ///Initlialize all the new threads for pipelining
             IR_D = 0;//default to NOP
+            fetched_instructions = new Queue<short>();
+            decoded_instructions = new Queue<DecodedInstruction>();
 
             fetchThread = new Thread(new ThreadStart(PerformFetch));
             fetchThread.Name = "Fetch Thread";
@@ -136,7 +142,7 @@ namespace GeminiCore
                 executeEvent.Set();
 
                 storeEvent.Set();
-                PC++; // do we need to do this here?
+                //PC++; // do we need to do this here?
             }
         }
 
@@ -147,14 +153,18 @@ namespace GeminiCore
                 fetchEvent.WaitOne();
                 Console.WriteLine("In Fetch");
                 //fetch the instruction here
-                short instruction = Memory.getBinaryInstructions().ElementAt(Fetch_Counter);
-                Fetch_Counter++;
-                this.IR = instruction;
-                Debug.WriteLine("IR is " + this.IR);
-
-                if (OnFetchDone != null)
+                if (Fetch_Counter < Memory.getBinaryInstructions().Count)
                 {
-                    OnFetchDone(this, new FetchEventArgs(this.IR, Fetch_Counter));
+                    short instruction = Memory.getBinaryInstructions().ElementAt(Fetch_Counter);
+                    fetched_instructions.Enqueue(instruction);
+                    Fetch_Counter++;
+                    this.IR = instruction;
+                    Debug.WriteLine("IR is " + this.IR);
+
+                    if (OnFetchDone != null)
+                    {
+                        OnFetchDone(this, new FetchEventArgs(this.IR, Fetch_Counter));
+                    }
                 }
             }
         }
@@ -165,18 +175,22 @@ namespace GeminiCore
             {
                 decodeEvent.WaitOne();
                 Console.WriteLine("In Decode");
-                short instr = Memory.getBinaryInstructions().ElementAt(Decode_Counter);
-                Decode_Counter++;
-                Console.WriteLine("Decode counter is: " + Decode_Counter);
-                DecodedInstruction decodedInstr = new DecodedInstruction(instr);
-                Decode_IR = decodedInstr;
-                Console.WriteLine("Just decoded: " + decodedInstr.binary);
-
-                if (OnDecodeDone != null)
+                if (fetched_instructions.Count > 0)
                 {
-                    OnDecodeDone(this, new DecodeEventArgs(decodedInstr, Decode_Counter));
-                }
+                    short instr = fetched_instructions.Dequeue();
+                    Decode_Counter++;
+                    Console.WriteLine("Decode counter is: " + Decode_Counter);
+                    DecodedInstruction decodedInstr = new DecodedInstruction(instr);
+                    decoded_instructions.Enqueue(decodedInstr);
+                    Decode_IR = decodedInstr;
+                    Console.WriteLine("Just decoded: " + decodedInstr.binary);
 
+                    if (OnDecodeDone != null)
+                    {
+                        OnDecodeDone(this, new DecodeEventArgs(decodedInstr, Decode_Counter));
+                    }
+                }
+                
                 
             }
         }
@@ -186,10 +200,18 @@ namespace GeminiCore
             {
                 executeEvent.WaitOne();
                 Console.WriteLine("In Execute");
-                DecodedInstruction instr = new DecodedInstruction(Memory.getBinaryInstructions().ElementAt(Execute_Counter));
-                Execute_Counter++;
-                executeInstruction(instr);
-                Debug.WriteLine("Just executed: " + instr.binary);
+                if (decoded_instructions.Count > 0)
+                {
+                    DecodedInstruction instr = decoded_instructions.Dequeue();
+                    Execute_Counter++;
+                    executeInstruction(instr);
+                    Debug.WriteLine("Just executed: " + instr.binary);
+
+                    if (OnExecuteDone != null)
+                    {
+                        OnExecuteDone(this, new ExecuteEventArgs());
+                    }
+                }                
             }
         }
         public void PerformStore()
@@ -241,6 +263,8 @@ namespace GeminiCore
 
         public void executeInstruction(DecodedInstruction instr)
         {
+
+            PC++;
             string binaryString = Convert.ToString(instr.binary, 2).PadLeft(16, '0');
             String opcode = instr.opcode;
             String command = instr.command;
@@ -248,7 +272,7 @@ namespace GeminiCore
             short value = instr.value;
            
 
-            Debug.WriteLine("Executing ---->" + binaryString + " O " + opcode + " C " + command + " F " + flag + " V " + value);
+            Console.WriteLine("Executing ---->" + binaryString + " O " + opcode + " C " + command + " F " + flag + " V " + value);
 
             switch (opcode)
             {
@@ -262,7 +286,7 @@ namespace GeminiCore
                         Debug.WriteLine("HLT has been reached");
                         return;
                     }
-                    break;
+                    //break;
                 case "001":// ------------GROUP2
                     if(command == "0001"){ //LDA
                         if(flag == "1"){
