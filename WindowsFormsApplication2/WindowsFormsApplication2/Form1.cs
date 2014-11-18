@@ -40,6 +40,7 @@ namespace WindowsFormsApplication2
             myCPU.OnFetchDone += myCPU_OnFetchDone;
             myCPU.OnDecodeDone += myCPU_OnDecodeDone;
             myCPU.OnExecuteDone += myCPU_OnExecuteDone;
+            myCPU.OnStoreDone += myCPU_OnStoreDone;
             instructionsInPipeline = new Queue<PipelineInstruction>(5);
 
             fillCacheIndexComboBox();
@@ -131,6 +132,25 @@ namespace WindowsFormsApplication2
                 Console.WriteLine("Execute Done in GUI ");
                 this.setExecutePipelineLabel(args.CurrentInstructionIndex);
                 this.setCPUValuesToView();
+                setPipelineValuesToView();
+            };
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method.Invoke();
+            }
+        }
+
+        private void myCPU_OnStoreDone(object sender, StoreEventArgs args)
+        {
+            MethodInvoker method = delegate
+            {
+                Console.WriteLine("Store Done in GUI ");
+                this.setStorePipelineLabel(args.CurrentInstructionIndex);
                 setPipelineValuesToView();
             };
 
@@ -255,18 +275,12 @@ namespace WindowsFormsApplication2
                                this.pipeline1Store.Text = "M";
                                break;
                            case 3:
-                               this.pipeline1Store.Text = nullLine;
                                this.pipeline1Execute.Text = "X";
                                break;
                            case 2:
-                               this.pipeline1Store.Text = nullLine;
-                               this.pipeline1Execute.Text = nullLine;
                                this.pipeline1Decode.Text = "D";
                                break;
                            case 1:
-                               this.pipeline1Store.Text = nullLine;
-                               this.pipeline1Execute.Text = nullLine;
-                               this.pipeline1Decode.Text = nullLine;
                                this.pipeline1Fetch.Text = "F";
                                break;
                            case 0:
@@ -285,18 +299,12 @@ namespace WindowsFormsApplication2
                                this.pipeline2Store.Text = "M";
                                break;
                            case 3:
-                               this.pipeline2Store.Text = nullLine;
                                this.pipeline2Execute.Text = "X";
                                break;
                            case 2:
-                               this.pipeline2Store.Text = nullLine;
-                               this.pipeline2Execute.Text = nullLine;
                                this.pipeline2Decode.Text = "D";
                                break;
                            case 1:
-                               this.pipeline2Store.Text = nullLine;
-                               this.pipeline2Execute.Text = nullLine;
-                               this.pipeline2Decode.Text = nullLine;
                                this.pipeline2Fetch.Text = "F";
                                break;
                            case 0:
@@ -422,6 +430,20 @@ namespace WindowsFormsApplication2
                if (instr.instructionIndex == instrIndex)
                {
                    instr.stage = 3;//execute stage
+                   Console.WriteLine(instr.instructionText + " was set to stage " + instr.stage);
+               }
+           }
+       }
+       //updates the pipeline label indicating the given instruction has been store
+       public void setStorePipelineLabel(int instrIndex)
+       {
+           foreach (var instr in instructionsInPipeline)
+           {
+               //if the instruction at the label is the same instruction that was just decoded
+               //this might break if theres multiple of the same instruction being pipelined
+               if (instr.instructionIndex == instrIndex)
+               {
+                   instr.stage = 4;//fetch stage
                    Console.WriteLine(instr.instructionText + " was set to stage " + instr.stage);
                }
            }

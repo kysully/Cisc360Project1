@@ -51,6 +51,8 @@ namespace GeminiCore
         public event DecodeDone OnDecodeDone;
         public delegate void ExecuteDone(object sender, ExecuteEventArgs args);
         public event ExecuteDone OnExecuteDone;
+        public delegate void StoreDone(object sender, StoreEventArgs args);
+        public event StoreDone OnStoreDone;
 
         bool areWeDone = false;
 
@@ -61,6 +63,8 @@ namespace GeminiCore
             TEMP = 0;
             Fetch_Counter = 0;
             Decode_Counter = 0;
+            Execute_Counter = 0;
+            Store_Counter = 0;
             //We store a reference to main memory so the CPU can interact with it
             //essentially simulating the CPU making calls to memory.
             this.memory = memory;
@@ -222,8 +226,12 @@ namespace GeminiCore
             while (!areWeDone)
             {
                 storeEvent.WaitOne();
-
                 Console.WriteLine("In Store");
+                if (OnStoreDone != null)
+                {
+                    OnStoreDone(this, new StoreEventArgs(Store_Counter));
+                }
+                Store_Counter++;
             }
         }
 
@@ -238,6 +246,7 @@ namespace GeminiCore
             Fetch_Counter = 0;
             Decode_Counter = 0;
             Execute_Counter = 0;
+            Store_Counter = 0;
             TEMP = 0;
             CC = 0;
             Memory.clearInstructions();
