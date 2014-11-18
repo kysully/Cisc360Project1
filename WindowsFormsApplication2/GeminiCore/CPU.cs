@@ -157,14 +157,15 @@ namespace GeminiCore
                 {
                     short instruction = Memory.getBinaryInstructions().ElementAt(Fetch_Counter);
                     fetched_instructions.Enqueue(instruction);
-                    Fetch_Counter++;
+  
                     this.IR = instruction;
-                    Debug.WriteLine("IR is " + this.IR);
+                    Console.WriteLine("IR is " + this.IR);
 
                     if (OnFetchDone != null)
                     {
                         OnFetchDone(this, new FetchEventArgs(this.IR, Fetch_Counter));
                     }
+                    Fetch_Counter++;
                 }
             }
         }
@@ -178,7 +179,7 @@ namespace GeminiCore
                 if (fetched_instructions.Count > 0)
                 {
                     short instr = fetched_instructions.Dequeue();
-                    Decode_Counter++;
+                    
                     Console.WriteLine("Decode counter is: " + Decode_Counter);
                     DecodedInstruction decodedInstr = new DecodedInstruction(instr);
                     decoded_instructions.Enqueue(decodedInstr);
@@ -189,6 +190,7 @@ namespace GeminiCore
                     {
                         OnDecodeDone(this, new DecodeEventArgs(decodedInstr, Decode_Counter));
                     }
+                    Decode_Counter++;
                 }
                 
                 
@@ -203,14 +205,15 @@ namespace GeminiCore
                 if (decoded_instructions.Count > 0)
                 {
                     DecodedInstruction instr = decoded_instructions.Dequeue();
-                    Execute_Counter++;
+                    
                     executeInstruction(instr);
                     Debug.WriteLine("Just executed: " + instr.binary);
 
                     if (OnExecuteDone != null)
                     {
-                        OnExecuteDone(this, new ExecuteEventArgs());
+                        OnExecuteDone(this, new ExecuteEventArgs(instr.binary, Execute_Counter));
                     }
+                    Execute_Counter++;
                 }                
             }
         }

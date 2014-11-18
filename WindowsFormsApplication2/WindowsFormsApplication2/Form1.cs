@@ -56,6 +56,8 @@ namespace WindowsFormsApplication2
 #endif
         }
 
+        //This is a helper class to help with the pipeline map view
+        //it includes which stage each instruction is in the pipeline
         public class PipelineInstruction
         {
             public int stage { get; set;}
@@ -167,9 +169,7 @@ namespace WindowsFormsApplication2
                         binaryLines = ipe.readBinaryFromFile(tempFileName);//Read in the binary and load to memory
                         Memory.setBinaryInstructions(binaryLines.ToList());//Load the binary we just read from file into Memory
                         currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(0);
-                        PipelineInstruction temp = new PipelineInstruction(Memory.getAssemblyInstructions().ElementAt(0), 0);
-                        instructionsInPipeline.Enqueue(temp);
-                        this.setPipelineValuesToView();
+                        this.setPipelineValuesToView();//not sure if this is needed
                         totalInstructionCountLabel.Text = (Memory.getAssemblyInstructions().Count).ToString();
                         instructionCount = 1;
                         currInstructionCountLabel.Text = (this.myCPU.PC+1).ToString();
@@ -248,19 +248,25 @@ namespace WindowsFormsApplication2
                switch (count)
                {
                    case 0:
-                       this.pipeline1.Text = instr.instructionText;
+                       this.pipeline1.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
                            case 4:
                                this.pipeline1Store.Text = "M";
                                break;
                            case 3:
+                               this.pipeline1Store.Text = nullLine;
                                this.pipeline1Execute.Text = "X";
                                break;
                            case 2:
+                               this.pipeline1Store.Text = nullLine;
+                               this.pipeline1Execute.Text = nullLine;
                                this.pipeline1Decode.Text = "D";
                                break;
                            case 1:
+                               this.pipeline1Store.Text = nullLine;
+                               this.pipeline1Execute.Text = nullLine;
+                               this.pipeline1Decode.Text = nullLine;
                                this.pipeline1Fetch.Text = "F";
                                break;
                            case 0:
@@ -272,19 +278,25 @@ namespace WindowsFormsApplication2
                        }                      
                        break;
                    case 1:
-                       this.pipeline2.Text = instr.instructionText;
+                       this.pipeline2.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
                            case 4:
                                this.pipeline2Store.Text = "M";
                                break;
                            case 3:
+                               this.pipeline2Store.Text = nullLine;
                                this.pipeline2Execute.Text = "X";
                                break;
                            case 2:
+                               this.pipeline2Store.Text = nullLine;
+                               this.pipeline2Execute.Text = nullLine;
                                this.pipeline2Decode.Text = "D";
                                break;
                            case 1:
+                               this.pipeline2Store.Text = nullLine;
+                               this.pipeline2Execute.Text = nullLine;
+                               this.pipeline2Decode.Text = nullLine;
                                this.pipeline2Fetch.Text = "F";
                                break;
                            case 0:
@@ -296,7 +308,7 @@ namespace WindowsFormsApplication2
                        }    
                        break;
                    case 2:
-                       this.pipeline3.Text = instr.instructionText;
+                       this.pipeline3.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
                            case 4:
@@ -320,7 +332,7 @@ namespace WindowsFormsApplication2
                        }    
                        break;
                    case 3:
-                       this.pipeline4.Text = instr.instructionText;
+                       this.pipeline4.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
                            case 4:
@@ -344,7 +356,7 @@ namespace WindowsFormsApplication2
                        }    
                        break;
                    case 4:
-                       this.pipeline5.Text = instr.instructionText;
+                       this.pipeline5.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
                            case 4:
@@ -384,6 +396,7 @@ namespace WindowsFormsApplication2
                if (instr.instructionIndex == instrIndex)
                {
                    instr.stage = 1;//fetch stage
+                   Console.WriteLine(instr.instructionText + " was set to stage " + instr.stage);
                }
            }
        }
@@ -396,6 +409,7 @@ namespace WindowsFormsApplication2
                if (instr.instructionIndex == instrIndex)
                {
                    instr.stage = 2;//decode stage
+                   Console.WriteLine(instr.instructionText + " was set to stage " + instr.stage);
                }
            }
        }
@@ -408,6 +422,7 @@ namespace WindowsFormsApplication2
                if (instr.instructionIndex == instrIndex)
                {
                    instr.stage = 3;//execute stage
+                   Console.WriteLine(instr.instructionText + " was set to stage " + instr.stage);
                }
            }
        }

@@ -9,11 +9,13 @@ namespace GeminiCore
 {
     public class ExecuteEventArgs : EventArgs
     {
-        public CPU.DecodedInstruction CurrentDecodedInstr { get; set; }
+        public short CurrentInstr { get; set; }
         public int CurrentInstructionIndex { get; set; }
 
-        public ExecuteEventArgs()
+        public ExecuteEventArgs(short binary, int Execute_Counter)
         {
+            this.CurrentInstr = binary;
+            this.CurrentInstructionIndex = Execute_Counter;
         }
     }
 }
