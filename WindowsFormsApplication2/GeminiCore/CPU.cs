@@ -28,7 +28,11 @@ namespace GeminiCore
         ///New to Project 3, threads for the four stages of pipelining///
         /////////////////////////////////////////////////////////////////
         public short IR_D { get; set; }//short since our instructions are shorts
-        public int F_Counter { get; set; }
+        private int Fetch_Counter { get; set; }
+        private int Decode_Counter { get; set; }
+        private int Execute_Counter { get; set; }
+        private int Store_Counter { get; set; }
+        private DecodedInstruction Decode_IR { get; set; }
 
         Thread fetchThread;
         AutoResetEvent fetchEvent = new AutoResetEvent(false);
@@ -41,6 +45,8 @@ namespace GeminiCore
 
         public delegate void FetchDone(object sender, FetchEventArgs args);
         public event FetchDone OnFetchDone;
+        public delegate void DecodeDone(object sender, DecodeEventArgs args);
+        public event DecodeDone OnDecodeDone;
 
         bool areWeDone = false;
 
@@ -49,7 +55,8 @@ namespace GeminiCore
             ACC = 0;
             PC = 0;
             TEMP = 0;
-            F_Counter = 0;
+            Fetch_Counter = 0;
+            Decode_Counter = 0;
             //We store a reference to main memory so the CPU can interact with it
             //essentially simulating the CPU making calls to memory.
             this.memory = memory;
@@ -138,15 +145,16 @@ namespace GeminiCore
             while (!areWeDone)
             {
                 fetchEvent.WaitOne();
-                fetchEvent.
                 Console.WriteLine("In Fetch");
                 //fetch the instruction here
-                short instruction = Memory.getBinaryInstructions().ElementAt(F_Counter);
-                F_Counter++;
+                short instruction = Memory.getBinaryInstructions().ElementAt(Fetch_Counter);
+                Fetch_Counter++;
+                this.IR = instruction;
+                Debug.WriteLine("IR is " + this.IR);
 
                 if (OnFetchDone != null)
                 {
-                    OnFetchDone(this, new FetchEventArgs(this.IR, instruction));
+                    OnFetchDone(this, new FetchEventArgs(this.IR, Fetch_Counter));
                 }
             }
         }
@@ -156,10 +164,20 @@ namespace GeminiCore
             while (!areWeDone)
             {
                 decodeEvent.WaitOne();
-                DecodedInstruction decodedInstr = new DecodedInstruction(this.IR);
+                Console.WriteLine("In Decode");
+                short instr = Memory.getBinaryInstructions().ElementAt(Decode_Counter);
+                Decode_Counter++;
+                Console.WriteLine("Decode counter is: " + Decode_Counter);
+                DecodedInstruction decodedInstr = new DecodedInstruction(instr);
+                Decode_IR = decodedInstr;
                 Console.WriteLine("Just decoded: " + decodedInstr.binary);
 
-                Console.WriteLine("In Decode");
+                if (OnDecodeDone != null)
+                {
+                    OnDecodeDone(this, new DecodeEventArgs(decodedInstr, Decode_Counter));
+                }
+
+                
             }
         }
         public void PerformExecute()
@@ -167,9 +185,11 @@ namespace GeminiCore
             while (!areWeDone)
             {
                 executeEvent.WaitOne();
-                executeInstruction()
-
                 Console.WriteLine("In Execute");
+                DecodedInstruction instr = new DecodedInstruction(Memory.getBinaryInstructions().ElementAt(Execute_Counter));
+                Execute_Counter++;
+                executeInstruction(instr);
+                Debug.WriteLine("Just executed: " + instr.binary);
             }
         }
         public void PerformStore()
@@ -190,7 +210,9 @@ namespace GeminiCore
         {
             ACC = 0;
             PC = 0;
-            F_Counter = 0;
+            Fetch_Counter = 0;
+            Decode_Counter = 0;
+            Execute_Counter = 0;
             TEMP = 0;
             CC = 0;
             Memory.clearInstructions();
@@ -204,7 +226,7 @@ namespace GeminiCore
             if (PC < Memory.getBinaryInstructions().Count)
             {
                 short instruction = Memory.getBinaryInstructions().ElementAt(PC);
-                executeBinary(instruction);
+                //executeBinary(instruction);
                 PC++;
             }
         }
@@ -380,12 +402,18 @@ namespace GeminiCore
                     if (command == "0001"){//BA
                         Debug.WriteLine("BA has been reached");
                         PC = (short)(value-1);
+                        Fetch_Counter = PC;
+                        Decode_Counter = PC;
+                        Execute_Counter = PC;
                     } 
                     if(command == "0010"){//BE
                         Debug.WriteLine("BE has been reached");
                         if (CC == 0)
                         {
                             PC = (short)(value-1);
+                            Fetch_Counter = PC;
+                            Decode_Counter = PC;
+                            Execute_Counter = PC;
                         }
                     } 
                     if(command == "0011"){//BL
@@ -393,6 +421,9 @@ namespace GeminiCore
                         if (CC < 0)
                         {
                             PC = (short)(value-1);
+                            Fetch_Counter = PC;
+                            Decode_Counter = PC;
+                            Execute_Counter = PC;
                         }
                     }
                     if (command == "0100"){//BG
@@ -400,6 +431,9 @@ namespace GeminiCore
                         if (CC > 0)
                         {
                             PC = (short)(value-1);
+                            Fetch_Counter = PC;
+                            Decode_Counter = PC;
+                            Execute_Counter = PC;
                         }
                     }
                     break;

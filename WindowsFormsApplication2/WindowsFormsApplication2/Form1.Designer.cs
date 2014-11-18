@@ -105,26 +105,26 @@
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.label67 = new System.Windows.Forms.Label();
-            this.label66 = new System.Windows.Forms.Label();
-            this.label65 = new System.Windows.Forms.Label();
-            this.label64 = new System.Windows.Forms.Label();
-            this.label63 = new System.Windows.Forms.Label();
-            this.label62 = new System.Windows.Forms.Label();
-            this.label61 = new System.Windows.Forms.Label();
-            this.label60 = new System.Windows.Forms.Label();
-            this.label59 = new System.Windows.Forms.Label();
-            this.label58 = new System.Windows.Forms.Label();
-            this.label57 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label54 = new System.Windows.Forms.Label();
-            this.label52 = new System.Windows.Forms.Label();
-            this.label53 = new System.Windows.Forms.Label();
-            this.label51 = new System.Windows.Forms.Label();
-            this.label50 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.label48 = new System.Windows.Forms.Label();
+            this.pipeline3Store = new System.Windows.Forms.Label();
+            this.pipeline4Store = new System.Windows.Forms.Label();
+            this.pipeline5Store = new System.Windows.Forms.Label();
+            this.pipeline3Execute = new System.Windows.Forms.Label();
+            this.pipeline4Execute = new System.Windows.Forms.Label();
+            this.pipeline5Execute = new System.Windows.Forms.Label();
+            this.pipeline1Store = new System.Windows.Forms.Label();
+            this.pipeline2Decode = new System.Windows.Forms.Label();
+            this.pipeline5Decode = new System.Windows.Forms.Label();
+            this.pipeline1Execute = new System.Windows.Forms.Label();
+            this.pipeline2Execute = new System.Windows.Forms.Label();
+            this.pipeline4Decode = new System.Windows.Forms.Label();
+            this.pipeline2Store = new System.Windows.Forms.Label();
+            this.pipeline3Decode = new System.Windows.Forms.Label();
+            this.pipeline1Decode = new System.Windows.Forms.Label();
+            this.pipeline5Fetch = new System.Windows.Forms.Label();
+            this.pipeline4Fetch = new System.Windows.Forms.Label();
+            this.pipeline3Fetch = new System.Windows.Forms.Label();
+            this.pipeline2Fetch = new System.Windows.Forms.Label();
+            this.pipeline1Fetch = new System.Windows.Forms.Label();
             this.pipeline5 = new System.Windows.Forms.Label();
             this.pipeline3 = new System.Windows.Forms.Label();
             this.pipeline4 = new System.Windows.Forms.Label();
@@ -920,27 +920,27 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel5.Controls.Add(this.label67);
-            this.panel5.Controls.Add(this.label66);
-            this.panel5.Controls.Add(this.label65);
-            this.panel5.Controls.Add(this.label64);
-            this.panel5.Controls.Add(this.label63);
-            this.panel5.Controls.Add(this.label62);
-            this.panel5.Controls.Add(this.label61);
-            this.panel5.Controls.Add(this.label60);
-            this.panel5.Controls.Add(this.label59);
-            this.panel5.Controls.Add(this.label58);
-            this.panel5.Controls.Add(this.label57);
-            this.panel5.Controls.Add(this.label56);
-            this.panel5.Controls.Add(this.label55);
-            this.panel5.Controls.Add(this.label54);
-            this.panel5.Controls.Add(this.label52);
-            this.panel5.Controls.Add(this.label53);
+            this.panel5.Controls.Add(this.pipeline3Store);
+            this.panel5.Controls.Add(this.pipeline4Store);
+            this.panel5.Controls.Add(this.pipeline5Store);
+            this.panel5.Controls.Add(this.pipeline3Execute);
+            this.panel5.Controls.Add(this.pipeline4Execute);
+            this.panel5.Controls.Add(this.pipeline5Execute);
+            this.panel5.Controls.Add(this.pipeline1Store);
+            this.panel5.Controls.Add(this.pipeline2Decode);
+            this.panel5.Controls.Add(this.pipeline5Decode);
+            this.panel5.Controls.Add(this.pipeline1Execute);
+            this.panel5.Controls.Add(this.pipeline2Execute);
+            this.panel5.Controls.Add(this.pipeline4Decode);
+            this.panel5.Controls.Add(this.pipeline2Store);
+            this.panel5.Controls.Add(this.pipeline3Decode);
+            this.panel5.Controls.Add(this.pipeline1Decode);
+            this.panel5.Controls.Add(this.pipeline5Fetch);
             this.panel5.Controls.Add(this.label40);
-            this.panel5.Controls.Add(this.label51);
-            this.panel5.Controls.Add(this.label50);
-            this.panel5.Controls.Add(this.label49);
-            this.panel5.Controls.Add(this.label48);
+            this.panel5.Controls.Add(this.pipeline4Fetch);
+            this.panel5.Controls.Add(this.pipeline3Fetch);
+            this.panel5.Controls.Add(this.pipeline2Fetch);
+            this.panel5.Controls.Add(this.pipeline1Fetch);
             this.panel5.Controls.Add(this.pipeline5);
             this.panel5.Controls.Add(this.pipeline3);
             this.panel5.Controls.Add(this.pipeline4);
@@ -953,185 +953,185 @@
             this.panel5.Size = new System.Drawing.Size(371, 181);
             this.panel5.TabIndex = 24;
             // 
-            // label67
+            // pipeline3Store
             // 
-            this.label67.AutoSize = true;
-            this.label67.Location = new System.Drawing.Point(296, 107);
-            this.label67.Name = "label67";
-            this.label67.Size = new System.Drawing.Size(49, 13);
-            this.label67.TabIndex = 38;
-            this.label67.Text = "--------------";
+            this.pipeline3Store.AutoSize = true;
+            this.pipeline3Store.Location = new System.Drawing.Point(296, 107);
+            this.pipeline3Store.Name = "pipeline3Store";
+            this.pipeline3Store.Size = new System.Drawing.Size(49, 13);
+            this.pipeline3Store.TabIndex = 38;
+            this.pipeline3Store.Text = "--------------";
             // 
-            // label66
+            // pipeline4Store
             // 
-            this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(296, 133);
-            this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(49, 13);
-            this.label66.TabIndex = 37;
-            this.label66.Text = "--------------";
+            this.pipeline4Store.AutoSize = true;
+            this.pipeline4Store.Location = new System.Drawing.Point(296, 133);
+            this.pipeline4Store.Name = "pipeline4Store";
+            this.pipeline4Store.Size = new System.Drawing.Size(49, 13);
+            this.pipeline4Store.TabIndex = 37;
+            this.pipeline4Store.Text = "--------------";
             // 
-            // label65
+            // pipeline5Store
             // 
-            this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(296, 155);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(49, 13);
-            this.label65.TabIndex = 36;
-            this.label65.Text = "--------------";
+            this.pipeline5Store.AutoSize = true;
+            this.pipeline5Store.Location = new System.Drawing.Point(296, 155);
+            this.pipeline5Store.Name = "pipeline5Store";
+            this.pipeline5Store.Size = new System.Drawing.Size(49, 13);
+            this.pipeline5Store.TabIndex = 36;
+            this.pipeline5Store.Text = "--------------";
             // 
-            // label64
+            // pipeline3Execute
             // 
-            this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(232, 107);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(49, 13);
-            this.label64.TabIndex = 35;
-            this.label64.Text = "--------------";
+            this.pipeline3Execute.AutoSize = true;
+            this.pipeline3Execute.Location = new System.Drawing.Point(232, 107);
+            this.pipeline3Execute.Name = "pipeline3Execute";
+            this.pipeline3Execute.Size = new System.Drawing.Size(49, 13);
+            this.pipeline3Execute.TabIndex = 35;
+            this.pipeline3Execute.Text = "--------------";
             // 
-            // label63
+            // pipeline4Execute
             // 
-            this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(232, 133);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(49, 13);
-            this.label63.TabIndex = 34;
-            this.label63.Text = "--------------";
+            this.pipeline4Execute.AutoSize = true;
+            this.pipeline4Execute.Location = new System.Drawing.Point(232, 133);
+            this.pipeline4Execute.Name = "pipeline4Execute";
+            this.pipeline4Execute.Size = new System.Drawing.Size(49, 13);
+            this.pipeline4Execute.TabIndex = 34;
+            this.pipeline4Execute.Text = "--------------";
             // 
-            // label62
+            // pipeline5Execute
             // 
-            this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(232, 155);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(49, 13);
-            this.label62.TabIndex = 33;
-            this.label62.Text = "--------------";
+            this.pipeline5Execute.AutoSize = true;
+            this.pipeline5Execute.Location = new System.Drawing.Point(232, 155);
+            this.pipeline5Execute.Name = "pipeline5Execute";
+            this.pipeline5Execute.Size = new System.Drawing.Size(49, 13);
+            this.pipeline5Execute.TabIndex = 33;
+            this.pipeline5Execute.Text = "--------------";
             // 
-            // label61
+            // pipeline1Store
             // 
-            this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(296, 50);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(49, 13);
-            this.label61.TabIndex = 32;
-            this.label61.Text = "--------------";
+            this.pipeline1Store.AutoSize = true;
+            this.pipeline1Store.Location = new System.Drawing.Point(296, 50);
+            this.pipeline1Store.Name = "pipeline1Store";
+            this.pipeline1Store.Size = new System.Drawing.Size(49, 13);
+            this.pipeline1Store.TabIndex = 32;
+            this.pipeline1Store.Text = "--------------";
             // 
-            // label60
+            // pipeline2Decode
             // 
-            this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(169, 79);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(49, 13);
-            this.label60.TabIndex = 31;
-            this.label60.Text = "--------------";
+            this.pipeline2Decode.AutoSize = true;
+            this.pipeline2Decode.Location = new System.Drawing.Point(169, 79);
+            this.pipeline2Decode.Name = "pipeline2Decode";
+            this.pipeline2Decode.Size = new System.Drawing.Size(49, 13);
+            this.pipeline2Decode.TabIndex = 31;
+            this.pipeline2Decode.Text = "--------------";
             // 
-            // label59
+            // pipeline5Decode
             // 
-            this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(169, 155);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(49, 13);
-            this.label59.TabIndex = 30;
-            this.label59.Text = "--------------";
+            this.pipeline5Decode.AutoSize = true;
+            this.pipeline5Decode.Location = new System.Drawing.Point(169, 155);
+            this.pipeline5Decode.Name = "pipeline5Decode";
+            this.pipeline5Decode.Size = new System.Drawing.Size(49, 13);
+            this.pipeline5Decode.TabIndex = 30;
+            this.pipeline5Decode.Text = "--------------";
             // 
-            // label58
+            // pipeline1Execute
             // 
-            this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(232, 50);
-            this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(49, 13);
-            this.label58.TabIndex = 29;
-            this.label58.Text = "--------------";
+            this.pipeline1Execute.AutoSize = true;
+            this.pipeline1Execute.Location = new System.Drawing.Point(232, 50);
+            this.pipeline1Execute.Name = "pipeline1Execute";
+            this.pipeline1Execute.Size = new System.Drawing.Size(49, 13);
+            this.pipeline1Execute.TabIndex = 29;
+            this.pipeline1Execute.Text = "--------------";
             // 
-            // label57
+            // pipeline2Execute
             // 
-            this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(232, 79);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(49, 13);
-            this.label57.TabIndex = 28;
-            this.label57.Text = "--------------";
+            this.pipeline2Execute.AutoSize = true;
+            this.pipeline2Execute.Location = new System.Drawing.Point(232, 79);
+            this.pipeline2Execute.Name = "pipeline2Execute";
+            this.pipeline2Execute.Size = new System.Drawing.Size(49, 13);
+            this.pipeline2Execute.TabIndex = 28;
+            this.pipeline2Execute.Text = "--------------";
             // 
-            // label56
+            // pipeline4Decode
             // 
-            this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(169, 133);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(49, 13);
-            this.label56.TabIndex = 27;
-            this.label56.Text = "--------------";
+            this.pipeline4Decode.AutoSize = true;
+            this.pipeline4Decode.Location = new System.Drawing.Point(169, 133);
+            this.pipeline4Decode.Name = "pipeline4Decode";
+            this.pipeline4Decode.Size = new System.Drawing.Size(49, 13);
+            this.pipeline4Decode.TabIndex = 27;
+            this.pipeline4Decode.Text = "--------------";
             // 
-            // label55
+            // pipeline2Store
             // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(296, 79);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(49, 13);
-            this.label55.TabIndex = 26;
-            this.label55.Text = "--------------";
+            this.pipeline2Store.AutoSize = true;
+            this.pipeline2Store.Location = new System.Drawing.Point(296, 79);
+            this.pipeline2Store.Name = "pipeline2Store";
+            this.pipeline2Store.Size = new System.Drawing.Size(49, 13);
+            this.pipeline2Store.TabIndex = 26;
+            this.pipeline2Store.Text = "--------------";
             // 
-            // label54
+            // pipeline3Decode
             // 
-            this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(169, 107);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(49, 13);
-            this.label54.TabIndex = 25;
-            this.label54.Text = "--------------";
+            this.pipeline3Decode.AutoSize = true;
+            this.pipeline3Decode.Location = new System.Drawing.Point(169, 107);
+            this.pipeline3Decode.Name = "pipeline3Decode";
+            this.pipeline3Decode.Size = new System.Drawing.Size(49, 13);
+            this.pipeline3Decode.TabIndex = 25;
+            this.pipeline3Decode.Text = "--------------";
             // 
-            // label52
+            // pipeline1Decode
             // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(169, 51);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(49, 13);
-            this.label52.TabIndex = 24;
-            this.label52.Text = "--------------";
+            this.pipeline1Decode.AutoSize = true;
+            this.pipeline1Decode.Location = new System.Drawing.Point(169, 51);
+            this.pipeline1Decode.Name = "pipeline1Decode";
+            this.pipeline1Decode.Size = new System.Drawing.Size(49, 13);
+            this.pipeline1Decode.TabIndex = 24;
+            this.pipeline1Decode.Text = "--------------";
             // 
-            // label53
+            // pipeline5Fetch
             // 
-            this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(101, 155);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(49, 13);
-            this.label53.TabIndex = 16;
-            this.label53.Text = "--------------";
+            this.pipeline5Fetch.AutoSize = true;
+            this.pipeline5Fetch.Location = new System.Drawing.Point(101, 155);
+            this.pipeline5Fetch.Name = "pipeline5Fetch";
+            this.pipeline5Fetch.Size = new System.Drawing.Size(49, 13);
+            this.pipeline5Fetch.TabIndex = 16;
+            this.pipeline5Fetch.Text = "--------------";
             // 
-            // label51
+            // pipeline4Fetch
             // 
-            this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(101, 133);
-            this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(49, 13);
-            this.label51.TabIndex = 14;
-            this.label51.Text = "--------------";
+            this.pipeline4Fetch.AutoSize = true;
+            this.pipeline4Fetch.Location = new System.Drawing.Point(101, 133);
+            this.pipeline4Fetch.Name = "pipeline4Fetch";
+            this.pipeline4Fetch.Size = new System.Drawing.Size(49, 13);
+            this.pipeline4Fetch.TabIndex = 14;
+            this.pipeline4Fetch.Text = "--------------";
             // 
-            // label50
+            // pipeline3Fetch
             // 
-            this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(101, 107);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(49, 13);
-            this.label50.TabIndex = 13;
-            this.label50.Text = "--------------";
+            this.pipeline3Fetch.AutoSize = true;
+            this.pipeline3Fetch.Location = new System.Drawing.Point(101, 107);
+            this.pipeline3Fetch.Name = "pipeline3Fetch";
+            this.pipeline3Fetch.Size = new System.Drawing.Size(49, 13);
+            this.pipeline3Fetch.TabIndex = 13;
+            this.pipeline3Fetch.Text = "--------------";
             // 
-            // label49
+            // pipeline2Fetch
             // 
-            this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(101, 79);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(49, 13);
-            this.label49.TabIndex = 12;
-            this.label49.Text = "--------------";
+            this.pipeline2Fetch.AutoSize = true;
+            this.pipeline2Fetch.Location = new System.Drawing.Point(101, 79);
+            this.pipeline2Fetch.Name = "pipeline2Fetch";
+            this.pipeline2Fetch.Size = new System.Drawing.Size(49, 13);
+            this.pipeline2Fetch.TabIndex = 12;
+            this.pipeline2Fetch.Text = "--------------";
             // 
-            // label48
+            // pipeline1Fetch
             // 
-            this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(101, 51);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(49, 13);
-            this.label48.TabIndex = 11;
-            this.label48.Text = "--------------";
+            this.pipeline1Fetch.AutoSize = true;
+            this.pipeline1Fetch.Location = new System.Drawing.Point(101, 51);
+            this.pipeline1Fetch.Name = "pipeline1Fetch";
+            this.pipeline1Fetch.Size = new System.Drawing.Size(49, 13);
+            this.pipeline1Fetch.TabIndex = 11;
+            this.pipeline1Fetch.Text = "--------------";
             // 
             // pipeline5
             // 
@@ -1317,30 +1317,30 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label pipeline1;
         private System.Windows.Forms.Label label41;
-        private System.Windows.Forms.Label label53;
-        private System.Windows.Forms.Label label51;
-        private System.Windows.Forms.Label label50;
-        private System.Windows.Forms.Label label49;
-        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label pipeline5Fetch;
+        private System.Windows.Forms.Label pipeline4Fetch;
+        private System.Windows.Forms.Label pipeline3Fetch;
+        private System.Windows.Forms.Label pipeline2Fetch;
+        private System.Windows.Forms.Label pipeline1Fetch;
         private System.Windows.Forms.Label pipeline5;
         private System.Windows.Forms.Label pipeline3;
         private System.Windows.Forms.Label pipeline4;
         private System.Windows.Forms.Label pipeline2;
-        private System.Windows.Forms.Label label67;
-        private System.Windows.Forms.Label label66;
-        private System.Windows.Forms.Label label65;
-        private System.Windows.Forms.Label label64;
-        private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.Label label61;
-        private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.Label label58;
-        private System.Windows.Forms.Label label57;
-        private System.Windows.Forms.Label label56;
-        private System.Windows.Forms.Label label55;
-        private System.Windows.Forms.Label label54;
-        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Label pipeline3Store;
+        private System.Windows.Forms.Label pipeline4Store;
+        private System.Windows.Forms.Label pipeline5Store;
+        private System.Windows.Forms.Label pipeline3Execute;
+        private System.Windows.Forms.Label pipeline4Execute;
+        private System.Windows.Forms.Label pipeline5Execute;
+        private System.Windows.Forms.Label pipeline1Store;
+        private System.Windows.Forms.Label pipeline2Decode;
+        private System.Windows.Forms.Label pipeline5Decode;
+        private System.Windows.Forms.Label pipeline1Execute;
+        private System.Windows.Forms.Label pipeline2Execute;
+        private System.Windows.Forms.Label pipeline4Decode;
+        private System.Windows.Forms.Label pipeline2Store;
+        private System.Windows.Forms.Label pipeline3Decode;
+        private System.Windows.Forms.Label pipeline1Decode;
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.Label ccLabel;
         private System.Windows.Forms.Label accLabel;

@@ -59,9 +59,19 @@ namespace WindowsFormsApplication2
             MethodInvoker method = delegate
             {
                 Console.WriteLine("Fetch Done in GUI " + this.myCPU.ACC);
-                this.irLabel.Text = args.CurrentIR.ToString();
-                String instructionText = Memory.getAssemblyInstructions().ElementAt(args.CurrentInstructionIndex);
-                this.instructionsInPipeline.Enqueue(instructionText);
+                if (args.CurrentInstructionIndex < Memory.getAssemblyInstructions().Count)
+                {
+                    this.irLabel.Text = args.CurrentIR.ToString();
+                    String instructionText = Memory.getAssemblyInstructions().ElementAt(args.CurrentInstructionIndex);
+                    if (this.instructionsInPipeline.Count > 4)
+                    {
+                        var temp = this.instructionsInPipeline.Dequeue();
+                        Debug.WriteLine("Just dequeued " + temp);
+                    }
+                    this.instructionsInPipeline.Enqueue(instructionText);
+                    this.setPipelineValuesToView();
+                }
+                
 
             };
 
@@ -143,6 +153,7 @@ namespace WindowsFormsApplication2
 
                 this.setCPUValuesToView();
                 this.setCacheLabelsToView();
+                //this.setPipelineValuesToView();
                 if (instructionCount < Memory.getAssemblyInstructions().Count)
                 {
                     this.instructionCount++;
@@ -166,6 +177,33 @@ namespace WindowsFormsApplication2
        private void resetButton_Click(object sender, EventArgs e)
        {
            resetGUI();
+       }
+
+       public void setPipelineValuesToView()
+       {
+           int count = 0;
+           foreach(var instr in this.instructionsInPipeline){
+               Debug.WriteLine("Pipeline value count " + count + " is " + instr);
+               switch (count)
+               {
+                   case 0:
+                       this.pipeline1.Text = instr;
+                       break;
+                   case 1:
+                       this.pipeline2.Text = instr;
+                       break;
+                   case 2:
+                       this.pipeline3.Text = instr;
+                       break;
+                   case 3:
+                       this.pipeline4.Text = instr;
+                       break;
+                   case 4:
+                       this.pipeline5.Text = instr;
+                       break;
+               }
+               count++;
+           }
        }
 
         public void setCPUValuesToView()
@@ -222,6 +260,13 @@ namespace WindowsFormsApplication2
             this.irLabel.Text = "0";
             this.cacheIndexComboBox.Items.Clear();
             fillCacheIndexComboBox();
+            String pipelineText = "--------------";
+            this.pipeline1.Text = pipelineText;
+            this.pipeline2.Text = pipelineText;
+            this.pipeline3.Text = pipelineText;
+            this.pipeline4.Text = pipelineText;
+            this.pipeline5.Text = pipelineText;
+            this.instructionsInPipeline = new Queue<String>(5);
             
         }
 
