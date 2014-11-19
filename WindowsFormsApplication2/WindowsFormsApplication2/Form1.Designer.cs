@@ -171,7 +171,7 @@
             this.nextInstructionButton.Name = "nextInstructionButton";
             this.nextInstructionButton.Size = new System.Drawing.Size(83, 25);
             this.nextInstructionButton.TabIndex = 3;
-            this.nextInstructionButton.Text = "Next";
+            this.nextInstructionButton.Text = "Next Cycle";
             this.nextInstructionButton.UseVisualStyleBackColor = true;
             this.nextInstructionButton.Click += new System.EventHandler(this.nextInstructionButton_Click);
             // 
@@ -376,7 +376,7 @@
             this.runAllButton.Name = "runAllButton";
             this.runAllButton.Size = new System.Drawing.Size(87, 25);
             this.runAllButton.TabIndex = 7;
-            this.runAllButton.Text = "Run All ";
+            this.runAllButton.Text = "Run To End ";
             this.runAllButton.UseVisualStyleBackColor = true;
             this.runAllButton.Click += new System.EventHandler(this.runAllButton_Click);
             // 

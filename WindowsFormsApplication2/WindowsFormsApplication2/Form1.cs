@@ -251,9 +251,10 @@ namespace WindowsFormsApplication2
 
         private void runAllButton_Click(object sender, EventArgs e)
         {
-            while (this.myCPU.PC < Memory.getBinaryInstructions().Count)
+            while (this.myCPU.PC <= Memory.getBinaryInstructions().Count)
             {
                 nextInstructionButton_Click(sender, e);
+                //some sort of barrier should go here to stop the deadlock
             }
         }
 
