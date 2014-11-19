@@ -329,6 +329,12 @@ namespace WindowsFormsApplication2
            resetGUI();
        }
 
+       public void setBHTToView()
+       { 
+
+       }
+
+
         //Updates Pipeline Map
        public void setPipelineTexts(Label pNum, Label pFetch, Label pDecode, Label pExecute, Label pStore, PipelineInstruction instr)
        {
@@ -684,6 +690,29 @@ namespace WindowsFormsApplication2
             button1.BackColor = resetButton.BackColor;
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            button3.BackColor = Color.LightYellow;
+            button4.BackColor = resetButton.BackColor;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            button4.BackColor = Color.LightYellow;
+            button3.BackColor = resetButton.BackColor;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            button6.BackColor = Color.LightYellow;
+            button5.BackColor = resetButton.BackColor;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            button5.BackColor = Color.LightYellow;
+            button6.BackColor = resetButton.BackColor;
+        }
 
         private void ComboBox1_SelectedIndexChanged(object sender,
         System.EventArgs e)
@@ -788,41 +817,7 @@ namespace WindowsFormsApplication2
         {
 
         }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            button3.BackColor = Color.LightYellow;
-            button4.BackColor = resetButton.BackColor;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            button4.BackColor = Color.LightYellow;
-            button3.BackColor = resetButton.BackColor;
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            button6.BackColor = Color.LightYellow;
-            button5.BackColor = resetButton.BackColor;
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            button5.BackColor = Color.LightYellow;
-            button6.BackColor = resetButton.BackColor;
-        }
-
+ 
  
         
 
