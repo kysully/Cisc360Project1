@@ -51,6 +51,9 @@ namespace WindowsFormsApplication2
 
             //Starts with 1 way mode highlighted
             button2_Click(null, null);
+            button6_Click(null, null);
+            button3_Click(null, null);
+
 
 
 #if DEBUG
@@ -326,6 +329,7 @@ namespace WindowsFormsApplication2
             {
                 nextInstructionButton_Click(sender, e);
                 Console.WriteLine("PC counter = " + this.myCPU.PC + " and BI Count = " + Memory.getBinaryInstructions().Count);
+                System.Threading.Thread.Sleep(000);
                 //some sort of barrier should go here to stop the deadlock
             }
              
@@ -371,6 +375,12 @@ namespace WindowsFormsApplication2
                    pDecode.Text = "D";
                    pExecute.Text = nullLine;
                    pStore.Text = nullLine;
+                   pFetch.ForeColor = label47.ForeColor;
+                   pDecode.ForeColor = label47.ForeColor;
+                   pExecute.ForeColor = label47.ForeColor;
+                   pStore.ForeColor = label47.ForeColor;
+                   pNum.ForeColor = label47.ForeColor;
+
                    break;
                case 1:
                    pFetch.Text = "F";
@@ -378,11 +388,23 @@ namespace WindowsFormsApplication2
                    pExecute.Text = nullLine;
                    pStore.Text = nullLine;
                    break;
+                   pFetch.ForeColor = label47.ForeColor;
+                   pDecode.ForeColor = label47.ForeColor;
+                   pExecute.ForeColor = label47.ForeColor;
+                   pStore.ForeColor = label47.ForeColor;
+                   pNum.ForeColor = label47.ForeColor;
+
                case 0:
                    pFetch.Text = nullLine;
-                  pDecode.Text = nullLine;
+                   pDecode.Text = nullLine;
                    pExecute.Text = nullLine;
                    pStore.Text = nullLine;
+                   pFetch.ForeColor = label47.ForeColor;
+                   pDecode.ForeColor = label47.ForeColor;
+                   pExecute.ForeColor = label47.ForeColor;
+                   pStore.ForeColor = label47.ForeColor;
+                   pNum.ForeColor = label47.ForeColor;
+
                    break;
            }
        }
@@ -554,7 +576,6 @@ namespace WindowsFormsApplication2
             this.currInstructionCountLabel.Text = instructionCount.ToString();
             this.pcLabel.Text =  this.myCPU.PC.ToString();
             this.accLabel.Text = this.myCPU.ACC.ToString();
-            this.aLabel.Text = this.myCPU.ACC.ToString();
             this.ccLabel.Text = this.myCPU.ACC.ToString();
             this.totalInstructionCountLabel.Text = "0";
             this.fileNameLabel.Text = "...";
@@ -787,6 +808,30 @@ namespace WindowsFormsApplication2
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            button3.BackColor = Color.LightYellow;
+            button4.BackColor = resetButton.BackColor;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            button4.BackColor = Color.LightYellow;
+            button3.BackColor = resetButton.BackColor;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            button6.BackColor = Color.LightYellow;
+            button5.BackColor = resetButton.BackColor;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            button5.BackColor = Color.LightYellow;
+            button6.BackColor = resetButton.BackColor;
         }
 
  
