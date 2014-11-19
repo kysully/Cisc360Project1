@@ -263,6 +263,7 @@ namespace WindowsFormsApplication2
             if ((this.myCPU.PC) <= (Memory.getBinaryInstructions().Count))
             {
                 this.myCPU.nextInstructionPipeline();//used to be nextInstruction
+                Console.WriteLine("IN NEXT INTR PC counter = " + this.myCPU.PC + " and BI Count = " + Memory.getBinaryInstructions().Count);
                 //since it takes 4 "next "instructions" in order for PC to increment
                 if (this.myCPU.PC != 0)
                 {
@@ -305,11 +306,16 @@ namespace WindowsFormsApplication2
 
         private void runAllButton_Click(object sender, EventArgs e)
         {
-            while (this.myCPU.PC <= Memory.getBinaryInstructions().Count)
+
+       
+            
+            while ((this.myCPU.PC) <= (Memory.getBinaryInstructions().Count))
             {
                 nextInstructionButton_Click(sender, e);
+                Console.WriteLine("PC counter = " + this.myCPU.PC + " and BI Count = " + Memory.getBinaryInstructions().Count);
                 //some sort of barrier should go here to stop the deadlock
             }
+             
         }
 
        private void resetButton_Click(object sender, EventArgs e)
@@ -340,6 +346,12 @@ namespace WindowsFormsApplication2
                    pDecode.Text = "D";
                    pExecute.Text = "X";
                    pStore.Text = nullLine;
+                   pFetch.ForeColor = label47.ForeColor;
+                   pDecode.ForeColor = label47.ForeColor;
+                   pExecute.ForeColor = label47.ForeColor;
+                   pStore.ForeColor = label47.ForeColor;
+                   pNum.ForeColor = label47.ForeColor;
+
                    break;
                case 2:
                    pFetch.Text = "F";
@@ -542,31 +554,38 @@ namespace WindowsFormsApplication2
 
         void resetPipelineLabels(){
             String pipelineText = "--------------";
-            this.pipeline1.Text = pipelineText;
-            this.pipeline2.Text = pipelineText;
-            this.pipeline3.Text = pipelineText;
-            this.pipeline4.Text = pipelineText;
-            this.pipeline5.Text = pipelineText;
-            this.pipeline1Fetch.Text = pipelineText;
-            this.pipeline2Fetch.Text = pipelineText;
-            this.pipeline3Fetch.Text = pipelineText;
-            this.pipeline4Fetch.Text = pipelineText;
-            this.pipeline5Fetch.Text = pipelineText;
-            this.pipeline1Decode.Text = pipelineText;
-            this.pipeline2Decode.Text = pipelineText;
-            this.pipeline3Decode.Text = pipelineText;
-            this.pipeline4Decode.Text = pipelineText;
-            this.pipeline5Decode.Text = pipelineText;
-            this.pipeline1Execute.Text = pipelineText;
-            this.pipeline2Execute.Text = pipelineText;
-            this.pipeline3Execute.Text = pipelineText;
-            this.pipeline4Execute.Text = pipelineText;
-            this.pipeline5Execute.Text = pipelineText;
-            this.pipeline1Store.Text = pipelineText;
-            this.pipeline2Store.Text = pipelineText;
-            this.pipeline3Store.Text = pipelineText;
-            this.pipeline4Store.Text = pipelineText;
-            this.pipeline5Store.Text = pipelineText;
+            List<Label> pipelineMapLabels = new List<Label>();
+            pipelineMapLabels.Add(pipeline1);
+            pipelineMapLabels.Add(pipeline2);
+            pipelineMapLabels.Add(pipeline3);
+            pipelineMapLabels.Add(pipeline4);
+            pipelineMapLabels.Add(pipeline5);
+            pipelineMapLabels.Add(pipeline1Fetch);
+            pipelineMapLabels.Add(pipeline2Fetch);
+            pipelineMapLabels.Add(pipeline3Fetch);
+            pipelineMapLabels.Add(pipeline4Fetch);
+            pipelineMapLabels.Add(pipeline5Fetch);
+            pipelineMapLabels.Add(pipeline1Decode);
+            pipelineMapLabels.Add(pipeline2Decode);
+            pipelineMapLabels.Add(pipeline3Decode);
+            pipelineMapLabels.Add(pipeline4Decode);
+            pipelineMapLabels.Add(pipeline5Decode);
+            pipelineMapLabels.Add(pipeline1Execute);
+            pipelineMapLabels.Add(pipeline2Execute);
+            pipelineMapLabels.Add(pipeline3Execute);
+            pipelineMapLabels.Add(pipeline4Execute);
+            pipelineMapLabels.Add(pipeline5Execute);
+            pipelineMapLabels.Add(pipeline1Store);
+            pipelineMapLabels.Add(pipeline2Store);
+            pipelineMapLabels.Add(pipeline3Store);
+            pipelineMapLabels.Add(pipeline4Store);
+            pipelineMapLabels.Add(pipeline5Store);
+
+            foreach(Label plabel in pipelineMapLabels){
+                plabel.Text = pipelineText;
+                plabel.ForeColor = label47.ForeColor;
+            }
+
         }
 
         public void fillMemComboBox()
@@ -746,6 +765,11 @@ namespace WindowsFormsApplication2
         }
 
         private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
         {
 
         }
