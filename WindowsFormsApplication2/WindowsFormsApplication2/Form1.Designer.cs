@@ -132,11 +132,14 @@
             this.label47 = new System.Windows.Forms.Label();
             this.pipeline1 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -152,7 +155,7 @@
             // 
             // loadFileButton
             // 
-            this.loadFileButton.Location = new System.Drawing.Point(333, 35);
+            this.loadFileButton.Location = new System.Drawing.Point(436, 39);
             this.loadFileButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(100, 25);
@@ -361,7 +364,7 @@
             // 
             this.titleLabel.AutoSize = true;
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleLabel.Location = new System.Drawing.Point(261, 9);
+            this.titleLabel.Location = new System.Drawing.Point(352, 9);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(153, 24);
             this.titleLabel.TabIndex = 6;
@@ -512,7 +515,7 @@
             // 
             // resetButton
             // 
-            this.resetButton.Location = new System.Drawing.Point(229, 35);
+            this.resetButton.Location = new System.Drawing.Point(331, 39);
             this.resetButton.Name = "resetButton";
             this.resetButton.Size = new System.Drawing.Size(100, 25);
             this.resetButton.TabIndex = 11;
@@ -1198,11 +1201,31 @@
             this.label41.TabIndex = 0;
             this.label41.Text = "Instructions:";
             // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.label2);
+            this.panel6.Location = new System.Drawing.Point(727, 84);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(85, 360);
+            this.panel6.TabIndex = 26;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(21, 6);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(39, 16);
+            this.label2.TabIndex = 27;
+            this.label2.Text = "BHT";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 455);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(835, 455);
+            this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -1234,6 +1257,8 @@
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1344,6 +1369,8 @@
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.Label ccLabel;
         private System.Windows.Forms.Label accLabel;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label label2;
     }
 }
 
