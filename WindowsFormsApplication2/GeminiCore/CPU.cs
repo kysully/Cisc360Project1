@@ -28,14 +28,15 @@ namespace GeminiCore
         ///New to Project 3, threads for the four stages of pipelining///
         /////////////////////////////////////////////////////////////////
         public short IR_D { get; set; }//short since our instructions are shorts
-        private int Fetch_Counter { get; set; }
         private Queue<short> fetched_instructions, executed_instructions;
         private Queue<DecodedInstruction> decoded_instructions;
+        private int Fetch_Counter { get; set; }
         private int Decode_Counter { get; set; }
         private int Execute_Counter { get; set; }
         private int Store_Counter { get; set; }
+        public int cycles_elapsed { get; private set; }
+        public int cycle_penalties { get; private set; }
         private DecodedInstruction Decode_IR { get; set; }
-
         Thread fetchThread;
         AutoResetEvent fetchEvent = new AutoResetEvent(false);
         Thread decodeThread;
@@ -44,7 +45,6 @@ namespace GeminiCore
         AutoResetEvent executeEvent = new AutoResetEvent(false);
         Thread storeThread;
         AutoResetEvent storeEvent = new AutoResetEvent(false);
-
         public delegate void FetchDone(object sender, FetchEventArgs args);
         public event FetchDone OnFetchDone;
         public delegate void DecodeDone(object sender, DecodeEventArgs args);
@@ -54,13 +54,20 @@ namespace GeminiCore
         public delegate void StoreDone(object sender, StoreEventArgs args);
         public event StoreDone OnStoreDone;
 
+        public bool bypassing { get; set; }
         bool areWeDone = false;
+
+        //////////////////////////
+        ///End new to project 3///
+        //////////////////////////
 
         public CPU(Memory memory)
         {
             ACC = 0;
             PC = 0;
             TEMP = 0;
+            cycles_elapsed = 0;
+            cycle_penalties = 0;
             Fetch_Counter = 0;
             Decode_Counter = 0;
             Execute_Counter = 0;
@@ -147,6 +154,9 @@ namespace GeminiCore
                 executeEvent.Set();
 
                 storeEvent.Set();
+
+                cycles_elapsed++;
+                Console.WriteLine("Cycles elapsed: " + cycles_elapsed);
                 //PC++; // do we need to do this here?
             }
         }
@@ -259,6 +269,8 @@ namespace GeminiCore
             fetched_instructions.Clear();
             decoded_instructions.Clear();
             executed_instructions.Clear();
+            cycles_elapsed = 0;
+            cycle_penalties = 0;
             TEMP = 0;
             CC = 0;
             Memory.clearInstructions();
@@ -313,6 +325,12 @@ namespace GeminiCore
                     //break;
                 case "001":// ------------GROUP2
                     if(command == "0001"){ //LDA
+                        //Maybe signal to the GUI here that there was a load-use delay
+                        if (!Bypassing)
+                        {
+                            //penalty for a load-use delay is 1 cycle
+                            cycle_penalties++;
+                        }
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("LDA# has been reached");
@@ -378,6 +396,8 @@ namespace GeminiCore
                         }
                     }
                     if(command == "0011"){//MUL
+                        //maybe signal to the GUI that there was a hazard
+                        cycle_penalties = cycle_penalties + 4;
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("MUL# has been reached");
@@ -391,6 +411,8 @@ namespace GeminiCore
                         }
                     }
                     if(command == "0100"){//DIV
+                        //maybe signal to the GUI that there was a hazard
+                        cycle_penalties = cycle_penalties + 4;
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("DIV# has been reached");
