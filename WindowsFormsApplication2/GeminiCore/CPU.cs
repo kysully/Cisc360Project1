@@ -78,6 +78,7 @@ namespace GeminiCore
             
             ///Initlialize all the new threads for pipelining
             IR_D = 0;//default to NOP
+            bypassing = false;
             fetched_instructions = new Queue<short>();
             decoded_instructions = new Queue<DecodedInstruction>();
             executed_instructions = new Queue<short>();
@@ -271,6 +272,7 @@ namespace GeminiCore
             executed_instructions.Clear();
             cycles_elapsed = 0;
             cycle_penalties = 0;
+            bypassing = false;
             TEMP = 0;
             CC = 0;
             Memory.clearInstructions();
@@ -469,42 +471,47 @@ namespace GeminiCore
                     }
                     break;
                 case "100": // ------------------GROUP5
+                    bool tookBranch = false;
                     if (command == "0001"){//BA
                         Debug.WriteLine("BA has been reached");
-                        PC = (short)(value-1);
-                        Fetch_Counter = PC;
-                        Decode_Counter = PC;
-                        Execute_Counter = PC;
+                        
+                        tookBranch = true;
                     } 
                     if(command == "0010"){//BE
                         Debug.WriteLine("BE has been reached");
                         if (CC == 0)
                         {
-                            PC = (short)(value-1);
-                            Fetch_Counter = PC;
-                            Decode_Counter = PC;
-                            Execute_Counter = PC;
+                            
+                            tookBranch = true;
                         }
                     } 
                     if(command == "0011"){//BL
                         Debug.WriteLine("BL has been reached");
                         if (CC < 0)
                         {
-                            PC = (short)(value-1);
-                            Fetch_Counter = PC;
-                            Decode_Counter = PC;
-                            Execute_Counter = PC;
+                            
+                            tookBranch = true;
                         }
                     }
                     if (command == "0100"){//BG
                         Debug.WriteLine("BG has been reached");
                         if (CC > 0)
                         {
-                            PC = (short)(value-1);
-                            Fetch_Counter = PC;
-                            Decode_Counter = PC;
-                            Execute_Counter = PC;
+                            
+                            tookBranch = true;
                         }
+                    }
+
+                    if (tookBranch)
+                    {
+                        //Normal branching code
+                        PC = (short)(value);//think it was -1 due to the PC incrementing after PC = (short)(value - 1);
+                        Fetch_Counter = PC;
+                        Decode_Counter = PC;
+                        Execute_Counter = PC;
+                        //penalty for a taken branch is 1 cycle
+                        cycle_penalties++;
+                        //gotta call something here to flush out pipeline
                     }
                     break;
             }
