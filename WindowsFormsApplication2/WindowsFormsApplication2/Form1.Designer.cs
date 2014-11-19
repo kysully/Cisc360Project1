@@ -364,6 +364,8 @@
             // 
             this.titleLabel.AutoSize = true;
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.titleLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.titleLabel.Image = ((System.Drawing.Image)(resources.GetObject("titleLabel.Image")));
             this.titleLabel.Location = new System.Drawing.Point(352, 9);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(153, 24);
@@ -384,6 +386,8 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label14.Image = ((System.Drawing.Image)(resources.GetObject("label14.Image")));
             this.label14.Location = new System.Drawing.Point(29, 312);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(131, 16);
@@ -795,6 +799,8 @@
             // 
             this.label28.AutoSize = true;
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label28.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label28.Image = ((System.Drawing.Image)(resources.GetObject("label28.Image")));
             this.label28.Location = new System.Drawing.Point(44, 380);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(105, 16);
@@ -1085,7 +1091,7 @@
             // pipeline1Decode
             // 
             this.pipeline1Decode.AutoSize = true;
-            this.pipeline1Decode.Location = new System.Drawing.Point(169, 51);
+            this.pipeline1Decode.Location = new System.Drawing.Point(169, 50);
             this.pipeline1Decode.Name = "pipeline1Decode";
             this.pipeline1Decode.Size = new System.Drawing.Size(49, 13);
             this.pipeline1Decode.TabIndex = 24;
@@ -1130,7 +1136,7 @@
             // pipeline1Fetch
             // 
             this.pipeline1Fetch.AutoSize = true;
-            this.pipeline1Fetch.Location = new System.Drawing.Point(101, 51);
+            this.pipeline1Fetch.Location = new System.Drawing.Point(101, 50);
             this.pipeline1Fetch.Name = "pipeline1Fetch";
             this.pipeline1Fetch.Size = new System.Drawing.Size(49, 13);
             this.pipeline1Fetch.TabIndex = 11;
