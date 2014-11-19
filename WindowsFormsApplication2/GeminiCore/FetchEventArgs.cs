@@ -14,7 +14,7 @@ namespace GeminiCore
         public FetchEventArgs(CPU.FetchedInstruction instruction)
         {
             CurrentIR = instruction.binary;
-            CurrentInstructionIndex = instruction.binary;
+            CurrentInstructionIndex = instruction.index;
         }
     }
 }

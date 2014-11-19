@@ -73,6 +73,7 @@ namespace WindowsFormsApplication2
                 stage = 0;
                 this.instructionIndex = instructionIndex;
                 this.instructionText = assemblyInstruction;
+                Console.WriteLine("New instr in pipeline: " + instructionText + ", index: " + instructionIndex);
             }
         }
 
@@ -80,8 +81,8 @@ namespace WindowsFormsApplication2
         {
             MethodInvoker method = delegate
             {
-                Console.WriteLine("Fetch Done in GUI " + this.myCPU.ACC);
-                if (args.CurrentInstructionIndex < Memory.getAssemblyInstructions().Count && args.CurrentInstructionIndex >= 0)
+                Console.WriteLine("Fetch Done in GUI ");
+                if (args.CurrentInstructionIndex < Memory.getAssemblyInstructions().Count)// && args.CurrentInstructionIndex >= 0)
                 {
                     this.irLabel.Text = args.CurrentIR.ToString();
                     String instructionText = Memory.getAssemblyInstructions().ElementAt(args.CurrentInstructionIndex);
@@ -93,11 +94,7 @@ namespace WindowsFormsApplication2
                     this.instructionsInPipeline.Enqueue(new PipelineInstruction(instructionText, args.CurrentInstructionIndex));
                     this.setFetchPipelineLabel(args.CurrentInstructionIndex);
                     this.setPipelineValuesToView();
-                    args.CurrentIR = 0;
-                    args.CurrentInstructionIndex = -1;
-                }
-                
-
+                }   
             };
 
             if (this.InvokeRequired)
@@ -118,8 +115,6 @@ namespace WindowsFormsApplication2
 
                 this.setDecodePipelineLabel(args.CurrentInstructionIndex);
                 setPipelineValuesToView();
-                args.CurrentDecodedInstr = null;
-                args.CurrentInstructionIndex = -1;
 
             };
 
@@ -141,8 +136,6 @@ namespace WindowsFormsApplication2
                 this.setExecutePipelineLabel(args.CurrentInstructionIndex);
                 this.setCPUValuesToView();
                 setPipelineValuesToView();
-                args.CurrentInstr = 0;
-                args.CurrentInstructionIndex = -1;
             };
 
             if (this.InvokeRequired)
@@ -162,6 +155,8 @@ namespace WindowsFormsApplication2
                 Console.WriteLine("Store Done in GUI ");
                 this.setStorePipelineLabel(args.CurrentInstructionIndex);
                 setPipelineValuesToView();
+                //in case we need to update the memory box
+                ComboBox1_SelectedIndexChanged(this, new EventArgs());
             };
 
             if (this.InvokeRequired)
@@ -517,8 +512,10 @@ namespace WindowsFormsApplication2
        //updates the pipeline label indicating the given instruction has been store
        public void setStorePipelineLabel(int instrIndex)
        {
+           int count = 0;
            foreach (var instr in instructionsInPipeline)
            {
+               Console.WriteLine("Pipeline(" + count + ") is index: " + instr.instructionIndex + " and stored instruction index is " + instrIndex);
                //if the instruction at the label is the same instruction that was just decoded
                //this might break if theres multiple of the same instruction being pipelined
                if (instr.instructionIndex == instrIndex)
@@ -526,6 +523,7 @@ namespace WindowsFormsApplication2
                    instr.stage = 4;//fetch stage
                    Console.WriteLine(instr.instructionText + " was set to stage " + instr.stage);
                }
+               count++;
            }
        }
 

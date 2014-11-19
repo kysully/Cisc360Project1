@@ -59,6 +59,8 @@ namespace GeminiCore
         bool areWeDone = false;
         bool tookBranch = false;
 
+        Barrier stageBarrier = new Barrier(participantCount:4);
+
        
 
         //////////////////////////
@@ -152,19 +154,22 @@ namespace GeminiCore
         public class ExecutedInstruction
         {
             public int result { get; private set; }
-            public int index { get; private set; }
+            public int memoryIndex { get; private set; }
+            public int instrIndex { get; private set; }
             public StoreType type { get; private set; }
-            public ExecutedInstruction(int result, StoreType type)
+            public ExecutedInstruction(int result, StoreType type, int instrIndex)
             {
                 this.result = result;
                 this.type = type;
-                this.index = -1;
+                this.instrIndex = instrIndex;
+                this.memoryIndex = -1;
             }
-            public ExecutedInstruction(int result, StoreType type, int index)
+            public ExecutedInstruction(int result, StoreType type, int instrIndex, int memoryIndex)
             {
                 this.result = result;
                 this.type = type;
-                this.index = index;
+                this.instrIndex = instrIndex;
+                this.memoryIndex = memoryIndex;
             }
         }
 
@@ -275,7 +280,11 @@ namespace GeminiCore
                 Console.WriteLine("In Execute");
                 if (decoded_instructions.Count > 0)
                 {
-                    DecodedInstruction instr = decoded_instructions.Dequeue();                    
+                    DecodedInstruction instr = decoded_instructions.Dequeue();
+                    while (waitingForStoreResult())
+                    {
+                        Console.WriteLine("Waiting for a result to store into ACC/memory...");
+                    }
                     executeInstruction(instr);
                     Debug.WriteLine("Just executed: " + instr.binary);
                     //this is done in execute instructionexecuted_instructions.Enqueue(instr.binary);
@@ -303,18 +312,36 @@ namespace GeminiCore
                     }
                     else if(instrResult.type == StoreType.Memory)
                     {
-                        memory[instrResult.index] = instrResult.result;
+                        memory[instrResult.memoryIndex] = instrResult.result;
+                        Console.WriteLine("Stored " + instrResult.result + " into memory index " + instrResult.memoryIndex);
                     }
                     //Console.WriteLine("Performed store on: " + binary);
                     if (OnStoreDone != null)
                     {
-                        OnStoreDone(this, new StoreEventArgs(instrResult.index));
+                        OnStoreDone(this, new StoreEventArgs(instrResult.instrIndex));
                     }
                     Store_Counter++;
                     PC++;
-                    Console.WriteLine("PC is: " + PC);
+                    Console.WriteLine("PC is: " + PC + " and Fetch counter is: " + Fetch_Counter);                    
+                }
+                else if (Fetch_Counter == Memory.getBinaryInstructions().Count())
+                {
+                        //this means we just stored the final instruction, so increment PC to trip the end of the program
+                        PC++;
                 }
             }
+        }
+
+        public bool waitingForStoreResult()
+        {
+            foreach (var instr in executed_instructions)
+            {
+                if (instr.type != StoreType.None)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         //////////////////////////////////
@@ -374,8 +401,9 @@ namespace GeminiCore
             String command = instr.command;
             String flag = instr.flag;
             short value = instr.value;
+            int instrIndex = instr.index;
             //Defaults to none for things like NOP and branches
-            ExecutedInstruction executedInstr = new ExecutedInstruction(0, StoreType.None);           
+            ExecutedInstruction executedInstr = new ExecutedInstruction(0, StoreType.None, instrIndex);           
 
             Console.WriteLine("Executing ---->" + binaryString + " O " + opcode + " C " + command + " F " + flag + " V " + value);
 
@@ -404,21 +432,21 @@ namespace GeminiCore
                             //#
                             Debug.WriteLine("LDA# has been reached");
                             //ACC = value;
-                            executedInstr = new ExecutedInstruction(value, StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(value, StoreType.Accumulator, instrIndex);
                         }
                         else{
                             //$
                             Debug.WriteLine("LDA$ has been reached");
                             //ACC = Memory.stack[value];
                             //ACC = memory[value];
-                            executedInstr = new ExecutedInstruction(memory[value], StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(memory[value], StoreType.Accumulator, instrIndex);
                         }
                     }
                     if(command == "0010"){ //STA
                         Debug.WriteLine("STA has been reached");
                         //Memory.stack[value] = ACC;
                         //memory[value] = ACC;
-                        executedInstr = new ExecutedInstruction(ACC, StoreType.Memory, value);
+                        executedInstr = new ExecutedInstruction(ACC, StoreType.Memory, instrIndex, value);
                         Debug.Write("Stored the value " + ACC + " into stack at index " + value);
                     }
                     else if(command == "1010"){
@@ -434,7 +462,7 @@ namespace GeminiCore
                             Debug.WriteLine("ADD# has been reached");
                             Debug.Write("Value is " + value);
                             //ACC += value;
-                            executedInstr = new ExecutedInstruction(ACC + value, StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC + value, StoreType.Accumulator, instrIndex);
                             Debug.Write(" ACC is " + ACC);
                         }
                         else{
@@ -442,7 +470,7 @@ namespace GeminiCore
                             Debug.WriteLine("ADD$ has been reached");
                             //ACC += Memory.stack[value];
                             //ACC += memory[value];
-                            executedInstr = new ExecutedInstruction(ACC + memory[value], StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC + memory[value], StoreType.Accumulator, instrIndex);
                         }
                         break;
                     }
@@ -457,7 +485,7 @@ namespace GeminiCore
                           Debug.WriteLine("SUB# has been reached");
                           Debug.WriteLine("ACC is " + ACC + " and value is " + value);
                           //ACC -= value;
-                          executedInstr = new ExecutedInstruction(ACC - value, StoreType.Accumulator);
+                          executedInstr = new ExecutedInstruction(ACC - value, StoreType.Accumulator, instrIndex);
                           Debug.WriteLine("ACC is now " + ACC);
                         }
                         else{
@@ -467,7 +495,7 @@ namespace GeminiCore
                             Debug.WriteLine("SUB$ has been reached");
                             //Debug.WriteLine("ACC is " + ACC + " and value is " + temp1);
                             //ACC -= temp;
-                            executedInstr = new ExecutedInstruction(ACC - memory[value], StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC - memory[value], StoreType.Accumulator, instrIndex);
                             Debug.WriteLine("ACC is now " + ACC);
                         }
                     }
@@ -478,14 +506,14 @@ namespace GeminiCore
                             //#
                             Debug.WriteLine("MUL# has been reached");
                             //ACC = ACC * value;
-                            executedInstr = new ExecutedInstruction(ACC * value, StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC * value, StoreType.Accumulator, instrIndex);
                         }
                         else{
                             //$
                             Debug.WriteLine("MUL$ has been reached");
                             //ACC = ACC * Memory.stack[value];
                             //ACC = ACC * memory[value];
-                            executedInstr = new ExecutedInstruction(ACC * memory[value], StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC * memory[value], StoreType.Accumulator, instrIndex);
                         }
                     }
                     if(command == "0100"){//DIV
@@ -495,14 +523,14 @@ namespace GeminiCore
                             //#
                             Debug.WriteLine("DIV# has been reached");
                             //ACC = ACC / value;
-                            executedInstr = new ExecutedInstruction(ACC / value, StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC / value, StoreType.Accumulator, instrIndex);
                         }
                         else{
                             //$
                             Debug.WriteLine("DIV$ has been reached");
                             //ACC = ACC / Memory.stack[value];
                             //ACC = ACC / memory[value];
-                            executedInstr = new ExecutedInstruction(ACC / memory[value], StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC / memory[value], StoreType.Accumulator, instrIndex);
 
                         }
                     }
@@ -518,7 +546,7 @@ namespace GeminiCore
                             //#
                             Debug.WriteLine("AND# has been reached");
                             //ACC = ACC & value;
-                            executedInstr = new ExecutedInstruction(ACC & value, StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC & value, StoreType.Accumulator, instrIndex);
                         }
                         else{
                             //$
@@ -527,7 +555,7 @@ namespace GeminiCore
                             Debug.WriteLine("AND$ has been reached");
                             //Debug.WriteLine("ACC is " + ACC + " and value is " + temp);
                             //ACC = ACC & temp;
-                            executedInstr = new ExecutedInstruction(ACC & memory[value], StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC & memory[value], StoreType.Accumulator, instrIndex);
                             Debug.WriteLine("ACC is now " + ACC);
                         }
                     }
@@ -536,14 +564,14 @@ namespace GeminiCore
                             //#
                             Debug.WriteLine("OR# has been reached");
                             //ACC = ACC | (ushort)value; // Do we need to cast here? perhaps
-                            executedInstr = new ExecutedInstruction(ACC | (ushort)value, StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC | (ushort)value, StoreType.Accumulator, instrIndex);
                         }
                         else{
                             //$
                             Debug.WriteLine("OR$ has been reached");
                             //ACC = ACC | Memory.stack[value];
                             //ACC = ACC | memory[value];
-                            executedInstr = new ExecutedInstruction(ACC | memory[value], StoreType.Accumulator);
+                            executedInstr = new ExecutedInstruction(ACC | memory[value], StoreType.Accumulator, instrIndex);
                         }
                     }
                     if(command == "0011"){//NOTA
@@ -551,7 +579,7 @@ namespace GeminiCore
                         Debug.WriteLine("NOTA# has been reached");
                         Debug.WriteLine("!" + ACC + " is " + ~ACC);
                         //ACC = ~ACC; // I think ~ is a bitwise not
-                        executedInstr = new ExecutedInstruction(~ACC, StoreType.Accumulator);
+                        executedInstr = new ExecutedInstruction(~ACC, StoreType.Accumulator, instrIndex);
                     }
                     break;
                 case "100": // ------------------GROUP5
@@ -599,7 +627,7 @@ namespace GeminiCore
                         //moved to execute thread
                         if (OnBranchTaken != null)
                         {
-                            OnBranchTaken(this, new BranchEventArgs(instr, instr.index));
+                            OnBranchTaken(this, new BranchEventArgs(instr, instrIndex));
                             //OnFetchDone(this, new FetchEventArgs(0, -1));
                             //OnDecodeDone(this, new DecodeEventArgs(null, -1));
                             //OnExecuteDone(this, new ExecuteEventArgs(0, -1));
