@@ -134,12 +134,22 @@
             this.label41 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -166,7 +176,7 @@
             // 
             // nextInstructionButton
             // 
-            this.nextInstructionButton.Location = new System.Drawing.Point(11, 331);
+            this.nextInstructionButton.Location = new System.Drawing.Point(9, 24);
             this.nextInstructionButton.Margin = new System.Windows.Forms.Padding(2);
             this.nextInstructionButton.Name = "nextInstructionButton";
             this.nextInstructionButton.Size = new System.Drawing.Size(83, 25);
@@ -374,9 +384,9 @@
             // 
             // runAllButton
             // 
-            this.runAllButton.Location = new System.Drawing.Point(92, 331);
+            this.runAllButton.Location = new System.Drawing.Point(97, 24);
             this.runAllButton.Name = "runAllButton";
-            this.runAllButton.Size = new System.Drawing.Size(87, 25);
+            this.runAllButton.Size = new System.Drawing.Size(82, 25);
             this.runAllButton.TabIndex = 7;
             this.runAllButton.Text = "Run To End ";
             this.runAllButton.UseVisualStyleBackColor = true;
@@ -388,7 +398,7 @@
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label14.Image = ((System.Drawing.Image)(resources.GetObject("label14.Image")));
-            this.label14.Location = new System.Drawing.Point(29, 312);
+            this.label14.Location = new System.Drawing.Point(30, 5);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(131, 16);
             this.label14.TabIndex = 8;
@@ -397,6 +407,8 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel2.Controls.Add(this.label42);
+            this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.fileNameLabel);
             this.panel2.Controls.Add(this.label22);
             this.panel2.Controls.Add(this.totalInstructionCountLabel);
@@ -409,7 +421,7 @@
             this.panel2.Controls.Add(this.label16);
             this.panel2.Location = new System.Drawing.Point(185, 85);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(200, 172);
+            this.panel2.Size = new System.Drawing.Size(200, 179);
             this.panel2.TabIndex = 9;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
@@ -435,7 +447,7 @@
             // totalInstructionCountLabel
             // 
             this.totalInstructionCountLabel.AutoSize = true;
-            this.totalInstructionCountLabel.Location = new System.Drawing.Point(150, 156);
+            this.totalInstructionCountLabel.Location = new System.Drawing.Point(149, 130);
             this.totalInstructionCountLabel.Name = "totalInstructionCountLabel";
             this.totalInstructionCountLabel.Size = new System.Drawing.Size(13, 13);
             this.totalInstructionCountLabel.TabIndex = 7;
@@ -445,7 +457,7 @@
             // currInstructionCountLabel
             // 
             this.currInstructionCountLabel.AutoSize = true;
-            this.currInstructionCountLabel.Location = new System.Drawing.Point(106, 156);
+            this.currInstructionCountLabel.Location = new System.Drawing.Point(100, 130);
             this.currInstructionCountLabel.Name = "currInstructionCountLabel";
             this.currInstructionCountLabel.Size = new System.Drawing.Size(13, 13);
             this.currInstructionCountLabel.TabIndex = 6;
@@ -454,7 +466,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(128, 156);
+            this.label19.Location = new System.Drawing.Point(127, 130);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(16, 13);
             this.label19.TabIndex = 5;
@@ -463,7 +475,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(10, 156);
+            this.label18.Location = new System.Drawing.Point(3, 130);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(90, 13);
             this.label18.TabIndex = 4;
@@ -805,7 +817,7 @@
             this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label28.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.label28.Image = ((System.Drawing.Image)(resources.GetObject("label28.Image")));
-            this.label28.Location = new System.Drawing.Point(44, 380);
+            this.label28.Location = new System.Drawing.Point(45, 55);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(105, 16);
             this.label28.TabIndex = 18;
@@ -813,10 +825,10 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(92, 397);
+            this.button1.Location = new System.Drawing.Point(96, 76);
             this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(87, 25);
+            this.button1.Size = new System.Drawing.Size(83, 25);
             this.button1.TabIndex = 19;
             this.button1.Text = "2-Way";
             this.button1.UseVisualStyleBackColor = true;
@@ -824,7 +836,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(11, 397);
+            this.button2.Location = new System.Drawing.Point(9, 76);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(83, 25);
@@ -1216,7 +1228,7 @@
             this.panel6.Controls.Add(this.label2);
             this.panel6.Location = new System.Drawing.Point(727, 84);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(85, 360);
+            this.panel6.Size = new System.Drawing.Size(183, 118);
             this.panel6.TabIndex = 26;
             // 
             // label2
@@ -1229,27 +1241,124 @@
             this.label2.TabIndex = 27;
             this.label2.Text = "BHT";
             // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.button6);
+            this.panel7.Controls.Add(this.button5);
+            this.panel7.Controls.Add(this.button4);
+            this.panel7.Controls.Add(this.button3);
+            this.panel7.Controls.Add(this.label8);
+            this.panel7.Controls.Add(this.label4);
+            this.panel7.Controls.Add(this.label14);
+            this.panel7.Controls.Add(this.nextInstructionButton);
+            this.panel7.Controls.Add(this.runAllButton);
+            this.panel7.Controls.Add(this.button1);
+            this.panel7.Controls.Add(this.button2);
+            this.panel7.Controls.Add(this.label28);
+            this.panel7.Location = new System.Drawing.Point(727, 215);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(187, 225);
+            this.panel7.TabIndex = 28;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label4.Image = ((System.Drawing.Image)(resources.GetObject("label4.Image")));
+            this.label4.Location = new System.Drawing.Point(28, 104);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(134, 16);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Bypassing Option:";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label8.Image = ((System.Drawing.Image)(resources.GetObject("label8.Image")));
+            this.label8.Location = new System.Drawing.Point(3, 153);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(179, 16);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Branch Prediction Option";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(3, 146);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(82, 13);
+            this.label9.TabIndex = 10;
+            this.label9.Text = "Cycles Elapsed:";
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(3, 160);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(82, 13);
+            this.label42.TabIndex = 11;
+            this.label42.Text = "Cycle Penalties:";
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(9, 122);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(83, 25);
+            this.button3.TabIndex = 23;
+            this.button3.Text = "1-Way";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(96, 122);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(83, 25);
+            this.button4.TabIndex = 24;
+            this.button4.Text = "1-Way";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(96, 176);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(83, 25);
+            this.button5.TabIndex = 25;
+            this.button5.Text = "1-Way";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(9, 176);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(83, 25);
+            this.button6.TabIndex = 26;
+            this.button6.Text = "1-Way";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(835, 455);
+            this.ClientSize = new System.Drawing.Size(926, 455);
+            this.Controls.Add(this.panel7);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.panel5);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label28);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.resetButton);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.runAllButton);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.nextInstructionButton);
             this.Controls.Add(this.loadFileButton);
             this.Controls.Add(this.panel4);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1269,6 +1378,8 @@
             this.panel5.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1381,6 +1492,15 @@
         private System.Windows.Forms.Label accLabel;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
     }
 }
 
