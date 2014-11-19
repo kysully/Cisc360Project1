@@ -238,6 +238,8 @@ namespace GeminiCore
                         OnStoreDone(this, new StoreEventArgs(Store_Counter));
                     }
                     Store_Counter++;
+                    PC++;
+                    Console.WriteLine("PC is: " + PC);
                 }
             }
         }
@@ -254,6 +256,9 @@ namespace GeminiCore
             Decode_Counter = 0;
             Execute_Counter = 0;
             Store_Counter = 0;
+            fetched_instructions.Clear();
+            decoded_instructions.Clear();
+            executed_instructions.Clear();
             TEMP = 0;
             CC = 0;
             Memory.clearInstructions();
@@ -283,7 +288,7 @@ namespace GeminiCore
         public void executeInstruction(DecodedInstruction instr)
         {
 
-            PC++;
+            //PC++;
             string binaryString = Convert.ToString(instr.binary, 2).PadLeft(16, '0');
             String opcode = instr.opcode;
             String command = instr.command;

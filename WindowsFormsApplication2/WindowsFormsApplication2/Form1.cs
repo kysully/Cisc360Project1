@@ -483,7 +483,7 @@ namespace WindowsFormsApplication2
 
         public void resetGUI()
         {
-            this.myCPU.reset();
+            this.myCPU.reset();//this won't work with pipelines
             memory = new Memory( (int)(this.cacheSizeBox.SelectedItem), (int)(this.blockSizeBox.SelectedItem), addressMode );
             this.myCPU.memory = memory;
             setCPUValuesToView();
@@ -505,6 +505,10 @@ namespace WindowsFormsApplication2
             fillCacheIndexComboBox();
             resetPipelineLabels();
             this.instructionsInPipeline = new Queue<PipelineInstruction>(5);
+            myCPU.OnFetchDone += myCPU_OnFetchDone;
+            myCPU.OnDecodeDone += myCPU_OnDecodeDone;
+            myCPU.OnExecuteDone += myCPU_OnExecuteDone;
+            myCPU.OnStoreDone += myCPU_OnStoreDone;
             
         }
 
