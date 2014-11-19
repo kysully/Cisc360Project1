@@ -24,9 +24,9 @@ namespace GeminiCore
         public readonly short ZERO = 0;
         public Memory memory;
 
-        /////////////////////////////////////////////////////////////////
-        ///New to Project 3, threads for the four stages of pipelining///
-        /////////////////////////////////////////////////////////////////
+        //////////////////////
+        ///New to Project 3///
+        //////////////////////
         public short IR_D { get; set; }//short since our instructions are shorts
         private Queue<short> fetched_instructions, executed_instructions;
         private Queue<DecodedInstruction> decoded_instructions;
@@ -53,9 +53,12 @@ namespace GeminiCore
         public event ExecuteDone OnExecuteDone;
         public delegate void StoreDone(object sender, StoreEventArgs args);
         public event StoreDone OnStoreDone;
+        public delegate void BranchTaken(object sender, BranchEventArgs args);
+        public event BranchTaken OnBranchTaken;
 
         public bool bypassing { get; set; }
         bool areWeDone = false;
+        bool tookBranch = false;
 
         //////////////////////////
         ///End new to project 3///
@@ -143,11 +146,20 @@ namespace GeminiCore
             storeEvent.Set();
             storeThread.Join();
         }
-
         public void nextInstructionPipeline()
         {
             if (PC < Memory.getBinaryInstructions().Count)
             {
+                //I think this could go here...
+                if (tookBranch)
+                {
+                    //to clear out the instructions that were being worked on before
+                    tookBranch = false;//reset tookbranch
+                    fetched_instructions.Clear();
+                    decoded_instructions.Clear();
+                    executed_instructions.Clear();
+
+                }
                 fetchEvent.Set();
 
                 decodeEvent.Set();
@@ -160,8 +172,7 @@ namespace GeminiCore
                 Console.WriteLine("Cycles elapsed: " + cycles_elapsed);
                 //PC++; // do we need to do this here?
             }
-        }
-
+        }               
         private void PerformFetch()
         {
             while (!areWeDone)
@@ -171,6 +182,7 @@ namespace GeminiCore
                 //fetch the instruction here
                 if (Fetch_Counter < Memory.getBinaryInstructions().Count)
                 {
+
                     short instruction = Memory.getBinaryInstructions().ElementAt(Fetch_Counter);
                     fetched_instructions.Enqueue(instruction);
   
@@ -185,7 +197,6 @@ namespace GeminiCore
                 }
             }
         }
-
         public void PerformDecode()
         {
             while (!areWeDone)
@@ -222,7 +233,7 @@ namespace GeminiCore
                 {
                     DecodedInstruction instr = decoded_instructions.Dequeue();
                     
-                    executeInstruction(instr);
+                    executeInstruction(instr, Execute_Counter);
                     Debug.WriteLine("Just executed: " + instr.binary);
                     executed_instructions.Enqueue(instr.binary);
 
@@ -255,7 +266,9 @@ namespace GeminiCore
             }
         }
 
-        //end new methods for Project 3
+        //////////////////////////////////
+        ///End new methods to Project 3///
+        //////////////////////////////////
 
         
         //Method which resets CPU to default state
@@ -273,6 +286,8 @@ namespace GeminiCore
             cycles_elapsed = 0;
             cycle_penalties = 0;
             bypassing = false;
+            tookBranch = false;
+            areWeDone = false;
             TEMP = 0;
             CC = 0;
             Memory.clearInstructions();
@@ -299,7 +314,7 @@ namespace GeminiCore
                 return false;
         }
 
-        public void executeInstruction(DecodedInstruction instr)
+        public void executeInstruction(DecodedInstruction instr, int instrIndex)
         {
 
             //PC++;
@@ -505,13 +520,17 @@ namespace GeminiCore
                     if (tookBranch)
                     {
                         //Normal branching code
-                        PC = (short)(value);//think it was -1 due to the PC incrementing after PC = (short)(value - 1);
+                        PC = (short)(value-1);//think it was -1 due to the PC incrementing after// PC = (short)(value - 1);
                         Fetch_Counter = PC;
                         Decode_Counter = PC;
                         Execute_Counter = PC;
                         //penalty for a taken branch is 1 cycle
                         cycle_penalties++;
-                        //gotta call something here to flush out pipeline
+                        //gotta call something here to flush out pipeline queue in GUI
+                        if (OnBranchTaken != null)
+                        {
+                            OnBranchTaken(this, new BranchEventArgs(instr, instrIndex));
+                        }
                     }
                     break;
             }

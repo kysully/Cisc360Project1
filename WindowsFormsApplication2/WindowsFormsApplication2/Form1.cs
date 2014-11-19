@@ -41,6 +41,7 @@ namespace WindowsFormsApplication2
             myCPU.OnDecodeDone += myCPU_OnDecodeDone;
             myCPU.OnExecuteDone += myCPU_OnExecuteDone;
             myCPU.OnStoreDone += myCPU_OnStoreDone;
+            myCPU.OnBranchTaken += myCPU_OnBranchTaken;
             instructionsInPipeline = new Queue<PipelineInstruction>(5);
 
             fillCacheIndexComboBox();
@@ -152,6 +153,59 @@ namespace WindowsFormsApplication2
                 Console.WriteLine("Store Done in GUI ");
                 this.setStorePipelineLabel(args.CurrentInstructionIndex);
                 setPipelineValuesToView();
+            };
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method.Invoke();
+            }
+        }
+
+        void myCPU_OnBranchTaken(object sender, BranchEventArgs args)
+        {
+            MethodInvoker method = delegate
+            {
+                Console.WriteLine("Branch taken in GUI " + this.myCPU.ACC);
+                
+                /*What this code does is goes through the instructions in the pipeline,
+                  and removes the ones that were being worked on prior to the branch being
+                  taken
+                 NOTE: probably will have to add an if statement to check for branch prediction*/
+
+                int count = 0;
+                Console.WriteLine("Queue contents before:");
+                foreach (var instr in instructionsInPipeline)
+                {
+                    Console.WriteLine(count + ") " + instr.instructionText);
+                    count++;
+                }
+
+                PipelineInstruction[] temp = new PipelineInstruction[instructionsInPipeline.Count()];
+                instructionsInPipeline.CopyTo(temp, 0);
+                instructionsInPipeline.Clear();
+                int takenBranchIndex = args.CurrentInstrIndex;
+                Console.WriteLine("Taken branch index is " + takenBranchIndex);
+                for(int i = 0; i < temp.Count(); i++)
+                {
+                    //if the index is larger than the branch that was taken, it needs to be flushed out
+                    if ((temp[i]).instructionIndex <= takenBranchIndex)
+                    {
+                        instructionsInPipeline.Enqueue(temp[i]);
+                    }
+                }
+
+                count = 0;
+                Console.WriteLine("Queue contents after:");
+                foreach (var instr in instructionsInPipeline)
+                {
+                    Console.WriteLine(count + ") " + instr.instructionText);
+                    count++;
+                }
+                this.setPipelineValuesToView();
             };
 
             if (this.InvokeRequired)
