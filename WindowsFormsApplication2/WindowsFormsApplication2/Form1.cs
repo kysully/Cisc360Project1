@@ -180,7 +180,7 @@ namespace WindowsFormsApplication2
                 Console.WriteLine("Queue contents before:");
                 foreach (var instr in instructionsInPipeline)
                 {
-                    Console.WriteLine(count + ") " + instr.instructionText);
+                    Console.WriteLine(count + ") " + instr.instructionText + ", stage is " + instr.stage);
                     count++;
                 }
 
@@ -202,7 +202,7 @@ namespace WindowsFormsApplication2
                 Console.WriteLine("Queue contents after:");
                 foreach (var instr in instructionsInPipeline)
                 {
-                    Console.WriteLine(count + ") " + instr.instructionText);
+                    Console.WriteLine(count + ") " + instr.instructionText + ", stage is " + instr.stage);
                     count++;
                 }
                 this.setPipelineValuesToView();
