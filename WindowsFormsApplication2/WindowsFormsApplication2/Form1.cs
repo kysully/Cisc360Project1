@@ -263,193 +263,68 @@ namespace WindowsFormsApplication2
            resetGUI();
        }
 
+        //Updates Pipeline Map
+       public void setPipelineTexts(Label pNum, Label pFetch, Label pDecode, Label pExecute, Label pStore, PipelineInstruction instr)
+       {
+           String nullLine = "--------------";
+           pNum.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
+           switch (instr.stage)
+           {
+               case 4:
+                   pFetch.Text = "F";
+                   pDecode.Text = "D";
+                   pExecute.Text = "X";
+                   pStore.Text = "M";
+                   pNum.ForeColor = Color.Green;
+                   break;
+               case 3:
+                   pFetch.Text = "F";
+                   pDecode.Text = "D";
+                   pExecute.Text = "X";
+                   pStore.Text = nullLine;
+                   break;
+               case 2:
+                   pFetch.Text = "F";
+                   pDecode.Text = "D";
+                   pExecute.Text = nullLine;
+                   pStore.Text = nullLine;
+                   break;
+               case 1:
+                   pFetch.Text = "F";
+                   pDecode.Text = nullLine;
+                   pExecute.Text = nullLine;
+                   pStore.Text = nullLine;
+                   break;
+               case 0:
+                   pFetch.Text = nullLine;
+                  pDecode.Text = nullLine;
+                   pExecute.Text = nullLine;
+                   pStore.Text = nullLine;
+                   break;
+           }
+       }
+
        public void setPipelineValuesToView()
        {
            int count = 0;
-           String nullLine = "--------------";
            foreach(var instr in this.instructionsInPipeline){
                Debug.WriteLine("Pipeline value count " + count + " is " + instr);
                switch (count)
                {
                    case 0:
-                       this.pipeline1.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
-                       switch (instr.stage)
-                       {
-                           case 4:                               
-                               this.pipeline1Fetch.Text = "F";
-                               this.pipeline1Decode.Text = "D";
-                               this.pipeline1Execute.Text = "X";
-                               this.pipeline1Store.Text = "M";
-                               break;
-                           case 3:
-                               this.pipeline1Store.Text = nullLine;
-                               this.pipeline1Fetch.Text = "F";
-                               this.pipeline1Decode.Text = "D";
-                               this.pipeline1Execute.Text = "X";
-                               break;
-                           case 2:
-                               this.pipeline1Store.Text = nullLine;
-                               this.pipeline1Execute.Text = nullLine;
-                               this.pipeline1Fetch.Text = "F";
-                               this.pipeline1Decode.Text = "D";
-                               break;
-                           case 1:
-                               this.pipeline1Store.Text = nullLine;
-                               this.pipeline1Execute.Text = nullLine;
-                               this.pipeline1Decode.Text = nullLine;
-                               this.pipeline1Fetch.Text = "F";
-                               break;
-                           case 0:
-                               this.pipeline1Store.Text = nullLine;
-                               this.pipeline1Execute.Text = nullLine;
-                               this.pipeline1Decode.Text = nullLine;
-                               this.pipeline1Fetch.Text = nullLine;
-                               break;
-                       }                      
+                       setPipelineTexts(pipeline1, pipeline1Fetch, pipeline1Decode, pipeline1Execute, pipeline1Store, instr);
                        break;
                    case 1:
-                       this.pipeline2.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
-                       switch (instr.stage)
-                       {
-                           case 4:                               
-                               this.pipeline2Fetch.Text = "F";
-                               this.pipeline2Decode.Text = "D";
-                               this.pipeline2Execute.Text = "X";
-                               this.pipeline2Store.Text = "M";
-                               break;
-                           case 3:
-                               this.pipeline2Store.Text = nullLine;
-                               this.pipeline2Fetch.Text = "F";
-                               this.pipeline2Decode.Text = "D";
-                               this.pipeline2Execute.Text = "X";
-                               break;
-                           case 2:
-                               this.pipeline2Store.Text = nullLine;
-                               this.pipeline2Execute.Text = nullLine;
-                               this.pipeline2Fetch.Text = "F";
-                               this.pipeline2Decode.Text = "D";
-                               break;
-                           case 1:
-                               this.pipeline2Store.Text = nullLine;
-                               this.pipeline2Execute.Text = nullLine;
-                               this.pipeline2Decode.Text = nullLine;
-                               this.pipeline2Fetch.Text = "F";
-                               break;
-                           case 0:
-                               this.pipeline2Store.Text = nullLine;
-                               this.pipeline2Execute.Text = nullLine;
-                               this.pipeline2Decode.Text = nullLine;
-                               this.pipeline2Fetch.Text = nullLine;
-                               break;
-                       }
+                       setPipelineTexts(pipeline2,pipeline2Fetch, pipeline2Decode, pipeline2Execute, pipeline2Store, instr);
                        break;
                    case 2:
-                       this.pipeline3.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
-                       switch (instr.stage)
-                       {
-                           case 4:                               
-                               this.pipeline3Fetch.Text = "F";
-                               this.pipeline3Decode.Text = "D";
-                               this.pipeline3Execute.Text = "X";
-                               this.pipeline3Store.Text = "M";
-                               break;
-                           case 3:
-                               this.pipeline3Store.Text = nullLine;
-                               this.pipeline3Fetch.Text = "F";
-                               this.pipeline3Decode.Text = "D";
-                               this.pipeline3Execute.Text = "X";
-                               break;
-                           case 2:
-                               this.pipeline3Store.Text = nullLine;
-                               this.pipeline3Execute.Text = nullLine;
-                               this.pipeline3Fetch.Text = "F";
-                               this.pipeline3Decode.Text = "D";
-                               break;
-                           case 1:
-                               this.pipeline3Store.Text = nullLine;
-                               this.pipeline3Execute.Text = nullLine;
-                               this.pipeline3Decode.Text = nullLine;
-                               this.pipeline3Fetch.Text = "F";
-                               break;
-                           case 0:
-                               this.pipeline3Store.Text = nullLine;
-                               this.pipeline3Execute.Text = nullLine;
-                               this.pipeline3Decode.Text = nullLine;
-                               this.pipeline3Fetch.Text = nullLine;
-                               break;
-                       }
+                       setPipelineTexts(pipeline3, pipeline3Fetch, pipeline3Decode, pipeline3Execute, pipeline3Store, instr);
                        break;
                    case 3:
-                       this.pipeline4.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
-                       switch (instr.stage)
-                       {
-                           case 4:                               
-                               this.pipeline4Fetch.Text = "F";
-                               this.pipeline4Decode.Text = "D";
-                               this.pipeline4Execute.Text = "X";
-                               this.pipeline4Store.Text = "M";
-                               break;
-                           case 3:
-                               this.pipeline4Store.Text = nullLine;
-                               this.pipeline4Fetch.Text = "F";
-                               this.pipeline4Decode.Text = "D";
-                               this.pipeline4Execute.Text = "X";
-                               break;
-                           case 2:
-                               this.pipeline4Store.Text = nullLine;
-                               this.pipeline4Execute.Text = nullLine;
-                               this.pipeline4Fetch.Text = "F";
-                               this.pipeline4Decode.Text = "D";
-                               break;
-                           case 1:
-                               this.pipeline4Store.Text = nullLine;
-                               this.pipeline4Execute.Text = nullLine;
-                               this.pipeline4Decode.Text = nullLine;
-                               this.pipeline4Fetch.Text = "F";
-                               break;
-                           case 0:
-                               this.pipeline4Store.Text = nullLine;
-                               this.pipeline4Execute.Text = nullLine;
-                               this.pipeline4Decode.Text = nullLine;
-                               this.pipeline4Fetch.Text = nullLine;
-                               break;
-                       }
+                       setPipelineTexts(pipeline4, pipeline4Fetch, pipeline4Decode, pipeline4Execute, pipeline4Store, instr);
                        break;
                    case 4:
-                       this.pipeline5.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
-                       switch (instr.stage)
-                       {
-                           case 4:                               
-                               this.pipeline5Fetch.Text = "F";
-                               this.pipeline5Decode.Text = "D";
-                               this.pipeline5Execute.Text = "X";
-                               this.pipeline5Store.Text = "M";
-                               break;
-                           case 3:
-                               this.pipeline5Store.Text = nullLine;
-                               this.pipeline5Fetch.Text = "F";
-                               this.pipeline5Decode.Text = "D";
-                               this.pipeline5Execute.Text = "X";
-                               break;
-                           case 2:
-                               this.pipeline5Store.Text = nullLine;
-                               this.pipeline5Execute.Text = nullLine;
-                               this.pipeline5Fetch.Text = "F";
-                               this.pipeline5Decode.Text = "D";
-                               break;
-                           case 1:
-                               this.pipeline5Store.Text = nullLine;
-                               this.pipeline5Execute.Text = nullLine;
-                               this.pipeline5Decode.Text = nullLine;
-                               this.pipeline5Fetch.Text = "F";
-                               break;
-                           case 0:
-                               this.pipeline5Store.Text = nullLine;
-                               this.pipeline5Execute.Text = nullLine;
-                               this.pipeline5Decode.Text = nullLine;
-                               this.pipeline5Fetch.Text = nullLine;
-                               break;
-                       }
+                       setPipelineTexts(pipeline5, pipeline5Fetch, pipeline5Decode, pipeline5Execute, pipeline5Store, instr);
                        break;
                }
                count++;
