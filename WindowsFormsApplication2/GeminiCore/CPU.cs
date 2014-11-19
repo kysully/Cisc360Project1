@@ -241,7 +241,7 @@ namespace GeminiCore
                     {
                         OnExecuteDone(this, new ExecuteEventArgs(instr.binary, Execute_Counter));
                     }
-                    Execute_Counter++;
+                    Execute_Counter++;                    
                 }                
             }
         }
@@ -527,6 +527,7 @@ namespace GeminiCore
                         //penalty for a taken branch is 1 cycle
                         cycle_penalties++;
                         //gotta call something here to flush out pipeline queue in GUI
+                        //moved to execute thread
                         if (OnBranchTaken != null)
                         {
                             OnBranchTaken(this, new BranchEventArgs(instr, instrIndex));
