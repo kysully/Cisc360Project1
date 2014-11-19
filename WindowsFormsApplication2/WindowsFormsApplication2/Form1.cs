@@ -206,10 +206,14 @@ namespace WindowsFormsApplication2
         #endregion
         private void nextInstructionButton_Click(object sender, EventArgs e)
         {
-            if ((this.myCPU.PC) < (Memory.getBinaryInstructions().Count))
+            if ((this.myCPU.PC) <= (Memory.getBinaryInstructions().Count))
             {
                 this.myCPU.nextInstructionPipeline();//used to be nextInstruction
-                this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
+                //since it takes 4 "next "instructions" in order for PC to increment
+                if (this.myCPU.PC != 0)
+                {
+                    this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
+                }               
 
                 var temp = (this.previousInstructionLabel.Text).Substring(0, 3);
                 if ( temp.CompareTo("sta") == 0)
@@ -270,16 +274,28 @@ namespace WindowsFormsApplication2
                        this.pipeline1.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
-                           case 4:
+                           case 4:                               
+                               this.pipeline1Fetch.Text = "F";
+                               this.pipeline1Decode.Text = "D";
+                               this.pipeline1Execute.Text = "X";
                                this.pipeline1Store.Text = "M";
                                break;
                            case 3:
+                               this.pipeline1Store.Text = nullLine;
+                               this.pipeline1Fetch.Text = "F";
+                               this.pipeline1Decode.Text = "D";
                                this.pipeline1Execute.Text = "X";
                                break;
                            case 2:
+                               this.pipeline1Store.Text = nullLine;
+                               this.pipeline1Execute.Text = nullLine;
+                               this.pipeline1Fetch.Text = "F";
                                this.pipeline1Decode.Text = "D";
                                break;
                            case 1:
+                               this.pipeline1Store.Text = nullLine;
+                               this.pipeline1Execute.Text = nullLine;
+                               this.pipeline1Decode.Text = nullLine;
                                this.pipeline1Fetch.Text = "F";
                                break;
                            case 0:
@@ -294,16 +310,28 @@ namespace WindowsFormsApplication2
                        this.pipeline2.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
-                           case 4:
+                           case 4:                               
+                               this.pipeline2Fetch.Text = "F";
+                               this.pipeline2Decode.Text = "D";
+                               this.pipeline2Execute.Text = "X";
                                this.pipeline2Store.Text = "M";
                                break;
                            case 3:
+                               this.pipeline2Store.Text = nullLine;
+                               this.pipeline2Fetch.Text = "F";
+                               this.pipeline2Decode.Text = "D";
                                this.pipeline2Execute.Text = "X";
                                break;
                            case 2:
+                               this.pipeline2Store.Text = nullLine;
+                               this.pipeline2Execute.Text = nullLine;
+                               this.pipeline2Fetch.Text = "F";
                                this.pipeline2Decode.Text = "D";
                                break;
                            case 1:
+                               this.pipeline2Store.Text = nullLine;
+                               this.pipeline2Execute.Text = nullLine;
+                               this.pipeline2Decode.Text = nullLine;
                                this.pipeline2Fetch.Text = "F";
                                break;
                            case 0:
@@ -312,22 +340,34 @@ namespace WindowsFormsApplication2
                                this.pipeline2Decode.Text = nullLine;
                                this.pipeline2Fetch.Text = nullLine;
                                break;
-                       }    
+                       }
                        break;
                    case 2:
                        this.pipeline3.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
-                           case 4:
+                           case 4:                               
+                               this.pipeline3Fetch.Text = "F";
+                               this.pipeline3Decode.Text = "D";
+                               this.pipeline3Execute.Text = "X";
                                this.pipeline3Store.Text = "M";
                                break;
                            case 3:
+                               this.pipeline3Store.Text = nullLine;
+                               this.pipeline3Fetch.Text = "F";
+                               this.pipeline3Decode.Text = "D";
                                this.pipeline3Execute.Text = "X";
                                break;
                            case 2:
+                               this.pipeline3Store.Text = nullLine;
+                               this.pipeline3Execute.Text = nullLine;
+                               this.pipeline3Fetch.Text = "F";
                                this.pipeline3Decode.Text = "D";
                                break;
                            case 1:
+                               this.pipeline3Store.Text = nullLine;
+                               this.pipeline3Execute.Text = nullLine;
+                               this.pipeline3Decode.Text = nullLine;
                                this.pipeline3Fetch.Text = "F";
                                break;
                            case 0:
@@ -336,22 +376,34 @@ namespace WindowsFormsApplication2
                                this.pipeline3Decode.Text = nullLine;
                                this.pipeline3Fetch.Text = nullLine;
                                break;
-                       }    
+                       }
                        break;
                    case 3:
                        this.pipeline4.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
-                           case 4:
+                           case 4:                               
+                               this.pipeline4Fetch.Text = "F";
+                               this.pipeline4Decode.Text = "D";
+                               this.pipeline4Execute.Text = "X";
                                this.pipeline4Store.Text = "M";
                                break;
                            case 3:
+                               this.pipeline4Store.Text = nullLine;
+                               this.pipeline4Fetch.Text = "F";
+                               this.pipeline4Decode.Text = "D";
                                this.pipeline4Execute.Text = "X";
                                break;
                            case 2:
+                               this.pipeline4Store.Text = nullLine;
+                               this.pipeline4Execute.Text = nullLine;
+                               this.pipeline4Fetch.Text = "F";
                                this.pipeline4Decode.Text = "D";
                                break;
                            case 1:
+                               this.pipeline4Store.Text = nullLine;
+                               this.pipeline4Execute.Text = nullLine;
+                               this.pipeline4Decode.Text = nullLine;
                                this.pipeline4Fetch.Text = "F";
                                break;
                            case 0:
@@ -360,22 +412,34 @@ namespace WindowsFormsApplication2
                                this.pipeline4Decode.Text = nullLine;
                                this.pipeline4Fetch.Text = nullLine;
                                break;
-                       }    
+                       }
                        break;
                    case 4:
                        this.pipeline5.Text = instr.instructionText + "(" + instr.instructionIndex + ")";
                        switch (instr.stage)
                        {
-                           case 4:
+                           case 4:                               
+                               this.pipeline5Fetch.Text = "F";
+                               this.pipeline5Decode.Text = "D";
+                               this.pipeline5Execute.Text = "X";
                                this.pipeline5Store.Text = "M";
                                break;
                            case 3:
+                               this.pipeline5Store.Text = nullLine;
+                               this.pipeline5Fetch.Text = "F";
+                               this.pipeline5Decode.Text = "D";
                                this.pipeline5Execute.Text = "X";
                                break;
                            case 2:
+                               this.pipeline5Store.Text = nullLine;
+                               this.pipeline5Execute.Text = nullLine;
+                               this.pipeline5Fetch.Text = "F";
                                this.pipeline5Decode.Text = "D";
                                break;
                            case 1:
+                               this.pipeline5Store.Text = nullLine;
+                               this.pipeline5Execute.Text = nullLine;
+                               this.pipeline5Decode.Text = nullLine;
                                this.pipeline5Fetch.Text = "F";
                                break;
                            case 0:
@@ -384,7 +448,7 @@ namespace WindowsFormsApplication2
                                this.pipeline5Decode.Text = nullLine;
                                this.pipeline5Fetch.Text = nullLine;
                                break;
-                       }    
+                       }
                        break;
                }
                count++;
@@ -503,12 +567,7 @@ namespace WindowsFormsApplication2
             this.cacheIndexComboBox.Items.Clear();
             fillCacheIndexComboBox();
             resetPipelineLabels();
-            this.instructionsInPipeline = new Queue<PipelineInstruction>(5);
-            myCPU.OnFetchDone += myCPU_OnFetchDone;
-            myCPU.OnDecodeDone += myCPU_OnDecodeDone;
-            myCPU.OnExecuteDone += myCPU_OnExecuteDone;
-            myCPU.OnStoreDone += myCPU_OnStoreDone;
-            
+            this.instructionsInPipeline = new Queue<PipelineInstruction>(5);            
         }
 
         void resetPipelineLabels(){
