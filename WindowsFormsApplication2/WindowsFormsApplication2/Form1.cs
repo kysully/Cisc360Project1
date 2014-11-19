@@ -270,6 +270,8 @@ namespace WindowsFormsApplication2
                     this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
                 }
                 this.cyclesElapsed.Text = myCPU.cycles_elapsed.ToString();
+                this.cyclePenalties.Text = myCPU.cycle_penalties.ToString();
+
                 var temp = (this.previousInstructionLabel.Text).Substring(0, 3);
                 if ( temp.CompareTo("sta") == 0)
                 {
@@ -551,6 +553,7 @@ namespace WindowsFormsApplication2
             resetPipelineLabels();
             this.instructionsInPipeline = new Queue<PipelineInstruction>(5);
             this.cyclesElapsed.Text = "-------------";
+            this.cyclePenalties.Text = "-------------";
         }
 
         void resetPipelineLabels(){
