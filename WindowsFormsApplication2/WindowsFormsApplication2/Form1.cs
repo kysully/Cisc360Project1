@@ -362,6 +362,16 @@ namespace WindowsFormsApplication2
            }
        }
 
+       public void setPipelineTextNull(Label pNum, Label pFetch, Label pDecode, Label pExecute, Label pStore)
+       {
+           String nullLine = "--------------";
+           pNum.Text = nullLine;
+           pFetch.Text = nullLine;
+           pDecode.Text = nullLine;
+           pExecute.Text = nullLine;
+           pStore.Text = nullLine;
+       }
+
        public void setPipelineValuesToView()
        {
            int count = 0;
@@ -383,6 +393,32 @@ namespace WindowsFormsApplication2
                        break;
                    case 4:
                        setPipelineTexts(pipeline5, pipeline5Fetch, pipeline5Decode, pipeline5Execute, pipeline5Store, instr);
+                       break;
+               }
+               count++;
+           }
+
+           //5 since we look at 5 instructions in the pipeline
+           //sometimes when we update the pipeline values
+           //there may be empty pipelines as a result of a flush
+           while (count < 5)
+           {
+               switch (count)
+               {
+                   case 0:
+                       setPipelineTextNull(pipeline1, pipeline1Fetch, pipeline1Decode, pipeline1Execute, pipeline1Store);
+                       break;
+                   case 1:
+                       setPipelineTextNull(pipeline2, pipeline2Fetch, pipeline2Decode, pipeline2Execute, pipeline2Store);
+                       break;
+                   case 2:
+                       setPipelineTextNull(pipeline3, pipeline3Fetch, pipeline3Decode, pipeline3Execute, pipeline3Store);
+                       break;
+                   case 3:
+                       setPipelineTextNull(pipeline4, pipeline4Fetch, pipeline4Decode, pipeline4Execute, pipeline4Store);
+                       break;
+                   case 4:
+                       setPipelineTextNull(pipeline5, pipeline5Fetch, pipeline5Decode, pipeline5Execute, pipeline5Store);
                        break;
                }
                count++;
