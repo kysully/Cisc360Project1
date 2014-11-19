@@ -51,6 +51,9 @@ namespace WindowsFormsApplication2
 
             //Starts with 1 way mode highlighted
             button2_Click(null, null);
+            button6_Click(null, null);
+            button3_Click(null, null);
+
 
 
 #if DEBUG
@@ -794,6 +797,30 @@ namespace WindowsFormsApplication2
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            button3.BackColor = Color.LightYellow;
+            button4.BackColor = resetButton.BackColor;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            button4.BackColor = Color.LightYellow;
+            button3.BackColor = resetButton.BackColor;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            button6.BackColor = Color.LightYellow;
+            button5.BackColor = resetButton.BackColor;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            button5.BackColor = Color.LightYellow;
+            button6.BackColor = resetButton.BackColor;
         }
 
  
