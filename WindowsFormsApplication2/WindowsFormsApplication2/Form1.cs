@@ -272,10 +272,14 @@ namespace WindowsFormsApplication2
            {
                case 4:
                    pFetch.Text = "F";
+                   pFetch.ForeColor = Color.DarkGreen;
                    pDecode.Text = "D";
+                   pDecode.ForeColor = Color.DarkGreen;
                    pExecute.Text = "X";
+                   pExecute.ForeColor = Color.DarkGreen;
                    pStore.Text = "M";
-                   pNum.ForeColor = Color.Green;
+                   pStore.ForeColor = Color.DarkGreen;
+                   pNum.ForeColor = Color.DarkGreen;
                    break;
                case 3:
                    pFetch.Text = "F";

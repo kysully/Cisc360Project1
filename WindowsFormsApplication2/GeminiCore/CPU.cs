@@ -326,7 +326,7 @@ namespace GeminiCore
                 case "001":// ------------GROUP2
                     if(command == "0001"){ //LDA
                         //Maybe signal to the GUI here that there was a load-use delay
-                        if (!Bypassing)
+                        if (!bypassing)
                         {
                             //penalty for a load-use delay is 1 cycle
                             cycle_penalties++;
