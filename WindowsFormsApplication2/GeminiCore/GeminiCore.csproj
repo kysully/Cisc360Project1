@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BranchEventArgs.cs" />
     <Compile Include="CPU.cs" />
     <Compile Include="DecodeEventArgs.cs" />
     <Compile Include="ExecuteEventArgs.cs" />
