@@ -12,10 +12,10 @@ namespace GeminiCore
         public CPU.DecodedInstruction CurrentDecodedInstr { get; set; }
         public int CurrentInstructionIndex { get; set; }
 
-        public DecodeEventArgs(CPU.DecodedInstruction ir, int instructionIndex)
+        public DecodeEventArgs(CPU.DecodedInstruction decodedInstr)
         {
-            CurrentDecodedInstr = ir;
-            CurrentInstructionIndex = instructionIndex;
+            CurrentDecodedInstr = decodedInstr;
+            CurrentInstructionIndex = decodedInstr.index;
         }
     }
 }

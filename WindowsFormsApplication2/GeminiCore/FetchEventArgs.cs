@@ -11,10 +11,10 @@ namespace GeminiCore
         public short CurrentIR { get; set; }
         public int CurrentInstructionIndex { get; set; }
 
-        public FetchEventArgs(short ir, int instructionIndex)
+        public FetchEventArgs(CPU.FetchedInstruction instruction)
         {
-            CurrentIR = ir;
-            CurrentInstructionIndex = instructionIndex;
+            CurrentIR = instruction.binary;
+            CurrentInstructionIndex = instruction.binary;
         }
     }
 }
