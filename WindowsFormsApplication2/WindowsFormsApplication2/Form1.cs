@@ -315,6 +315,7 @@ namespace WindowsFormsApplication2
             {
                 nextInstructionButton_Click(sender, e);
                 Console.WriteLine("PC counter = " + this.myCPU.PC + " and BI Count = " + Memory.getBinaryInstructions().Count);
+                System.Threading.Thread.Sleep(000);
                 //some sort of barrier should go here to stop the deadlock
             }
              
@@ -360,6 +361,12 @@ namespace WindowsFormsApplication2
                    pDecode.Text = "D";
                    pExecute.Text = nullLine;
                    pStore.Text = nullLine;
+                   pFetch.ForeColor = label47.ForeColor;
+                   pDecode.ForeColor = label47.ForeColor;
+                   pExecute.ForeColor = label47.ForeColor;
+                   pStore.ForeColor = label47.ForeColor;
+                   pNum.ForeColor = label47.ForeColor;
+
                    break;
                case 1:
                    pFetch.Text = "F";
@@ -367,11 +374,23 @@ namespace WindowsFormsApplication2
                    pExecute.Text = nullLine;
                    pStore.Text = nullLine;
                    break;
+                   pFetch.ForeColor = label47.ForeColor;
+                   pDecode.ForeColor = label47.ForeColor;
+                   pExecute.ForeColor = label47.ForeColor;
+                   pStore.ForeColor = label47.ForeColor;
+                   pNum.ForeColor = label47.ForeColor;
+
                case 0:
                    pFetch.Text = nullLine;
-                  pDecode.Text = nullLine;
+                   pDecode.Text = nullLine;
                    pExecute.Text = nullLine;
                    pStore.Text = nullLine;
+                   pFetch.ForeColor = label47.ForeColor;
+                   pDecode.ForeColor = label47.ForeColor;
+                   pExecute.ForeColor = label47.ForeColor;
+                   pStore.ForeColor = label47.ForeColor;
+                   pNum.ForeColor = label47.ForeColor;
+
                    break;
            }
        }
@@ -543,7 +562,6 @@ namespace WindowsFormsApplication2
             this.currInstructionCountLabel.Text = instructionCount.ToString();
             this.pcLabel.Text =  this.myCPU.PC.ToString();
             this.accLabel.Text = this.myCPU.ACC.ToString();
-            this.aLabel.Text = this.myCPU.ACC.ToString();
             this.ccLabel.Text = this.myCPU.ACC.ToString();
             this.totalInstructionCountLabel.Text = "0";
             this.fileNameLabel.Text = "...";
