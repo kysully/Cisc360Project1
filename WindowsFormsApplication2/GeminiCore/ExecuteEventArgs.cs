@@ -12,10 +12,10 @@ namespace GeminiCore
         public short CurrentInstr { get; set; }
         public int CurrentInstructionIndex { get; set; }
 
-        public ExecuteEventArgs(short binary, int Execute_Counter)
+        public ExecuteEventArgs(CPU.DecodedInstruction instr)
         {
-            this.CurrentInstr = binary;
-            this.CurrentInstructionIndex = Execute_Counter;
+            this.CurrentInstr = instr.binary;
+            this.CurrentInstructionIndex = instr.index;
         }
     }
 }

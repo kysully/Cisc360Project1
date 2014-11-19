@@ -81,7 +81,7 @@ namespace WindowsFormsApplication2
             MethodInvoker method = delegate
             {
                 Console.WriteLine("Fetch Done in GUI " + this.myCPU.ACC);
-                if (args.CurrentInstructionIndex < Memory.getAssemblyInstructions().Count)
+                if (args.CurrentInstructionIndex < Memory.getAssemblyInstructions().Count && args.CurrentInstructionIndex >= 0)
                 {
                     this.irLabel.Text = args.CurrentIR.ToString();
                     String instructionText = Memory.getAssemblyInstructions().ElementAt(args.CurrentInstructionIndex);
@@ -93,6 +93,8 @@ namespace WindowsFormsApplication2
                     this.instructionsInPipeline.Enqueue(new PipelineInstruction(instructionText, args.CurrentInstructionIndex));
                     this.setFetchPipelineLabel(args.CurrentInstructionIndex);
                     this.setPipelineValuesToView();
+                    args.CurrentIR = 0;
+                    args.CurrentInstructionIndex = -1;
                 }
                 
 
@@ -116,6 +118,8 @@ namespace WindowsFormsApplication2
 
                 this.setDecodePipelineLabel(args.CurrentInstructionIndex);
                 setPipelineValuesToView();
+                args.CurrentDecodedInstr = null;
+                args.CurrentInstructionIndex = -1;
 
             };
 
@@ -137,6 +141,8 @@ namespace WindowsFormsApplication2
                 this.setExecutePipelineLabel(args.CurrentInstructionIndex);
                 this.setCPUValuesToView();
                 setPipelineValuesToView();
+                args.CurrentInstr = 0;
+                args.CurrentInstructionIndex = -1;
             };
 
             if (this.InvokeRequired)
@@ -195,8 +201,13 @@ namespace WindowsFormsApplication2
                 for(int i = 0; i < temp.Count(); i++)
                 {
                     //if the index is larger than the branch that was taken, it needs to be flushed out
-                    if ((temp[i]).instructionIndex <= takenBranchIndex)
+                    if ((temp[i]).instructionIndex < takenBranchIndex)
                     {
+                        instructionsInPipeline.Enqueue(temp[i]);
+                    }
+                    else if (temp[i].instructionIndex == takenBranchIndex)
+                    {
+                        temp[i].stage++;//this is to correct for the special branch case
                         instructionsInPipeline.Enqueue(temp[i]);
                     }
                 }
