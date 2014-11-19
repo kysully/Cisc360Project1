@@ -141,11 +141,11 @@
             this.label56 = new System.Windows.Forms.Label();
             this.label55 = new System.Windows.Forms.Label();
             this.label54 = new System.Windows.Forms.Label();
-            this.label53 = new System.Windows.Forms.Label();
-            this.label52 = new System.Windows.Forms.Label();
-            this.label51 = new System.Windows.Forms.Label();
-            this.label50 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
+            this.branch5 = new System.Windows.Forms.Label();
+            this.branch4 = new System.Windows.Forms.Label();
+            this.branch2 = new System.Windows.Forms.Label();
+            this.branch3 = new System.Windows.Forms.Label();
+            this.branch1 = new System.Windows.Forms.Label();
             this.label45 = new System.Windows.Forms.Label();
             this.label46 = new System.Windows.Forms.Label();
             this.label48 = new System.Windows.Forms.Label();
@@ -1211,11 +1211,11 @@
             this.panel6.Controls.Add(this.label56);
             this.panel6.Controls.Add(this.label55);
             this.panel6.Controls.Add(this.label54);
-            this.panel6.Controls.Add(this.label53);
-            this.panel6.Controls.Add(this.label52);
-            this.panel6.Controls.Add(this.label51);
-            this.panel6.Controls.Add(this.label50);
-            this.panel6.Controls.Add(this.label49);
+            this.panel6.Controls.Add(this.branch5);
+            this.panel6.Controls.Add(this.branch4);
+            this.panel6.Controls.Add(this.branch2);
+            this.panel6.Controls.Add(this.branch3);
+            this.panel6.Controls.Add(this.branch1);
             this.panel6.Controls.Add(this.label45);
             this.panel6.Controls.Add(this.label46);
             this.panel6.Controls.Add(this.label48);
@@ -1315,50 +1315,50 @@
             this.label54.TabIndex = 46;
             this.label54.Text = "--------------";
             // 
-            // label53
+            // branch5
             // 
-            this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(3, 155);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(49, 13);
-            this.label53.TabIndex = 45;
-            this.label53.Text = "--------------";
+            this.branch5.AutoSize = true;
+            this.branch5.Location = new System.Drawing.Point(3, 155);
+            this.branch5.Name = "branch5";
+            this.branch5.Size = new System.Drawing.Size(49, 13);
+            this.branch5.TabIndex = 45;
+            this.branch5.Text = "--------------";
             // 
-            // label52
+            // branch4
             // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(3, 133);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(49, 13);
-            this.label52.TabIndex = 44;
-            this.label52.Text = "--------------";
+            this.branch4.AutoSize = true;
+            this.branch4.Location = new System.Drawing.Point(3, 133);
+            this.branch4.Name = "branch4";
+            this.branch4.Size = new System.Drawing.Size(49, 13);
+            this.branch4.TabIndex = 44;
+            this.branch4.Text = "--------------";
             // 
-            // label51
+            // branch2
             // 
-            this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(3, 77);
-            this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(49, 13);
-            this.label51.TabIndex = 43;
-            this.label51.Text = "--------------";
+            this.branch2.AutoSize = true;
+            this.branch2.Location = new System.Drawing.Point(3, 77);
+            this.branch2.Name = "branch2";
+            this.branch2.Size = new System.Drawing.Size(49, 13);
+            this.branch2.TabIndex = 43;
+            this.branch2.Text = "--------------";
             // 
-            // label50
+            // branch3
             // 
-            this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(3, 107);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(49, 13);
-            this.label50.TabIndex = 42;
-            this.label50.Text = "--------------";
+            this.branch3.AutoSize = true;
+            this.branch3.Location = new System.Drawing.Point(3, 107);
+            this.branch3.Name = "branch3";
+            this.branch3.Size = new System.Drawing.Size(49, 13);
+            this.branch3.TabIndex = 42;
+            this.branch3.Text = "--------------";
             // 
-            // label49
+            // branch1
             // 
-            this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(3, 51);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(49, 13);
-            this.label49.TabIndex = 39;
-            this.label49.Text = "--------------";
+            this.branch1.AutoSize = true;
+            this.branch1.Location = new System.Drawing.Point(3, 51);
+            this.branch1.Name = "branch1";
+            this.branch1.Size = new System.Drawing.Size(49, 13);
+            this.branch1.TabIndex = 39;
+            this.branch1.Text = "--------------";
             // 
             // label45
             // 
@@ -1739,11 +1739,11 @@
         private System.Windows.Forms.Label label56;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.Label label54;
-        private System.Windows.Forms.Label label53;
-        private System.Windows.Forms.Label label52;
-        private System.Windows.Forms.Label label51;
-        private System.Windows.Forms.Label label50;
-        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label branch5;
+        private System.Windows.Forms.Label branch4;
+        private System.Windows.Forms.Label branch2;
+        private System.Windows.Forms.Label branch3;
+        private System.Windows.Forms.Label branch1;
     }
 }
 

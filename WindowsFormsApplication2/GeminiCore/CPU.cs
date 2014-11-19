@@ -54,6 +54,7 @@ namespace GeminiCore
         public event StoreDone OnStoreDone;
         public delegate void BranchTaken(object sender, BranchEventArgs args);
         public event BranchTaken OnBranchTaken;
+        public String currBranchInstr = "";
 
         public bool bypassing { get; set; }
         bool areWeDone = false;
@@ -255,6 +256,17 @@ namespace GeminiCore
                     DecodedInstruction decodedInstr = new DecodedInstruction(instr.binary, instr.index);
                     decoded_instructions.Enqueue(decodedInstr);
                     Decode_IR = decodedInstr;
+                    //If Branch, then add to table.
+                    if (decodedInstr.opcode == "100")
+                    {
+                        currBranchInstr = Memory.getAssemblyInstructions().ElementAt(decodedInstr.index);
+                    }
+                    else
+                    {
+                        currBranchInstr = "";
+
+                    }
+
                     Console.WriteLine("Just decoded: " + decodedInstr.binary);
 
                     if (OnDecodeDone != null)

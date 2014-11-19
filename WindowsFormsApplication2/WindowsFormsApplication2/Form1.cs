@@ -24,6 +24,8 @@ namespace WindowsFormsApplication2
         int instructionCount = 0;
         bool addressMode = false; // default 1 way
         Queue<PipelineInstruction> instructionsInPipeline;
+        List<Label> branchLabels = new List<Label>();
+        List<String> bhtBranches = new List<String>();
 
         public Form1()
         {
@@ -120,6 +122,14 @@ namespace WindowsFormsApplication2
                 setPipelineValuesToView();
                 args.CurrentDecodedInstr = null;
                 args.CurrentInstructionIndex = -1;
+                //Add to Branches List for BHT
+
+                if (myCPU.currBranchInstr != "")
+                {
+                    Console.WriteLine("Current Branch Instr: " + myCPU.currBranchInstr);
+                    this.bhtBranches.Add(myCPU.currBranchInstr);
+                }
+                setBHTToView();
 
             };
 
@@ -340,9 +350,36 @@ namespace WindowsFormsApplication2
            resetGUI();
        }
 
+          //Updates Branch History Table
        public void setBHTToView()
-       { 
-
+       {
+           int count = 0;
+           if (bhtBranches != null)
+           {
+               foreach (String bString in bhtBranches)
+               {
+                   Console.WriteLine("CURRENT BSTRINNG " + bString);
+                   switch (count)
+                   {
+                       case 0:
+                           branch1.Text = bString;
+                           break;
+                       case 1:
+                           branch2.Text = bString;
+                           break;
+                       case 2:
+                           branch1.Text = bString;
+                           break;
+                       case 3:
+                           branch2.Text = bString;
+                           break;
+                       case 4:
+                           branch1.Text = bString;
+                           break;
+                   }
+                   count++;
+               }
+           }
        }
 
 
