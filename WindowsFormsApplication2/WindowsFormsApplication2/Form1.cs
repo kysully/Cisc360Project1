@@ -204,7 +204,6 @@ namespace WindowsFormsApplication2
             }
         }
         #endregion
-
         private void nextInstructionButton_Click(object sender, EventArgs e)
         {
             if ((this.myCPU.PC) < (Memory.getBinaryInstructions().Count))
