@@ -691,10 +691,14 @@ namespace WindowsFormsApplication2
         }
 
         public void resetGUI()
-        {
-            this.myCPU.reset();//this won't work with pipelines
+        {/*
+            Form1 newForm = new Form1();
+            this.Hide();
+            newForm.Show();
+            */
             memory = new Memory( (int)(this.cacheSizeBox.SelectedItem), (int)(this.blockSizeBox.SelectedItem), addressMode );
             this.myCPU.memory = memory;
+            this.myCPU.reset();//this won't work with pipelines
             setCPUValuesToView();
             setCacheLabelsToView();
             Memory.clearStack();
@@ -716,6 +720,7 @@ namespace WindowsFormsApplication2
             this.cyclesElapsed.Text = "-------------";
             this.cyclePenalties.Text = "-------------";
             programDone = false;
+
         }
 
         void resetPipelineLabels(){
