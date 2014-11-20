@@ -91,7 +91,7 @@ namespace GeminiCore
             
             ///Initlialize all the new threads for pipelining
             IR_D = 0;//default to NOP
-            bypassing = false;
+            bypassing = true;
             fetched_instructions = new Queue<FetchedInstruction>();
             decoded_instructions = new Queue<DecodedInstruction>();
             executed_instructions = new Queue<ExecutedInstruction>();
@@ -480,7 +480,7 @@ namespace GeminiCore
             executed_instructions.Clear();
             cycles_elapsed = 0;
             cycle_penalties = 0;
-            bypassing = false;
+            bypassing = true;
             tookBranch = false;
             areWeDone = false;
             TEMP = 0;
