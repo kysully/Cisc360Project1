@@ -26,6 +26,7 @@ namespace WindowsFormsApplication2
         Queue<PipelineInstruction> instructionsInPipeline;
         List<Label> branchLabels = new List<Label>();
         List<String> bhtBranches = new List<String>();
+        bool fetchDone, decodeDone, executeDone, storeDone, programDone;
 
         public Form1()
         {
@@ -44,6 +45,13 @@ namespace WindowsFormsApplication2
             myCPU.OnExecuteDone += myCPU_OnExecuteDone;
             myCPU.OnStoreDone += myCPU_OnStoreDone;
             myCPU.OnBranchTaken += myCPU_OnBranchTaken;
+            myCPU.OnStageDone += myCPU_OnStageDone;
+            fetchDone = false;
+            decodeDone = false;
+            executeDone = false;
+            storeDone = false;
+            programDone = false;
+            
             instructionsInPipeline = new Queue<PipelineInstruction>(5);
 
             fillCacheIndexComboBox();
@@ -86,7 +94,8 @@ namespace WindowsFormsApplication2
                 Console.WriteLine("Fetch Done in GUI ");
                 if (args.CurrentInstructionIndex < Memory.getAssemblyInstructions().Count && args.CurrentInstructionIndex >= 0)
                 {
-                    this.irLabel.Text = args.CurrentIR.ToString();
+                    //this.irLabel.Text = args.CurrentIR.ToString();
+                    //Console.WriteLine("Just set IR label to:" + irLabel.Text, " and index was" + args.CurrentInstructionIndex);
                     String instructionText = Memory.getAssemblyInstructions().ElementAt(args.CurrentInstructionIndex);
                     if (this.instructionsInPipeline.Count > 4)
                     {
@@ -95,11 +104,13 @@ namespace WindowsFormsApplication2
                     }
                     this.instructionsInPipeline.Enqueue(new PipelineInstruction(instructionText, args.CurrentInstructionIndex));
                     this.setFetchPipelineLabel(args.CurrentInstructionIndex);
-                    this.setPipelineValuesToView();
-                  
-                }
-                
-
+                    fetchDone = true;
+                    /*if (fetchDone && decodeDone && executeDone && storeDone)
+                    {
+                        Console.WriteLine("Fetch was last to finish, setting labels.");
+                        setPipelineValuesToView();
+                    } */                
+                }            
             };
 
             if (this.InvokeRequired)
@@ -119,16 +130,19 @@ namespace WindowsFormsApplication2
                 Console.WriteLine("Decode Done in GUI " + this.myCPU.ACC);
 
                 this.setDecodePipelineLabel(args.CurrentInstructionIndex);
-                setPipelineValuesToView();
-             
-
+                //setPipelineValuesToView();
                 if (myCPU.currBranchInstr != "")
                 {
                     Console.WriteLine("Current Branch Instr: " + myCPU.currBranchInstr);
                     this.bhtBranches.Add(myCPU.currBranchInstr);
                 }
                 setBHTToView();
-
+                decodeDone = true;
+                /*if (fetchDone && decodeDone && executeDone && storeDone)
+                {
+                    Console.WriteLine("Decode was last to finish, setting labels.");
+                    setPipelineValuesToView();
+                }*/
             };
 
             if (this.InvokeRequired)
@@ -141,15 +155,19 @@ namespace WindowsFormsApplication2
             }
         }
 
-        private void myCPU_OnExecuteDone(object sender, ExecuteEventArgs args)
+        private void myCPU_OnExecuteDone(object sender,ExecuteEventArgs args)
         {
             MethodInvoker method = delegate
             {
                 Console.WriteLine("Execute Done in GUI ");
                 this.setExecutePipelineLabel(args.CurrentInstructionIndex);
                 this.setCPUValuesToView();
-                setPipelineValuesToView();
-              
+                executeDone = true;
+                /*if (fetchDone && decodeDone && executeDone && storeDone)
+                {
+                    Console.WriteLine("Execute was last to finish, setting labels.");
+                    setPipelineValuesToView();
+                } */             
             };
 
             if (this.InvokeRequired)
@@ -167,10 +185,35 @@ namespace WindowsFormsApplication2
             MethodInvoker method = delegate
             {
                 Console.WriteLine("Store Done in GUI ");
-                this.setStorePipelineLabel(args.CurrentInstructionIndex);
-                setPipelineValuesToView();
-                //in case we need to update memory box
-                ComboBox1_SelectedIndexChanged(this, new EventArgs());
+                if (args.programDone)
+                {
+                    programDone = true;
+                }
+                else
+                {
+                    this.setStorePipelineLabel(args.CurrentInstructionIndex);
+                    //setPipelineValuesToView();
+                    //in case we need to update memory box
+                    ComboBox1_SelectedIndexChanged(this, new EventArgs());
+                    ComboBox3_SelectedIndexChanged(this, new EventArgs());
+                    this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
+                    if (this.myCPU.PC < Memory.getBinaryInstructions().Count())
+                    {
+                        this.irLabel.Text = Memory.getBinaryInstructions().ElementAt(myCPU.PC).ToString();//elementat(pc) to elementat(fetch counter)                
+                        this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(myCPU.PC);
+                    }
+                    else
+                    {
+                        this.currentInstructionLabel.Text = "--------------------------------";
+                    }
+
+                    storeDone = true;
+                }                
+                /*if (fetchDone && decodeDone && executeDone && storeDone)
+                {
+                    Console.WriteLine("Store was last to finish, setting labels.");
+                    setPipelineValuesToView();
+                }*/
             };
 
             if (this.InvokeRequired)
@@ -241,6 +284,36 @@ namespace WindowsFormsApplication2
             }
         }
 
+        void myCPU_OnStageDone(object sender, StageDoneEventArgs args)
+        {
+            MethodInvoker method = delegate
+            {
+                Console.WriteLine("inside on stage done in the GUI");
+                this.updateGUI();
+            };
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke(method);
+            }
+            else
+            {
+                method.Invoke();
+            }
+        }
+
+        //Updates the entire screen, all labels ect...
+        public void updateGUI()
+        {
+            this.setPipelineValuesToView();
+            this.setCPUValuesToView();
+            this.setCacheLabelsToView();
+            this.setBHTToView();            
+            this.currInstructionCountLabel.Text = (this.myCPU.PC + 1).ToString();
+            this.cyclesElapsed.Text = myCPU.cycles_elapsed.ToString();
+            this.cyclePenalties.Text = myCPU.cycle_penalties.ToString();
+        }
+
         #region Events
         private void loadFileButton_Click(object sender, EventArgs e)
         {
@@ -283,17 +356,28 @@ namespace WindowsFormsApplication2
         #endregion
         private void nextInstructionButton_Click(object sender, EventArgs e)
         {
-            if ((this.myCPU.PC) <= (Memory.getBinaryInstructions().Count))
+
+            if (programDone)
+            {
+                this.currentInstructionLabel.Text = "--------------------------------";
+                this.setCPUValuesToView();
+                this.setCacheLabelsToView();
+                updateGUI();
+                this.currInstructionCountLabel.Text = this.totalInstructionCountLabel.Text;
+                //this.myCPU.nextInstructionPipeline();
+                MessageBox.Show("The loaded assembly program has finished.");
+            }
+            else if ((this.myCPU.PC) <= (Memory.getBinaryInstructions().Count))
             {
                 this.myCPU.nextInstructionPipeline();//used to be nextInstruction
                 Console.WriteLine("IN NEXT INTR PC counter = " + this.myCPU.PC + " and BI Count = " + Memory.getBinaryInstructions().Count);
                 //since it takes 4 "next "instructions" in order for PC to increment
                 if (this.myCPU.PC != 0)
                 {
-                    this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
+                    //this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
                 }
-                this.cyclesElapsed.Text = myCPU.cycles_elapsed.ToString();
-                this.cyclePenalties.Text = myCPU.cycle_penalties.ToString();
+               // this.cyclesElapsed.Text = myCPU.cycles_elapsed.ToString();
+                //this.cyclePenalties.Text = myCPU.cycle_penalties.ToString();
 
                 var temp = (this.previousInstructionLabel.Text).Substring(0, 3);
                 if ( temp.CompareTo("sta") == 0)
@@ -311,16 +395,16 @@ namespace WindowsFormsApplication2
                     this.setCPUValuesToView();
                     this.setCacheLabelsToView();
                     this.currInstructionCountLabel.Text = this.totalInstructionCountLabel.Text;
-                    MessageBox.Show("The loaded assembly program has finished.");
+                    MessageBox.Show("The loaded assembly program has finished. BOOM");
                 }
 
-                this.setCPUValuesToView();
-                this.setCacheLabelsToView();
+                //this.setCPUValuesToView();
+                //this.setCacheLabelsToView();
                 //this.setPipelineValuesToView();
-                if (instructionCount < Memory.getAssemblyInstructions().Count)
+                /*if (instructionCount < Memory.getAssemblyInstructions().Count)
                 {
                     this.instructionCount++;
-                }
+                }*/
             }
             else
             {
@@ -582,7 +666,7 @@ namespace WindowsFormsApplication2
             this.tempLabel.Text = this.myCPU.TEMP.ToString();
             if (myCPU.PC < Memory.getBinaryInstructions().Count)
             {
-                this.irLabel.Text = Memory.getBinaryInstructions().ElementAt(myCPU.PC).ToString();
+                this.irLabel.Text = Memory.getBinaryInstructions().ElementAt(myCPU.PC).ToString();//elementat(pc) to elementat(fetch counter)
             }
             this.ccLabel.Text = this.myCPU.CC.ToString();
         }
@@ -631,6 +715,7 @@ namespace WindowsFormsApplication2
             this.instructionsInPipeline = new Queue<PipelineInstruction>(5);
             this.cyclesElapsed.Text = "-------------";
             this.cyclePenalties.Text = "-------------";
+            programDone = false;
         }
 
         void resetPipelineLabels(){

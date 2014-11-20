@@ -10,10 +10,11 @@ namespace GeminiCore
     public class StoreEventArgs : EventArgs
     {
         public int CurrentInstructionIndex { get; set; }
-
-        public StoreEventArgs(int Store_Counter)
+        public bool programDone { get; private set; }
+        public StoreEventArgs(int Store_Counter, bool programDone)
         {
             this.CurrentInstructionIndex = Store_Counter;
+            this.programDone = programDone;
         }
     }
 }
