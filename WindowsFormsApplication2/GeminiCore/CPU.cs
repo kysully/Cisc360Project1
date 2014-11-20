@@ -29,7 +29,7 @@ namespace GeminiCore
         private Queue<FetchedInstruction> fetched_instructions;
         private Queue<DecodedInstruction> decoded_instructions;
         private Queue<ExecutedInstruction> executed_instructions;
-        private int Fetch_Counter { get; set; }
+        public int Fetch_Counter { get; private set; }
         private int Decode_Counter { get; set; }
         private int Execute_Counter { get; set; }
         private int Store_Counter { get; set; }
@@ -44,6 +44,7 @@ namespace GeminiCore
         AutoResetEvent executeEvent = new AutoResetEvent(false);
         Thread storeThread;
         AutoResetEvent storeEvent = new AutoResetEvent(false);
+        AutoResetEvent stagesDoneEvent = new AutoResetEvent(false);
         public delegate void FetchDone(object sender, FetchEventArgs args);
         public event FetchDone OnFetchDone;
         public delegate void DecodeDone(object sender, DecodeEventArgs args);
@@ -54,15 +55,18 @@ namespace GeminiCore
         public event StoreDone OnStoreDone;
         public delegate void BranchTaken(object sender, BranchEventArgs args);
         public event BranchTaken OnBranchTaken;
+        public delegate void StageDone(object sender, StageDoneEventArgs args);
+        public event StageDone OnStageDone;
         public String currBranchInstr = "";
+        public DecodedInstruction instrExecute { get; set; }
 
         public bool bypassing { get; set; }
         bool areWeDone = false;
         bool tookBranch = false;
+        bool fetchDone, decodeDone, executeDone, storeDone;
 
         Barrier stageBarrier = new Barrier(participantCount:4);
-
-       
+        object allStagesDoneLock = new object();       
 
         //////////////////////////
         ///End new to project 3///
@@ -79,6 +83,7 @@ namespace GeminiCore
             Decode_Counter = 0;
             Execute_Counter = 0;
             Store_Counter = 0;
+            instrExecute = null;
             //We store a reference to main memory so the CPU can interact with it
             //essentially simulating the CPU making calls to memory.
             this.memory = memory;
@@ -105,6 +110,12 @@ namespace GeminiCore
             storeThread = new Thread(new ThreadStart(PerformStore));
             storeThread.Name = "Store Thread";
             storeThread.Start();
+
+            /*this.OnFetchDone += CPU_OnStageDone;
+            this.OnDecodeDone += CPU_OnStageDone;
+            this.OnExecuteDone += CPU_OnStageDone;
+            this.OnStoreDone += CPU_OnStageDone;
+             * */
         }
 
 
@@ -150,6 +161,13 @@ namespace GeminiCore
             None
         }
 
+        public enum StageType{
+            Fetch,
+            Decode,
+            Execute,
+            Store
+        }
+
         //In execute, the math is done and the result is stored in this wrapper
         //in addition to how that result will be stored, either in ACC or memory
         public class ExecutedInstruction
@@ -173,6 +191,17 @@ namespace GeminiCore
                 this.memoryIndex = memoryIndex;
             }
         }
+
+        /*public class StageDoneEventArgs : EventArgs
+        {
+            public short CurrentIR { get; set; }
+            public StageType CurrentThreadType { get; set; }
+
+            public StageDoneEventArgs(StageType type)
+            {
+                CurrentThreadType = type;
+            }
+        }*/
 
         /////////////////////////////////////////////////////////////////
         ///New to Project 3, methods for the four stages of pipelining///
@@ -209,6 +238,13 @@ namespace GeminiCore
                     executed_instructions.Clear();
 
                 }
+
+                //reset bools for next instruction
+                fetchDone = false;
+                decodeDone = false;
+                executeDone = false;
+                storeDone = false;
+
                 fetchEvent.Set();
 
                 decodeEvent.Set();
@@ -219,9 +255,42 @@ namespace GeminiCore
 
                 cycles_elapsed++;
                 Console.WriteLine("Cycles elapsed: " + cycles_elapsed);
+
+                //stagesDoneEvent.WaitOne();
                 //PC++; // do we need to do this here?
             }
-        }               
+        }
+
+        void CPU_OnStageDone(StageType type)
+        {
+            //Console.WriteLine("Inside on stage done for: " + args.stageType.ToString());
+            // if all threads are done (use bools)
+            switch (type)
+            {
+                case StageType.Fetch:
+                    fetchDone = true;
+                    break;
+                case StageType.Decode:
+                    decodeDone = true;
+                    break;
+                case StageType.Execute:
+                    executeDone = true;
+                    break;
+                case StageType.Store:
+                    storeDone = true;
+                    break;
+            }
+
+            lock (allStagesDoneLock)
+            {                
+                if (fetchDone && decodeDone && executeDone && storeDone)
+                {
+                    Console.WriteLine("called stage done event, " + type.ToString() + " was the last to finish.");
+                    OnStageDone(this, new StageDoneEventArgs());
+                }
+            }
+        }
+      
         private void PerformFetch()
         {
             while (!areWeDone)
@@ -237,14 +306,21 @@ namespace GeminiCore
                     fetched_instructions.Enqueue(FI);
   
                     this.IR = instruction;
-                    Console.WriteLine("IR is " + this.IR);
+                    Console.WriteLine("IR is " + this.IR + ", fetch counter is " + Fetch_Counter);
 
+                    Fetch_Counter++;
                     if (OnFetchDone != null)
                     {
                         OnFetchDone(this, new FetchEventArgs(FI));
+                        //OnFetchDone(this, new StageDoneEventArgs(Fetch_Counter - 1, StageType.Fetch));
                     }
-                    Fetch_Counter++;
+                    /*if (OnStageDone != null)
+                    {
+                        Console.WriteLine("Inside on stage done for fetch...");
+                        OnStageDone(this, new StageDoneEventArgs(StageType.Fetch));
+                    }*/
                 }
+                CPU_OnStageDone(StageType.Fetch);
             }
         }
         public void PerformDecode()
@@ -277,11 +353,15 @@ namespace GeminiCore
                     if (OnDecodeDone != null)
                     {
                         OnDecodeDone(this, new DecodeEventArgs(decodedInstr));
+                        //OnDecodeDone(this, new StageDoneEventArgs(instr.index, StageType.Decode));
                     }
+                    /*if (OnStageDone != null)
+                    {
+                        OnStageDone(this, new StageDoneEventArgs(StageType.Decode));
+                    }*/
                     Decode_Counter++;
                 }
-                
-                
+                CPU_OnStageDone(StageType.Decode);                
             }
         }
         public void PerformExecute()
@@ -292,21 +372,31 @@ namespace GeminiCore
                 Console.WriteLine("In Execute");
                 if (decoded_instructions.Count > 0)
                 {
-                    DecodedInstruction instr = decoded_instructions.Dequeue();
+                    instrExecute = decoded_instructions.Dequeue();
+                    var instr = instrExecute;
                     while (waitingForStoreResult())
                     {
                         Console.WriteLine("Waiting for a result to store into ACC/memory...");
                     }
+                    //execute instruction enqueues the instruction to pass to store stage
                     executeInstruction(instr);
-                    Debug.WriteLine("Just executed: " + instr.binary);
+                    
+                    Debug.WriteLine("Just executed: " + Memory.getAssemblyInstructions().ElementAt(instr.index) + "++++++++++++");
                     //this is done in execute instructionexecuted_instructions.Enqueue(instr.binary);
 
                     if (OnExecuteDone != null)
                     {
                         OnExecuteDone(this, new ExecuteEventArgs(instr));
+                        //OnExecuteDone(this, new StageDoneEventArgs(instr.index, StageType.Execute));
                     }
+                    instrExecute = null;
+                    /*if (OnStageDone != null)
+                    {
+                        OnStageDone(this, new StageDoneEventArgs(StageType.Execute));
+                    }*/
                     Execute_Counter++;                    
-                }                
+                }
+                CPU_OnStageDone(StageType.Execute);
             }
         }
         public void PerformStore()
@@ -318,6 +408,7 @@ namespace GeminiCore
                 if (executed_instructions.Count > 0)
                 {
                     ExecutedInstruction instrResult = executed_instructions.Dequeue();
+                    Console.WriteLine("Store dequeued: " + Memory.getAssemblyInstructions().ElementAt(instrResult.instrIndex));
                     if (instrResult.type == StoreType.Accumulator)
                     {
                         ACC = instrResult.result;
@@ -328,19 +419,31 @@ namespace GeminiCore
                         Console.WriteLine("Stored " + instrResult.result + " into memory index " + instrResult.memoryIndex);
                     }
                     //Console.WriteLine("Performed store on: " + binary);
+                    PC++;
+                    Console.WriteLine("PC is: " + PC + " and Fetch counter is: " + Fetch_Counter);   
                     if (OnStoreDone != null)
                     {
-                        OnStoreDone(this, new StoreEventArgs(instrResult.instrIndex));
+                        Console.WriteLine("Stored: " + Memory.getAssemblyInstructions().ElementAt(instrResult.instrIndex) + "--------------");
+                        OnStoreDone(this, new StoreEventArgs(instrResult.instrIndex, false));
+                        //OnStoreDone(this, new StageDoneEventArgs(instrResult.instrIndex, StageType.Store));
                     }
-                    Store_Counter++;
-                    PC++;
-                    Console.WriteLine("PC is: " + PC + " and Fetch counter is: " + Fetch_Counter);                    
+                    /*if (OnStageDone != null)
+                    {
+                        OnStageDone(this, new StageDoneEventArgs(StageType.Store));
+                    }*/
+                    //Store_Counter++;                 
                 }
-                else if (Fetch_Counter == Memory.getBinaryInstructions().Count())
+                   
+                CPU_OnStageDone(StageType.Store);
+                if ((Fetch_Counter == Memory.getBinaryInstructions().Count()) && (executed_instructions.Count == 0) 
+                    && (decoded_instructions.Count == 0) && (fetched_instructions.Count == 0) && instrExecute == null)
                 {
                         //this means we just stored the final instruction, so increment PC to trip the end of the program
-                        PC++;
+                        //PC++;
+                    Console.WriteLine("PROGRAM DONE");
+                    OnStoreDone(this, new StoreEventArgs(-1, true));
                 }
+                //CPU_OnStageDone(StageType.Store);
             }
         }
 
@@ -424,14 +527,14 @@ namespace GeminiCore
                 case "000":// --------------GROUP1
                     if(command == "0000"){ // NOP
                         Debug.WriteLine("NOP has been reached");
-                        return;
+                        //return;
                     }
                     else{ // HLT
                         //DO HLT 
                         Debug.WriteLine("HLT has been reached");
-                        return;
+                        //return;
                     }
-                    //break;
+                    break;
                 case "001":// ------------GROUP2
                     if(command == "0001"){ //LDA
                         //Maybe signal to the GUI here that there was a load-use delay
