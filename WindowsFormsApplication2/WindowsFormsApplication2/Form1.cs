@@ -183,6 +183,10 @@ namespace WindowsFormsApplication2
             MethodInvoker method = delegate
             {
                 Console.WriteLine("Execute Done in GUI ");
+                if (this.myCPU.mdHazard)
+                {
+                    MessageBox.Show("A mul or a div has been executed, that will be two cycle penalties.");
+                }
                 this.setExecutePipelineLabel(args.CurrentInstructionIndex);
                 this.setCPUValuesToView();
                 executeDone = true;

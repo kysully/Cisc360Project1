@@ -62,6 +62,7 @@ namespace GeminiCore
 
         public bool bypassing { get; set; }
         public bool branchPrediction { get; set; }
+        public bool mdHazard = false, bpHazard = false;
         bool areWeDone = false;
         bool tookBranch = false;
         bool fetchDone, decodeDone, executeDone, storeDone;
@@ -385,7 +386,7 @@ namespace GeminiCore
                     
                     Debug.WriteLine("Just executed: " + Memory.getAssemblyInstructions().ElementAt(instr.index) + "++++++++++++");
                     //this is done in execute instructionexecuted_instructions.Enqueue(instr.binary);
-
+                  
                     if (OnExecuteDone != null)
                     {
                         OnExecuteDone(this, new ExecuteEventArgs(instr));
@@ -619,6 +620,7 @@ namespace GeminiCore
                     if(command == "0011"){//MUL
                         //maybe signal to the GUI that there was a hazard
                         cycle_penalties = cycle_penalties + 4;
+                        mdHazard = true;
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("MUL# has been reached");
@@ -636,6 +638,7 @@ namespace GeminiCore
                     if(command == "0100"){//DIV
                         //maybe signal to the GUI that there was a hazard
                         cycle_penalties = cycle_penalties + 4;
+                        mdHazard = true;
                         if(flag == "1"){
                             //#
                             Debug.WriteLine("DIV# has been reached");
