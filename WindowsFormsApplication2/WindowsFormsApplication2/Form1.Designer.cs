@@ -161,6 +161,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.I = new System.Windows.Forms.Button();
+            this.label43 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -889,7 +890,7 @@
             // 
             this.label40.AutoSize = true;
             this.label40.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label40.Location = new System.Drawing.Point(128, 3);
+            this.label40.Location = new System.Drawing.Point(3, 4);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(103, 16);
             this.label40.TabIndex = 23;
@@ -898,6 +899,7 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.panel5.Controls.Add(this.label43);
             this.panel5.Controls.Add(this.pipeline3Store);
             this.panel5.Controls.Add(this.pipeline4Store);
             this.panel5.Controls.Add(this.pipeline5Store);
@@ -1537,6 +1539,16 @@
             this.I.UseVisualStyleBackColor = true;
             this.I.Click += new System.EventHandler(this.button6_Click);
             // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(112, 7);
+            this.label43.Name = "label43";
+            this.label43.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label43.Size = new System.Drawing.Size(49, 13);
+            this.label43.TabIndex = 39;
+            this.label43.Text = "--------------";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1720,6 +1732,7 @@
         private System.Windows.Forms.Label branch2;
         private System.Windows.Forms.Label branch3;
         private System.Windows.Forms.Label branch1;
+        private System.Windows.Forms.Label label43;
     }
 }
 
