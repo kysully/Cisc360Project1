@@ -185,7 +185,8 @@ namespace WindowsFormsApplication2
                 Console.WriteLine("Execute Done in GUI ");
                 if (this.myCPU.mdHazard)
                 {
-                    MessageBox.Show("A mul or a div has been executed, that will be two cycle penalties.");
+                    this.label43.Text = "A mul or div has been excuted, 4 cycle penalties!";
+                    this.myCPU.mdHazard = false;
                 }
                 this.setExecutePipelineLabel(args.CurrentInstructionIndex);
                 this.setCPUValuesToView();
@@ -411,7 +412,7 @@ namespace WindowsFormsApplication2
         #endregion
         private void nextInstructionButton_Click(object sender, EventArgs e)
         {
-
+            this.label43.Text = "--------------";
             if (programDone)
             {
                 this.currentInstructionLabel.Text = "--------------------------------";
