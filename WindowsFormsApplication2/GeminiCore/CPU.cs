@@ -68,7 +68,9 @@ namespace GeminiCore
         bool fetchDone, decodeDone, executeDone, storeDone;
 
         Barrier stageBarrier = new Barrier(participantCount:4);
-        object allStagesDoneLock = new object();       
+        object allStagesDoneLock = new object();
+
+        List<branchClass> branches = new List<branchClass>();
 
         //////////////////////////
         ///End new to project 3///
@@ -194,16 +196,55 @@ namespace GeminiCore
             }
         }
 
-        /*public class StageDoneEventArgs : EventArgs
+        //Code to used for branch prediction
+        public class branchClass
         {
-            public short CurrentIR { get; set; }
-            public StageType CurrentThreadType { get; set; }
-
-            public StageDoneEventArgs(StageType type)
+            int instrIndex { get; set; }
+            public String branchlabel { get; set; }
+            public int numTaken { get; set; }
+            public int numNotTaken { get; set; }
+            //true = taken, false = not taken
+            bool pastChoice { get; set; }
+            bool currentChoice { get; set; }
+            bool takentwice {get; set;}
+            public branchClass(int instrIndex)
             {
-                CurrentThreadType = type;
+                pastChoice = false;
+                currentChoice = false;
+                this.instrIndex = instrIndex;
+                this.branchlabel = Memory.getAssemblyInstructions().ElementAt(instrIndex);
+                this.takentwice = false;
             }
-        }*/
+            public void updateChoice(bool choice)
+            {
+                if (choice)
+                {
+                    numTaken++;
+                }
+                else
+                {
+                    numNotTaken++;
+                }
+                pastChoice = currentChoice;
+                currentChoice = choice;
+            }
+            public bool takenTwice()
+            {
+                if (this.takentwice)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (currentChoice && pastChoice)
+                    {
+                        this.takentwice = true;
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
 
         /////////////////////////////////////////////////////////////////
         ///New to Project 3, methods for the four stages of pipelining///
@@ -344,6 +385,7 @@ namespace GeminiCore
                     if (decodedInstr.opcode == "100")
                     {
                         currBranchInstr = Memory.getAssemblyInstructions().ElementAt(decodedInstr.index);
+                        branches.Add(new branchClass(decodedInstr.index));
                     }
                     else
                     {
@@ -734,8 +776,18 @@ namespace GeminiCore
                         }
                     }
 
+                    foreach (var branch in branches)
+                    {
+                        if (branch.branchlabel.CompareTo(Memory.getAssemblyInstructions().ElementAt(instrIndex)) == 0)
+                        {
+                            branch.numTaken++;
+                            branch.updateChoice(tookBranch);
+                        }
+                    }
+
                     if (tookBranch)
                     {
+
                         //Normal branching code
                         PC = (short)(value-1);//think it was -1 due to the PC incrementing after// PC = (short)(value - 1);
                         Fetch_Counter = PC+1;

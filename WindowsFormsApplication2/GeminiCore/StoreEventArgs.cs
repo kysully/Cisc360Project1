@@ -1,4 +1,7 @@
-﻿using System;
+﻿/**
+ * Kyle Sullivan and Melody Lugo
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

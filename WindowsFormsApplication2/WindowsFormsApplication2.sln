@@ -7,13 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication2", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeminiCore", "GeminiCore\GeminiCore.csproj", "{AEE8708A-B956-48C4-98C5-FCD8EC4621F6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{66E0F70C-A627-42D5-B446-87F0A4E6B1F2}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\Desktop\Cisc 360\Test Files\branchHistoryTable.s = ..\..\..\..\Desktop\Cisc 360\Test Files\branchHistoryTable.s
-		..\..\..\..\Desktop\Cisc 360\Test Files\bypassing.s = ..\..\..\..\Desktop\Cisc 360\Test Files\bypassing.s
-		..\..\..\..\Desktop\Cisc 360\Test Files\mul-div.s = ..\..\..\..\Desktop\Cisc 360\Test Files\mul-div.s
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
