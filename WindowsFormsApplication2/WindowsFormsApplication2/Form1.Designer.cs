@@ -131,16 +131,16 @@
             this.pipeline1 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.label63 = new System.Windows.Forms.Label();
+            this.branch2NumTaken = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
-            this.label61 = new System.Windows.Forms.Label();
+            this.branch3NumTaken = new System.Windows.Forms.Label();
             this.label60 = new System.Windows.Forms.Label();
-            this.label59 = new System.Windows.Forms.Label();
+            this.branch1NumTaken = new System.Windows.Forms.Label();
             this.label58 = new System.Windows.Forms.Label();
             this.label57 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label54 = new System.Windows.Forms.Label();
+            this.branch2NumNotTaken = new System.Windows.Forms.Label();
+            this.branch3NumNotTaken = new System.Windows.Forms.Label();
+            this.branch1NumNotTaken = new System.Windows.Forms.Label();
             this.branch5 = new System.Windows.Forms.Label();
             this.branch4 = new System.Windows.Forms.Label();
             this.branch2 = new System.Windows.Forms.Label();
@@ -1201,16 +1201,16 @@
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.panel6.Controls.Add(this.label63);
+            this.panel6.Controls.Add(this.branch2NumTaken);
             this.panel6.Controls.Add(this.label62);
-            this.panel6.Controls.Add(this.label61);
+            this.panel6.Controls.Add(this.branch3NumTaken);
             this.panel6.Controls.Add(this.label60);
-            this.panel6.Controls.Add(this.label59);
+            this.panel6.Controls.Add(this.branch1NumTaken);
             this.panel6.Controls.Add(this.label58);
             this.panel6.Controls.Add(this.label57);
-            this.panel6.Controls.Add(this.label56);
-            this.panel6.Controls.Add(this.label55);
-            this.panel6.Controls.Add(this.label54);
+            this.panel6.Controls.Add(this.branch2NumNotTaken);
+            this.panel6.Controls.Add(this.branch3NumNotTaken);
+            this.panel6.Controls.Add(this.branch1NumNotTaken);
             this.panel6.Controls.Add(this.branch5);
             this.panel6.Controls.Add(this.branch4);
             this.panel6.Controls.Add(this.branch2);
@@ -1225,14 +1225,14 @@
             this.panel6.Size = new System.Drawing.Size(206, 181);
             this.panel6.TabIndex = 26;
             // 
-            // label63
+            // branch2NumTaken
             // 
-            this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(147, 77);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(49, 13);
-            this.label63.TabIndex = 55;
-            this.label63.Text = "--------------";
+            this.branch2NumTaken.AutoSize = true;
+            this.branch2NumTaken.Location = new System.Drawing.Point(147, 77);
+            this.branch2NumTaken.Name = "branch2NumTaken";
+            this.branch2NumTaken.Size = new System.Drawing.Size(49, 13);
+            this.branch2NumTaken.TabIndex = 55;
+            this.branch2NumTaken.Text = "--------------";
             // 
             // label62
             // 
@@ -1243,14 +1243,14 @@
             this.label62.TabIndex = 54;
             this.label62.Text = "--------------";
             // 
-            // label61
+            // branch3NumTaken
             // 
-            this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(147, 108);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(49, 13);
-            this.label61.TabIndex = 53;
-            this.label61.Text = "--------------";
+            this.branch3NumTaken.AutoSize = true;
+            this.branch3NumTaken.Location = new System.Drawing.Point(147, 108);
+            this.branch3NumTaken.Name = "branch3NumTaken";
+            this.branch3NumTaken.Size = new System.Drawing.Size(49, 13);
+            this.branch3NumTaken.TabIndex = 53;
+            this.branch3NumTaken.Text = "--------------";
             // 
             // label60
             // 
@@ -1261,14 +1261,14 @@
             this.label60.TabIndex = 52;
             this.label60.Text = "--------------";
             // 
-            // label59
+            // branch1NumTaken
             // 
-            this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(147, 51);
-            this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(49, 13);
-            this.label59.TabIndex = 51;
-            this.label59.Text = "--------------";
+            this.branch1NumTaken.AutoSize = true;
+            this.branch1NumTaken.Location = new System.Drawing.Point(147, 51);
+            this.branch1NumTaken.Name = "branch1NumTaken";
+            this.branch1NumTaken.Size = new System.Drawing.Size(49, 13);
+            this.branch1NumTaken.TabIndex = 51;
+            this.branch1NumTaken.Text = "--------------";
             // 
             // label58
             // 
@@ -1288,32 +1288,32 @@
             this.label57.TabIndex = 49;
             this.label57.Text = "--------------";
             // 
-            // label56
+            // branch2NumNotTaken
             // 
-            this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(72, 79);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(49, 13);
-            this.label56.TabIndex = 48;
-            this.label56.Text = "--------------";
+            this.branch2NumNotTaken.AutoSize = true;
+            this.branch2NumNotTaken.Location = new System.Drawing.Point(72, 79);
+            this.branch2NumNotTaken.Name = "branch2NumNotTaken";
+            this.branch2NumNotTaken.Size = new System.Drawing.Size(49, 13);
+            this.branch2NumNotTaken.TabIndex = 48;
+            this.branch2NumNotTaken.Text = "--------------";
             // 
-            // label55
+            // branch3NumNotTaken
             // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(72, 108);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(49, 13);
-            this.label55.TabIndex = 47;
-            this.label55.Text = "--------------";
+            this.branch3NumNotTaken.AutoSize = true;
+            this.branch3NumNotTaken.Location = new System.Drawing.Point(72, 108);
+            this.branch3NumNotTaken.Name = "branch3NumNotTaken";
+            this.branch3NumNotTaken.Size = new System.Drawing.Size(49, 13);
+            this.branch3NumNotTaken.TabIndex = 47;
+            this.branch3NumNotTaken.Text = "--------------";
             // 
-            // label54
+            // branch1NumNotTaken
             // 
-            this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(72, 51);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(49, 13);
-            this.label54.TabIndex = 46;
-            this.label54.Text = "--------------";
+            this.branch1NumNotTaken.AutoSize = true;
+            this.branch1NumNotTaken.Location = new System.Drawing.Point(72, 51);
+            this.branch1NumNotTaken.Name = "branch1NumNotTaken";
+            this.branch1NumNotTaken.Size = new System.Drawing.Size(49, 13);
+            this.branch1NumNotTaken.TabIndex = 46;
+            this.branch1NumNotTaken.Text = "--------------";
             // 
             // branch5
             // 
@@ -1374,11 +1374,11 @@
             // 
             this.label46.AutoSize = true;
             this.label46.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label46.Location = new System.Drawing.Point(79, 22);
+            this.label46.Location = new System.Drawing.Point(72, 22);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(42, 16);
+            this.label46.Size = new System.Drawing.Size(81, 16);
             this.label46.TabIndex = 40;
-            this.label46.Text = "State:";
+            this.label46.Text = "# Not Taken";
             // 
             // label48
             // 
@@ -1729,16 +1729,16 @@
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label48;
-        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.Label branch2NumTaken;
         private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.Label branch3NumTaken;
         private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.Label label59;
+        private System.Windows.Forms.Label branch1NumTaken;
         private System.Windows.Forms.Label label58;
         private System.Windows.Forms.Label label57;
-        private System.Windows.Forms.Label label56;
-        private System.Windows.Forms.Label label55;
-        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.Label branch2NumNotTaken;
+        private System.Windows.Forms.Label branch3NumNotTaken;
+        private System.Windows.Forms.Label branch1NumNotTaken;
         private System.Windows.Forms.Label branch5;
         private System.Windows.Forms.Label branch4;
         private System.Windows.Forms.Label branch2;

@@ -53,8 +53,8 @@ namespace GeminiCore
         public event ExecuteDone OnExecuteDone;
         public delegate void StoreDone(object sender, StoreEventArgs args);
         public event StoreDone OnStoreDone;
-        public delegate void BranchTaken(object sender, BranchEventArgs args);
-        public event BranchTaken OnBranchTaken;
+        public delegate void Branch(object sender, BranchEventArgs args);
+        public event Branch OnBranch;
         public delegate void StageDone(object sender, StageDoneEventArgs args);
         public event StageDone OnStageDone;
         public String currBranchInstr = "";
@@ -235,7 +235,8 @@ namespace GeminiCore
                     tookBranch = false;//reset tookbranch
                     fetched_instructions.Clear();
                     decoded_instructions.Clear();
-                    executed_instructions.Clear();
+                    //executed_instructions.Clear();
+                    PC--;//magic fix
 
                 }
 
@@ -698,7 +699,7 @@ namespace GeminiCore
                     }
                     break;
                 case "100": // ------------------GROUP5
-                    bool tookBranch = false;
+                    tookBranch = false;
                     if (command == "0001"){//BA
                         Debug.WriteLine("BA has been reached");
                         
@@ -733,20 +734,30 @@ namespace GeminiCore
                     {
                         //Normal branching code
                         PC = (short)(value-1);//think it was -1 due to the PC incrementing after// PC = (short)(value - 1);
-                        Fetch_Counter = PC;
+                        Fetch_Counter = PC+1;
                         Decode_Counter = -1;//PC
                         Execute_Counter = -1;//PC
+                        fetched_instructions.Clear();
+                        decoded_instructions.Clear();
+                        executed_instructions.Clear();
                         //penalty for a taken branch is 1 cycle
                         cycle_penalties++;
                         //gotta call something here to flush out pipeline queue in GUI
                         //moved to execute thread
-                        if (OnBranchTaken != null)
+                        if (OnBranch != null)
                         {
-                            OnBranchTaken(this, new BranchEventArgs(instr, instrIndex));
+                            OnBranch(this, new BranchEventArgs(instr, instrIndex, true));
                             //OnFetchDone(this, new FetchEventArgs(0, -1));
                             //OnDecodeDone(this, new DecodeEventArgs(null, -1));
                             //OnExecuteDone(this, new ExecuteEventArgs(0, -1));
 
+                        }
+                    }
+                    else
+                    {
+                        if (OnBranch != null)
+                        {
+                            OnBranch(this, new BranchEventArgs(instr, instrIndex, false));
                         }
                     }
                     break;

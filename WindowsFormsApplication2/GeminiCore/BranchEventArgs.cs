@@ -10,12 +10,13 @@ namespace GeminiCore
     {
         public CPU.DecodedInstruction CurrentIR { get; set; }
         public int CurrentInstrIndex { get; set; }
-
-        public BranchEventArgs(CPU.DecodedInstruction instruction, int instructionIndex)
+        public bool taken { get; set; }
+        public BranchEventArgs(CPU.DecodedInstruction instruction, int instructionIndex, bool taken)
         {
             //this is the branch instruction that was taken, and the index of said instruction
             CurrentIR = instruction;
             CurrentInstrIndex = instructionIndex;
+            this.taken = taken;
         }
     }
 }

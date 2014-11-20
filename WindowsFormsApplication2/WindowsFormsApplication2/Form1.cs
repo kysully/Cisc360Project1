@@ -25,7 +25,7 @@ namespace WindowsFormsApplication2
         bool addressMode = false; // default 1 way
         Queue<PipelineInstruction> instructionsInPipeline;
         List<Label> branchLabels = new List<Label>();
-        List<String> bhtBranches = new List<String>();
+        List<BHTWrapper> bhtBranches = new List<BHTWrapper>();       
         bool fetchDone, decodeDone, executeDone, storeDone, programDone;
 
         public Form1()
@@ -44,7 +44,7 @@ namespace WindowsFormsApplication2
             myCPU.OnDecodeDone += myCPU_OnDecodeDone;
             myCPU.OnExecuteDone += myCPU_OnExecuteDone;
             myCPU.OnStoreDone += myCPU_OnStoreDone;
-            myCPU.OnBranchTaken += myCPU_OnBranchTaken;
+            myCPU.OnBranch += myCPU_OnBranch;
             myCPU.OnStageDone += myCPU_OnStageDone;
             fetchDone = false;
             decodeDone = false;
@@ -84,6 +84,19 @@ namespace WindowsFormsApplication2
                 this.instructionIndex = instructionIndex;
                 this.instructionText = assemblyInstruction;
           Console.WriteLine("New intr in pipeline: " + instructionText + ", index: " + instructionIndex);
+            }
+        }
+
+        public class BHTWrapper
+        {
+            public String instrLabel { get; set; }
+            public int takenCount { get; set; }
+            public int notTakenCount { get; set; }
+            public BHTWrapper(String label)
+            {
+                this.instrLabel = label;
+                this.takenCount = 0;
+                this.notTakenCount = 0;
             }
         }
 
@@ -133,8 +146,18 @@ namespace WindowsFormsApplication2
                 //setPipelineValuesToView();
                 if (myCPU.currBranchInstr != "")
                 {
-                    Console.WriteLine("Current Branch Instr: " + myCPU.currBranchInstr);
-                    this.bhtBranches.Add(myCPU.currBranchInstr);
+                    String currBranch = myCPU.currBranchInstr;
+                    Console.WriteLine("Current Branch Instr: " + currBranch);
+                    bool inBHT = false;
+                    foreach(var branch in bhtBranches){
+                        if(branch.instrLabel.CompareTo(currBranch) == 0){
+                            //branch.notTakenCount++;
+                            inBHT = true;
+                        }
+                    }
+                    if(!inBHT){
+                        bhtBranches.Add(new BHTWrapper(currBranch));
+                    }
                 }
                 setBHTToView();
                 decodeDone = true;
@@ -188,6 +211,7 @@ namespace WindowsFormsApplication2
                 if (args.programDone)
                 {
                     programDone = true;
+                    this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
                 }
                 else
                 {
@@ -226,52 +250,74 @@ namespace WindowsFormsApplication2
             }
         }
 
-        void myCPU_OnBranchTaken(object sender, BranchEventArgs args)
+        void myCPU_OnBranch(object sender, BranchEventArgs args)
         {
             MethodInvoker method = delegate
             {
-                Console.WriteLine("Branch taken in GUI " + this.myCPU.ACC);
-                
-                /*What this code does is goes through the instructions in the pipeline,
-                  and removes the ones that were being worked on prior to the branch being
-                  taken
-                 NOTE: probably will have to add an if statement to check for branch prediction*/
-
-                int count = 0;
-                Console.WriteLine("Queue contents before:");
-                foreach (var instr in instructionsInPipeline)
+                if (args.taken)
                 {
-                    Console.WriteLine(count + ") " + instr.instructionText + ", stage is " + instr.stage);
-                    count++;
-                }
 
-                PipelineInstruction[] temp = new PipelineInstruction[instructionsInPipeline.Count()];
-                instructionsInPipeline.CopyTo(temp, 0);
-                instructionsInPipeline.Clear();
-                int takenBranchIndex = args.CurrentInstrIndex;
-                Console.WriteLine("Taken branch index is " + takenBranchIndex);
-                for(int i = 0; i < temp.Count(); i++)
-                {
-                    //if the index is larger than the branch that was taken, it needs to be flushed out
-                    if ((temp[i]).instructionIndex < takenBranchIndex)
+
+                    Console.WriteLine("Branch taken in GUI " + this.myCPU.ACC);
+
+                    /*What this code does is goes through the instructions in the pipeline,
+                      and removes the ones that were being worked on prior to the branch being
+                      taken
+                     NOTE: probably will have to add an if statement to check for branch prediction*/
+
+                    int count = 0;
+                    Console.WriteLine("Queue contents before:");
+                    foreach (var instr in instructionsInPipeline)
                     {
-                        instructionsInPipeline.Enqueue(temp[i]);
+                        Console.WriteLine(count + ") " + instr.instructionText + ", stage is " + instr.stage);
+                        count++;
                     }
-                    else if (temp[i].instructionIndex == takenBranchIndex)
-                    {
-                        temp[i].stage++;//this is to correct for the special branch case
-                        instructionsInPipeline.Enqueue(temp[i]);
-                    }
-                }
 
-                count = 0;
-                Console.WriteLine("Queue contents after:");
-                foreach (var instr in instructionsInPipeline)
-                {
-                    Console.WriteLine(count + ") " + instr.instructionText + ", stage is " + instr.stage);
-                    count++;
+                    PipelineInstruction[] temp = new PipelineInstruction[instructionsInPipeline.Count()];
+                    instructionsInPipeline.CopyTo(temp, 0);
+                    instructionsInPipeline.Clear();
+                    int takenBranchIndex = args.CurrentInstrIndex;
+                    Console.WriteLine("Taken branch index is " + takenBranchIndex);
+                    for (int i = 0; i < temp.Count(); i++)
+                    {
+                        //if the index is larger than the branch that was taken, it needs to be flushed out
+                        if ((temp[i]).instructionIndex < takenBranchIndex)
+                        {
+                            instructionsInPipeline.Enqueue(temp[i]);
+                        }
+                        else if (temp[i].instructionIndex == takenBranchIndex)
+                        {
+                            temp[i].stage++;//this is to correct for the special branch case
+                            instructionsInPipeline.Enqueue(temp[i]);
+                        }
+                    }
+
+                    count = 0;
+                    Console.WriteLine("Queue contents after:");
+                    foreach (var instr in instructionsInPipeline)
+                    {
+                        Console.WriteLine(count + ") " + instr.instructionText + ", stage is " + instr.stage);
+                        count++;
+                    }
+                    //this.setPipelineValuesToView();
+
+                }          
+
+                foreach(var branch in bhtBranches){
+                    String currBranchName = Memory.getAssemblyInstructions().ElementAt(args.CurrentInstrIndex);
+                    if (currBranchName.CompareTo(branch.instrLabel) == 0)
+                    {
+                        if (args.taken)
+                        {
+                            branch.takenCount++;
+                        }
+                        else
+                        {
+                            branch.notTakenCount++;
+                        }
+                    }
                 }
-                this.setPipelineValuesToView();
+                //updateGUI();
             };
 
             if (this.InvokeRequired)
@@ -308,8 +354,13 @@ namespace WindowsFormsApplication2
             this.setPipelineValuesToView();
             this.setCPUValuesToView();
             this.setCacheLabelsToView();
-            this.setBHTToView();            
+            this.setBHTToView();
+            int count = this.myCPU.PC + 1;
             this.currInstructionCountLabel.Text = (this.myCPU.PC + 1).ToString();
+            if (count > Memory.getBinaryInstructions().Count)
+            {
+                this.currInstructionCountLabel.Text = Memory.getBinaryInstructions().Count.ToString();
+            }
             this.cyclesElapsed.Text = myCPU.cycles_elapsed.ToString();
             this.cyclePenalties.Text = myCPU.cycle_penalties.ToString();
         }
@@ -367,7 +418,39 @@ namespace WindowsFormsApplication2
                 //this.myCPU.nextInstructionPipeline();
                 MessageBox.Show("The loaded assembly program has finished.");
             }
-            else if ((this.myCPU.PC) <= (Memory.getBinaryInstructions().Count))
+            else
+            {
+                //Makes the call to the CPU to run the next instruction
+                this.myCPU.nextInstructionPipeline();//used to be nextInstruction prior to pipelining
+
+                //updates memory label
+                if (this.previousInstructionLabel.Text.Length > 2)
+                {
+                    var temp = (this.previousInstructionLabel.Text).Substring(0, 3);
+                    if (temp.CompareTo("sta") == 0)
+                    {
+                        this.currMemValueLabel.Text = Memory.stack[this.memComboBox.SelectedIndex].ToString();
+                    }
+
+                }
+                bool found = false;
+                foreach (var instr in instructionsInPipeline)
+                {
+                    if (instr.stage == 3)
+                    {
+                        this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(instr.instructionIndex);
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(this.myCPU.PC + 1);
+                }
+                //this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(myCPU.PC);
+                currInstructionCountLabel.Text = (this.myCPU.PC + 1).ToString();
+
+            }
+            /*else if ((this.myCPU.PC) <= (Memory.getBinaryInstructions().Count))
             {
                 this.myCPU.nextInstructionPipeline();//used to be nextInstruction
                 Console.WriteLine("IN NEXT INTR PC counter = " + this.myCPU.PC + " and BI Count = " + Memory.getBinaryInstructions().Count);
@@ -401,15 +484,15 @@ namespace WindowsFormsApplication2
                 //this.setCPUValuesToView();
                 //this.setCacheLabelsToView();
                 //this.setPipelineValuesToView();
-                /*if (instructionCount < Memory.getAssemblyInstructions().Count)
-                {
-                    this.instructionCount++;
-                }*/
+                //if (instructionCount < Memory.getAssemblyInstructions().Count)
+                //{
+                //    this.instructionCount++;
+               // }
             }
             else
             {
                 this.currentInstructionLabel.Text = "--------------------------------";
-            }
+            }*/
             
         }
 
@@ -439,25 +522,34 @@ namespace WindowsFormsApplication2
            int count = 0;
            if (bhtBranches != null)
            {
-               foreach (String bString in bhtBranches)
+               foreach (var branch in bhtBranches)
                {
-                   Console.WriteLine("CURRENT BSTRINNG " + bString);
+                   String bString = branch.instrLabel;
+                   int numNotTaken = branch.notTakenCount;
+                   int numTaken = branch.takenCount;
+                   Console.WriteLine("CURRENT BSTRING " + bString);
                    switch (count)
                    {
                        case 0:
                            branch1.Text = bString;
+                           branch1NumNotTaken.Text = numNotTaken.ToString();
+                           branch1NumTaken.Text = numTaken.ToString();
                            break;
                        case 1:
                            branch2.Text = bString;
+                           branch2NumNotTaken.Text = numNotTaken.ToString();
+                           branch2NumTaken.Text = numTaken.ToString();
                            break;
                        case 2:
-                           branch1.Text = bString;
+                           branch3.Text = bString;
+                           branch3NumNotTaken.Text = numNotTaken.ToString();
+                           branch3NumTaken.Text = numTaken.ToString();
                            break;
                        case 3:
-                           branch2.Text = bString;
+                           branch4.Text = bString;
                            break;
                        case 4:
-                           branch1.Text = bString;
+                           branch5.Text = bString;
                            break;
                    }
                    count++;
