@@ -16,6 +16,7 @@ namespace GeminiCore
         static List<string> assemblyInstructions = new List<string>(10);
         public static int[] stack = new int[256];
         public Cache cache;
+        public String[] copyCache;
         public int cacheSize { get; private set; }
         public int blockSize { get; private set; }
         public int writeHitCounter { get; private set; }
@@ -216,6 +217,7 @@ namespace GeminiCore
             {//1 way
                 int temp = cache[stackIndex % cacheSize];
                 int tag = temp >> 24;
+                Debug.WriteLine("Temp is " + temp + " and tag is " + tag);
                 if (tag == stackIndex)
                 {//hit
                     
@@ -304,6 +306,8 @@ namespace GeminiCore
             assemblyInstructions = new List<string>(10); // Default instruction size 10
             stack = new int[256]; // Default memory size is 256
             cache = new Cache(cacheSize);
+            copyCache = new string[cacheSize];
+            initializeCopyCache();
             this.cacheSize = cacheSize;
             this.addressMode = addressMode;
             this.blockSize = blockSize;
@@ -327,6 +331,14 @@ namespace GeminiCore
             writeMissCounter = 0;
             spatialCounter = 0;
         }
+
+        public void initializeCopyCache()
+       {
+           for (int i = 0; i < cacheSize; i++)
+           {
+               copyCache[i] = "unvisited";
+           }
+       }
 
        /////////////////////////////////////////////////////
        //New to Project 2, method which handles cache tags//
