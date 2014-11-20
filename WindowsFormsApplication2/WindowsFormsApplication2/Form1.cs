@@ -922,28 +922,37 @@ namespace WindowsFormsApplication2
             button1.BackColor = resetButton.BackColor;
         }
 
+        //Bypass On
         private void button3_Click(object sender, EventArgs e)
         {
+            this.myCPU.bypassing = true;
             button3.BackColor = Color.LightYellow;
             button4.BackColor = resetButton.BackColor;
         }
 
+       //Bypass Off
         private void button4_Click(object sender, EventArgs e)
         {
+            this.myCPU.bypassing = false;
             button4.BackColor = Color.LightYellow;
             button3.BackColor = resetButton.BackColor;
         }
 
+        //BranchPrediction On
         private void button6_Click(object sender, EventArgs e)
         {
-            button6.BackColor = Color.LightYellow;
+            this.myCPU.branchPrediction = true;
+            I.BackColor = Color.LightYellow;
             button5.BackColor = resetButton.BackColor;
         }
 
+        //Branch Prediction Off
         private void button5_Click(object sender, EventArgs e)
         {
+            this.myCPU.branchPrediction = false;
+            this.myCPU.branchPrediction = true;
             button5.BackColor = Color.LightYellow;
-            button6.BackColor = resetButton.BackColor;
+            I.BackColor = resetButton.BackColor;
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender,

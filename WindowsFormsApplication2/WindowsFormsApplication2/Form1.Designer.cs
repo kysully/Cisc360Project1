@@ -101,8 +101,6 @@
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.label43 = new System.Windows.Forms.Label();
-            this.label44 = new System.Windows.Forms.Label();
             this.pipeline3Store = new System.Windows.Forms.Label();
             this.pipeline4Store = new System.Windows.Forms.Label();
             this.pipeline5Store = new System.Windows.Forms.Label();
@@ -162,7 +160,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.I = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -900,8 +898,6 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel5.Controls.Add(this.label43);
-            this.panel5.Controls.Add(this.label44);
             this.panel5.Controls.Add(this.pipeline3Store);
             this.panel5.Controls.Add(this.pipeline4Store);
             this.panel5.Controls.Add(this.pipeline5Store);
@@ -934,24 +930,6 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(371, 181);
             this.panel5.TabIndex = 24;
-            // 
-            // label43
-            // 
-            this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(343, 5);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(25, 13);
-            this.label43.TabIndex = 14;
-            this.label43.Text = "------";
-            // 
-            // label44
-            // 
-            this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(279, 5);
-            this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(64, 13);
-            this.label44.TabIndex = 15;
-            this.label44.Text = "NOP Count:";
             // 
             // pipeline3Store
             // 
@@ -1548,16 +1526,16 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-            // button6
+            // I
             // 
-            this.button6.Location = new System.Drawing.Point(342, 268);
-            this.button6.Margin = new System.Windows.Forms.Padding(2);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(83, 25);
-            this.button6.TabIndex = 26;
-            this.button6.Text = "On";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.I.Location = new System.Drawing.Point(342, 268);
+            this.I.Margin = new System.Windows.Forms.Padding(2);
+            this.I.Name = "I";
+            this.I.Size = new System.Drawing.Size(83, 25);
+            this.I.TabIndex = 26;
+            this.I.Text = "On";
+            this.I.UseVisualStyleBackColor = true;
+            this.I.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
@@ -1565,7 +1543,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(773, 494);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.I);
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.panel6);
@@ -1723,9 +1701,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Label label43;
-        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Button I;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label48;

@@ -61,6 +61,7 @@ namespace GeminiCore
         public DecodedInstruction instrExecute { get; set; }
 
         public bool bypassing { get; set; }
+        public bool branchPrediction { get; set; }
         bool areWeDone = false;
         bool tookBranch = false;
         bool fetchDone, decodeDone, executeDone, storeDone;
