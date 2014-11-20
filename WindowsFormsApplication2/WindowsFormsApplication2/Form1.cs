@@ -451,68 +451,15 @@ namespace WindowsFormsApplication2
                 {
                     this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(this.myCPU.PC + 1);
                 }
-                //this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(myCPU.PC);
                 currInstructionCountLabel.Text = (this.myCPU.PC + 1).ToString();
 
             }
-            /*else if ((this.myCPU.PC) <= (Memory.getBinaryInstructions().Count))
-            {
-                this.myCPU.nextInstructionPipeline();//used to be nextInstruction
-                Console.WriteLine("IN NEXT INTR PC counter = " + this.myCPU.PC + " and BI Count = " + Memory.getBinaryInstructions().Count);
-                //since it takes 4 "next "instructions" in order for PC to increment
-                if (this.myCPU.PC != 0)
-                {
-                    //this.previousInstructionLabel.Text = this.currentInstructionLabel.Text;
-                }
-               // this.cyclesElapsed.Text = myCPU.cycles_elapsed.ToString();
-                //this.cyclePenalties.Text = myCPU.cycle_penalties.ToString();
-
-                var temp = (this.previousInstructionLabel.Text).Substring(0, 3);
-                if ( temp.CompareTo("sta") == 0)
-                {
-                    this.currMemValueLabel.Text = Memory.stack[this.memComboBox.SelectedIndex].ToString();
-                }
-                if ((this.myCPU.PC < (Memory.getAssemblyInstructions().Count)))
-                {
-                    this.currentInstructionLabel.Text = Memory.getAssemblyInstructions().ElementAt(myCPU.PC);
-                    currInstructionCountLabel.Text = (this.myCPU.PC + 1).ToString();
-                }
-                else
-                {
-                    this.currentInstructionLabel.Text = "--------------------------------";
-                    this.setCPUValuesToView();
-                    this.setCacheLabelsToView();
-                    this.currInstructionCountLabel.Text = this.totalInstructionCountLabel.Text;
-                    MessageBox.Show("The loaded assembly program has finished. BOOM");
-                }
-
-                //this.setCPUValuesToView();
-                //this.setCacheLabelsToView();
-                //this.setPipelineValuesToView();
-                //if (instructionCount < Memory.getAssemblyInstructions().Count)
-                //{
-                //    this.instructionCount++;
-               // }
-            }
-            else
-            {
-                this.currentInstructionLabel.Text = "--------------------------------";
-            }*/
+          
             
         }
 
         private void runAllButton_Click(object sender, EventArgs e)
         {
-
-       
-            
-            while ((this.myCPU.PC) <= (Memory.getBinaryInstructions().Count))
-            {
-                nextInstructionButton_Click(sender, e);
-                Console.WriteLine("PC counter = " + this.myCPU.PC + " and BI Count = " + Memory.getBinaryInstructions().Count);
-                System.Threading.Thread.Sleep(000);
-                //some sort of barrier should go here to stop the deadlock
-            }
              
         }
 
